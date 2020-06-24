@@ -19,8 +19,12 @@ extern const double    LABEL_WARN_TIME;
 
 extern const double PI;
 extern const double DEGREE;
+extern const double DEGREE_180;
+extern const double DEGREE_360;
 
 extern const double SPEED_MIN;
 extern const double SPEED_MAX;
+
+extern const double TIME_INTERVAL;
 
 #endif /* MyConstants_h */

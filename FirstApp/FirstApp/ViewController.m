@@ -11,7 +11,9 @@
 
 @interface ViewController ()
 
-@property (assign, nonatomic) BOOL imgMotion;
+@property (assign, nonatomic) BOOL imageMotion;
+@property (assign, nonatomic) double imageSpeed;
+@property (assign, nonatomic) NSTimer *timer;
 
 @property (retain, nonatomic) IBOutlet UIImageView *imageView;
 @property (retain, nonatomic) IBOutlet UITextField *textField;
@@ -19,7 +21,6 @@
 @property (retain, nonatomic) IBOutlet UIButton *button;
 
 - (IBAction)viewButtonPress:(id)sender;
-
 - (void)dealloc;
 
 @end
@@ -29,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.imgMotion = NO;
+    self.imageMotion = NO;
     
     [self.label setHidden:YES];
     [self.button setTitle:BUTTON_TXT_OFF forState:UIControlStateNormal];
@@ -39,7 +40,9 @@
     CGPoint center = CGPointMake(self.view.frame.size.width / 2,
                                  self.view.frame.size.height / 2);
     
-    CGFloat angle = DEGREE * PI / 180;
+    CGFloat angle = (self.imageSpeed + DEGREE) * PI / DEGREE_180;
+    if (DEGREE_360 < angle)
+        angle = DEGREE_360;
     
     CGFloat new_x = center.x + cos(angle) * (self.imageView.center.x - center.x) -
                     sin(angle) * (self.imageView.center.y - center.y);
@@ -49,26 +52,33 @@
     self.imageView.center = CGPointMake(new_x, new_y);
 }
 
+- (void)viewTimerStart {
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:TIME_INTERVAL
+                  target:self
+                  selector:@selector(viewImageMotion)
+                  userInfo:nil
+                  repeats:YES];
+}
+
+- (void)viewTimerStop {
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+}
+
 - (IBAction)viewButtonPress:(id)sender {
     if ([self.textField hasText]) {
-        double speed = [self.textField.text doubleValue];
+        self.imageMotion = !self.imageMotion;
+        self.imageSpeed = [self.textField.text doubleValue];
         
-        self.imgMotion = !self.imgMotion;
-        NSString *buttonText = self.imgMotion ? BUTTON_TXT_ON : BUTTON_TXT_OFF;
+        NSString *buttonText = self.imageMotion ? BUTTON_TXT_ON : BUTTON_TXT_OFF;
+        [self.button setTitle:buttonText forState:UIControlStateNormal];
         
-        [_button setTitle:buttonText forState:UIControlStateNormal];
-        
-        if (self.imgMotion) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                while (self.imgMotion) {
-                    [NSThread sleepForTimeInterval:SPEED_MAX / speed];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self viewImageMotion];
-                    });
-                }
-            });
-        }
+        if (self.imageMotion)
+            [self viewTimerStart];
+        else
+            [self viewTimerStop];
     }
     else {
         self.label.text = LABEL_WARN_TXT;
@@ -85,6 +95,8 @@
 }
 
 - (void)dealloc {
+    [self viewTimerStop];
+    
     [self.imageView release];
     [self.textField release];
     [self.label release];
