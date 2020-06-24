@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		844683A124A21BCC00DDD10A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683A024A21BCC00DDD10A /* AppDelegate.m */; };
-		844683A424A21BCC00DDD10A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683A324A21BCC00DDD10A /* SceneDelegate.m */; };
-		844683A724A21BCC00DDD10A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683A624A21BCC00DDD10A /* ViewController.m */; };
+		844683A124A21BCC00DDD10A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683A024A21BCC00DDD10A /* AppDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		844683A424A21BCC00DDD10A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683A324A21BCC00DDD10A /* SceneDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		844683A724A21BCC00DDD10A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683A624A21BCC00DDD10A /* ViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		844683AA24A21BCC00DDD10A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844683A824A21BCC00DDD10A /* Main.storyboard */; };
 		844683AC24A21BCD00DDD10A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844683AB24A21BCD00DDD10A /* Assets.xcassets */; };
 		844683AF24A21BCD00DDD10A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844683AD24A21BCD00DDD10A /* LaunchScreen.storyboard */; };
-		844683B224A21BCD00DDD10A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683B124A21BCD00DDD10A /* main.m */; };
-		844DEFB924A246100040D613 /* MyConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DEFB824A246100040D613 /* MyConstants.m */; };
+		844683B224A21BCD00DDD10A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844683B124A21BCD00DDD10A /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		844DEFB924A246100040D613 /* MyConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 844DEFB824A246100040D613 /* MyConstants.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

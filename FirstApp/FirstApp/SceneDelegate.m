@@ -10,6 +10,8 @@
 
 @interface SceneDelegate ()
 
+- (void)dealloc;
+
 @end
 
 @implementation SceneDelegate
@@ -54,5 +56,10 @@
     // to restore the scene back to its current state.
 }
 
+- (void)dealloc {
+    [self.window release];
+    
+    [super dealloc];
+}
 
 @end

@@ -12,12 +12,15 @@
 @interface ViewController ()
 
 @property (assign, nonatomic) BOOL imgMotion;
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) IBOutlet UITextField *textField;
-@property (strong, nonatomic) IBOutlet UILabel *label;
-@property (strong, nonatomic) IBOutlet UIButton *button;
+
+@property (retain, nonatomic) IBOutlet UIImageView *imageView;
+@property (retain, nonatomic) IBOutlet UITextField *textField;
+@property (retain, nonatomic) IBOutlet UILabel *label;
+@property (retain, nonatomic) IBOutlet UIButton *button;
 
 - (IBAction)viewButtonPress:(id)sender;
+
+- (void)dealloc;
 
 @end
 
@@ -79,6 +82,15 @@
             });
         });
     }
+}
+
+- (void)dealloc {
+    [self.imageView release];
+    [self.textField release];
+    [self.label release];
+    [self.button release];
+    
+    [super dealloc];
 }
 
 @end
