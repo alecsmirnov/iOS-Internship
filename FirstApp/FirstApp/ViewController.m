@@ -12,8 +12,10 @@
 @interface ViewController ()
 
 @property (retain, nonatomic) NSMutableArray *images;
+// I have a question!
 //@property (retain, nonatomic) UIImage *image;
-@property (copy, nonatomic) UIImage *image;
+//@property (copy, nonatomic) UIImage *image;
+@property (assign, nonatomic) UIImage *image;
 @property (assign, nonatomic) NSInteger imageTag;
 @property (assign, nonatomic) CGFloat imageSize;
 
@@ -167,11 +169,11 @@
 }
 
 - (IBAction)viewButtonPress:(id)sender {
-    if (self.motion == NO && [self.countTextField hasText] && [self.speedTextField hasText] || self.motion) {
+    if (!self.motion && [self.countTextField hasText] && [self.speedTextField hasText] || self.motion) {
         NSString *buttonText = self.motion ? ButtonTxtOff : ButtonTxtOn;
         [self.button setTitle:buttonText forState:UIControlStateNormal];
         
-        if (self.motion == NO) {
+        if (!self.motion) {
             self.count = [self.countTextField.text intValue];
             self.speed = [self.speedTextField.text doubleValue];
             
@@ -187,11 +189,11 @@
         self.motion = !self.motion;
     }
     else {
-        if ([self.countTextField hasText] == NO) {
+        if (![self.countTextField hasText]) {
             [self viewInformationAlert:@"Enter the images count!"];
         }
         else {
-            if ([self.speedTextField hasText] == NO) {
+            if (![self.speedTextField hasText]) {
                 [self viewInformationAlert:@"Enter the movement speed!"];
             }
         }
