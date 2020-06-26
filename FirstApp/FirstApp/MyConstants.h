@@ -17,14 +17,12 @@ extern NSString *const BUTTON_TXT_OFF;
 extern NSString *const LABEL_WARN_TXT;
 extern const double    LABEL_WARN_TIME;
 
-extern const double PI;
-extern const double DEGREE;
-extern const double DEGREE_180;
-extern const double DEGREE_360;
+extern const NSInteger IMAGE_TAG;
+extern const double    IMAGE_SIZE;
 
-extern const double SPEED_MIN;
-extern const double SPEED_MAX;
+extern const double MOTION_RADIUS;
+extern const double MOTION_STEP;
 
-extern const double TIME_INTERVAL;
+extern const double TIMER_INTERVAL;
 
 #endif /* MyConstants_h */

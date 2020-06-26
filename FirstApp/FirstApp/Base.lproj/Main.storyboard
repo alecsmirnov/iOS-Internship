@@ -36,19 +36,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cloud" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="9BS-Jk-E91">
-                                <rect key="frame" x="142" y="218.5" width="91" height="38"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Images count" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w9K-VR-7b6">
+                                <rect key="frame" x="94" y="504" width="187" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="button" destination="VFL-OI-qcu" id="HqM-Te-ihc"/>
-                        <outlet property="imageView" destination="9BS-Jk-E91" id="27t-qo-nc4"/>
+                        <outlet property="countTextField" destination="w9K-VR-7b6" id="7UP-IY-vF1"/>
                         <outlet property="label" destination="lzC-zT-MgE" id="sMF-5z-xiS"/>
-                        <outlet property="textField" destination="5Hi-qp-8uT" id="Sg9-qQ-980"/>
+                        <outlet property="speedTextField" destination="5Hi-qp-8uT" id="Sg9-qQ-980"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -56,7 +58,4 @@
             <point key="canvasLocation" x="130.40000000000001" y="126.38680659670166"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="cloud" catalog="system" width="128" height="87"/>
-    </resources>
 </document>

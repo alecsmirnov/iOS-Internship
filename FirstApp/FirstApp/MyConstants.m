@@ -14,12 +14,10 @@ NSString *const BUTTON_TXT_OFF = @"Start";
 NSString *const LABEL_WARN_TXT = @"Enter the movement speed!";
 const double    LABEL_WARN_TIME = 3;
 
-const double PI         = 3.141592653589793238463;
-const double DEGREE     = 0.05;
-const double DEGREE_180 = 180.0;
-const double DEGREE_360 = 360.0;
+const NSInteger IMAGE_TAG  = 1;
+const double    IMAGE_SIZE = 20;
 
-const double SPEED_MIN = 1.0;
-const double SPEED_MAX = 0.1;
+const double MOTION_RADIUS = 100.0;
+const double MOTION_STEP   = 0.05;
 
-const double TIME_INTERVAL = 0.03;
+const double TIMER_INTERVAL = 0.03;
