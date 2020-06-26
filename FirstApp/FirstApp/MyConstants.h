@@ -9,17 +9,18 @@
 #ifndef MyConstants_h
 #define MyConstants_h
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-extern NSString *const BUTTON_TXT_ON;
-extern NSString *const BUTTON_TXT_OFF;
+extern NSString *const ButtonTxtOn;
+extern NSString *const ButtonTxtOff;
 
-extern const NSInteger IMAGE_TAG;
-extern const double    IMAGE_SIZE;
+extern const NSInteger ImageTag;
+extern const CGFloat   ImageSize;
 
-extern const double MOTION_RADIUS;
-extern const double MOTION_STEP;
+extern const CGFloat MotionRadius;
+extern const CGFloat MotionStep;
 
-extern const double TIMER_INTERVAL;
+extern const CGFloat TimerInterval;
 
 #endif /* MyConstants_h */

@@ -8,13 +8,13 @@
 
 #import "MyConstants.h"
 
-NSString *const BUTTON_TXT_ON  = @"Stop";
-NSString *const BUTTON_TXT_OFF = @"Start";
+NSString *const ButtonTxtOn  = @"Stop";
+NSString *const ButtonTxtOff = @"Start";
 
-const NSInteger IMAGE_TAG  = 1;
-const double    IMAGE_SIZE = 20;
+const NSInteger ImageTag  = 1;
+const CGFloat   ImageSize = 20;
 
-const double MOTION_RADIUS = 100.0;
-const double MOTION_STEP   = 0.05;
+const CGFloat MotionRadius = 100.0;
+const CGFloat MotionStep   = 0.05;
 
-const double TIMER_INTERVAL = 0.03;
+const CGFloat TimerInterval = 0.03;
