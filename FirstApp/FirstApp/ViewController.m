@@ -12,7 +12,8 @@
 @interface ViewController ()
 
 @property (retain, nonatomic) NSMutableArray *images;
-@property (retain, nonatomic) UIImage *image;
+//@property (retain, nonatomic) UIImage *image;
+@property (copy, nonatomic) UIImage *image;
 @property (assign, nonatomic) NSInteger imageTag;
 @property (assign, nonatomic) CGFloat imageSize;
 
@@ -21,7 +22,7 @@
 @property (assign, nonatomic) CGFloat motionStep;
 
 // I have a question!
-//@property (assign, nonatomic) NSTimer *timer;
+//@property (retain, nonatomic) NSTimer *timer;
 @property (assign, nonatomic) NSTimer *timer;
 @property (assign, nonatomic) CGFloat timerInterval;
 
@@ -201,7 +202,7 @@
     [self viewTimerStop];
     
     [self.images release];
-    [self.image release];
+    //[self.image release];
     
     [self.speedTextField release];
     [self.countTextField release];
