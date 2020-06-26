@@ -29,15 +29,8 @@
                                     <action selector="viewButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nwC-Ae-tE2"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzC-zT-MgE">
-                                <rect key="frame" x="94" y="546" width="235" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Images count" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w9K-VR-7b6">
-                                <rect key="frame" x="94" y="504" width="187" height="34"/>
+                                <rect key="frame" x="94" y="533" width="187" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -49,7 +42,6 @@
                     <connections>
                         <outlet property="button" destination="VFL-OI-qcu" id="HqM-Te-ihc"/>
                         <outlet property="countTextField" destination="w9K-VR-7b6" id="7UP-IY-vF1"/>
-                        <outlet property="label" destination="lzC-zT-MgE" id="sMF-5z-xiS"/>
                         <outlet property="speedTextField" destination="5Hi-qp-8uT" id="Sg9-qQ-980"/>
                     </connections>
                 </viewController>

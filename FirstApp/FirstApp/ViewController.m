@@ -20,6 +20,7 @@
 @property (assign, nonatomic) double motionRadius;
 @property (assign, nonatomic) double motionStep;
 
+// I have a question!
 //@property (assign, nonatomic) NSTimer *timer;
 @property (assign, nonatomic) NSTimer *timer;
 @property (assign, nonatomic) double timerInterval;
@@ -29,18 +30,25 @@
 
 @property (retain, nonatomic) IBOutlet UITextField *countTextField;
 @property (retain, nonatomic) IBOutlet UITextField *speedTextField;
-@property (retain, nonatomic) IBOutlet UILabel *label;
 @property (retain, nonatomic) IBOutlet UIButton *button;
 
 + (double)radToDeg:(double)rad;
 
 - (void)loadView;
+- (void)viewDidLoad;
+
+- (void)viewInformationAlert:(NSString *)msg;
+
 - (void)viewImagesMotion;
+
 - (void)viewTimerStart;
 - (void)viewTimerStop;
+
 - (void)viewSubviewsCreate;
 - (void)viewSubviewsClear;
+
 - (IBAction)viewButtonPress:(id)sender;
+
 - (void)dealloc;
 
 @end
@@ -70,8 +78,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.label setHidden:YES];
     [self.button setTitle:BUTTON_TXT_OFF forState:UIControlStateNormal];
+}
+
+- (void)viewInformationAlert:(NSString *)msg {
+    UIAlertController *alert = [UIAlertController
+                                  alertControllerWithTitle:@"Warning"
+                                  message:msg
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Ok"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction *_Nonnull action){}];
+    
+    [alert addAction:action];
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 - (void)viewImagesMotion {
@@ -81,12 +102,12 @@
     CGFloat angle = [ViewController radToDeg:self.speed + self.motionStep];
 
     for (UIImageView *image in self.images) {
-        CGFloat new_x = center.x + cos(angle) * (image.center.x - center.x) -
+        CGFloat newX = center.x + cos(angle) * (image.center.x - center.x) -
                         sin(angle) * (image.center.y - center.y);
-        CGFloat new_y = center.y + sin(angle) * (image.center.x - center.x) +
+        CGFloat newY = center.y + sin(angle) * (image.center.x - center.x) +
                         cos(angle) * (image.center.y - center.y);
         
-        image.center = CGPointMake(new_x, new_y);
+        image.center = CGPointMake(newX, newY);
     }
 }
 
@@ -141,41 +162,30 @@
 }
 
 - (IBAction)viewButtonPress:(id)sender {
-    if ([self.countTextField hasText]) {
-        self.count = [self.countTextField.text intValue];
-        
-        [self viewSubviewsClear];
-        [self viewSubviewsCreate];
-    }
-    
-    if ([self.speedTextField hasText]) {
-        self.speed = [self.speedTextField.text doubleValue];
-    }
-        
-    
-    if ([self.speedTextField hasText]) {
-        self.motion = !self.motion;
-        
-        NSString *buttonText = self.motion ? BUTTON_TXT_ON : BUTTON_TXT_OFF;
+    if (self.motion == NO && [self.countTextField hasText] && [self.speedTextField hasText] || self.motion) {
+        NSString *buttonText = self.motion ? BUTTON_TXT_OFF : BUTTON_TXT_ON;
         [self.button setTitle:buttonText forState:UIControlStateNormal];
         
-        if (self.motion)
+        if (self.motion == NO) {
+            self.count = [self.countTextField.text intValue];
+            self.speed = [self.speedTextField.text doubleValue];
+            
+            [self viewSubviewsClear];
+            [self viewSubviewsCreate];
+            
             [self viewTimerStart];
+        }
         else
             [self viewTimerStop];
-    }
-    else {
-        self.label.text = LABEL_WARN_TXT;
-        [self.label setHidden:NO];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [NSThread sleepForTimeInterval:LABEL_WARN_TIME];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.label setHidden:YES];
-            });
-        });
+        self.motion = !self.motion;
     }
+    else
+        if ([self.countTextField hasText] == NO)
+            [self viewInformationAlert:@"Enter the images count!"];
+        else
+            if ([self.speedTextField hasText] == NO)
+                [self viewInformationAlert:@"Enter the movement speed!"];
 }
 
 - (void)dealloc {
@@ -186,7 +196,6 @@
     
     [self.speedTextField release];
     [self.countTextField release];
-    [self.label release];
     [self.button release];
     
     [super dealloc];
