@@ -83,9 +83,9 @@
 
 - (void)viewInformationAlert:(NSString *)msg {
     UIAlertController *alert = [UIAlertController
-                                  alertControllerWithTitle:@"Warning"
-                                  message:msg
-                                  preferredStyle:UIAlertControllerStyleAlert];
+                                alertControllerWithTitle:@"Warning"
+                                message:msg
+                                preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"Ok"
                              style:UIAlertActionStyleDefault

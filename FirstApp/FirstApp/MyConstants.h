@@ -14,9 +14,6 @@
 extern NSString *const BUTTON_TXT_ON;
 extern NSString *const BUTTON_TXT_OFF;
 
-extern NSString *const LABEL_WARN_TXT;
-extern const double    LABEL_WARN_TIME;
-
 extern const NSInteger IMAGE_TAG;
 extern const double    IMAGE_SIZE;
 

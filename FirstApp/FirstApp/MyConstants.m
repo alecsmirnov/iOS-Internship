@@ -11,9 +11,6 @@
 NSString *const BUTTON_TXT_ON  = @"Stop";
 NSString *const BUTTON_TXT_OFF = @"Start";
 
-NSString *const LABEL_WARN_TXT = @"Enter the movement speed!";
-const double    LABEL_WARN_TIME = 3;
-
 const NSInteger IMAGE_TAG  = 1;
 const double    IMAGE_SIZE = 20;
 
