@@ -12,9 +12,7 @@
 @interface ViewController ()
 
 @property (retain, nonatomic) NSMutableArray *images;
-// I have a question!
-//@property (retain, nonatomic) UIImage *image;
-//@property (copy, nonatomic) UIImage *image;
+
 @property (assign, nonatomic) UIImage *image;
 @property (assign, nonatomic) NSInteger imageTag;
 @property (assign, nonatomic) CGFloat imageSize;
@@ -23,9 +21,7 @@
 @property (assign, nonatomic) CGFloat motionRadius;
 @property (assign, nonatomic) CGFloat motionStep;
 
-// I have a question!
-//@property (retain, nonatomic) NSTimer *timer;
-@property (assign, nonatomic) NSTimer *timer;
+@property (retain, nonatomic) NSTimer *timer;
 @property (assign, nonatomic) CGFloat timerInterval;
 
 @property (assign, nonatomic) NSUInteger count;
@@ -35,22 +31,22 @@
 @property (retain, nonatomic) IBOutlet UITextField *speedTextField;
 @property (retain, nonatomic) IBOutlet UIButton *button;
 
-+ (CGFloat)radToDeg:(CGFloat)rad;
++ (CGFloat)radianToDegree:(CGFloat)radian;
 
 - (void)loadView;
 - (void)viewDidLoad;
 
-- (void)viewInformationAlert:(NSString *)msg;
+- (void)showAlertMessage:(NSString *)message;
 
-- (void)viewImagesMotion;
+- (void)moveImages;
 
-- (void)viewTimerStart;
-- (void)viewTimerStop;
+- (void)startTimer;
+- (void)stopTimer;
 
-- (void)viewSubviewsCreate;
-- (void)viewSubviewsClear;
+- (void)createSubviews;
+- (void)destroySubviews;
 
-- (IBAction)viewButtonPress:(id)sender;
+- (IBAction)didPressButton:(id)sender;
 
 - (void)dealloc;
 
@@ -58,14 +54,15 @@
 
 @implementation ViewController
 
-+ (CGFloat)radToDeg:(CGFloat)rad {
-    return rad * M_PI / 180;
++ (CGFloat)radianToDegree:(CGFloat)radian {
+    return radian * M_PI / 180;
 }
 
 - (void)loadView {
     [super loadView];
     
     self.images = [[NSMutableArray alloc] init];
+    [self.images release];
     self.image = [UIImage systemImageNamed:@"circle"];
     
     self.imageTag = ImageTag;
@@ -81,10 +78,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.button setTitle:ButtonTxtOff forState:UIControlStateNormal];
+    [self.button setTitle:ButtonTextOff forState:UIControlStateNormal];
 }
 
-- (void)viewInformationAlert:(NSString *)msg {
+- (void)showAlertMessage:(NSString *)msg {
     UIAlertController *alert = [UIAlertController
                                 alertControllerWithTitle:@"Warning"
                                 message:msg
@@ -98,12 +95,12 @@
     [self presentViewController:alert animated:true completion:nil];
 }
 
-- (void)viewImagesMotion {
+- (void)moveImages {
     CGRect frame = self.view.frame;
     CGPoint center = CGPointMake(CGRectGetWidth(frame) / 2,
                                  CGRectGetHeight(frame) / 2);
     
-    CGFloat angle = [ViewController radToDeg:self.speed + self.motionStep];
+    CGFloat angle = [ViewController radianToDegree:self.speed + self.motionStep];
 
     for (UIImageView *image in self.images) {
         CGFloat newX = center.x + cos(angle) * (image.center.x - center.x) -
@@ -115,23 +112,22 @@
     }
 }
 
-- (void)viewTimerStart {
+- (void)startTimer {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:self.timerInterval
                   target:self
-                  selector:@selector(viewImagesMotion)
+                  selector:@selector(moveImages)
                   userInfo:nil
                   repeats:YES];
 }
 
-- (void)viewTimerStop {
+- (void)stopTimer {
     if (self.timer) {
         [self.timer invalidate];
-        //[self.timer release];
         self.timer = nil;
     }
 }
 
-- (void)viewSubviewsCreate {
+- (void)createSubviews {
     // Center of image motion area, based on image size
     CGRect frame = self.view.frame;
     CGPoint center = CGPointMake((CGRectGetWidth(frame) - self.imageSize) / 2,
@@ -139,7 +135,7 @@
     
     for (NSUInteger i = 0; i != self.count; ++i) {
         // Image position on the border of circle
-        CGFloat angle = [ViewController radToDeg:90 + 360 / self.count * i];
+        CGFloat angle = [ViewController radianToDegree:90 + 360 / self.count * i];
         
         CGFloat x = center.x + self.motionRadius * cos(angle);
         CGFloat y = center.y + self.motionRadius * sin(angle);
@@ -153,14 +149,13 @@
         [self.images addObject:newView];
         [self.view addSubview:newView];
         
-        [newView autorelease];
+        [newView release];
     }
-    
-    // Redraw the view
-    [self.view setNeedsDisplay];
 }
 
-- (void)viewSubviewsClear {
+- (void)destroySubviews {
+    [self.images removeAllObjects];
+    
     for (UIView *subview in self.view.subviews) {
         if (subview.tag == self.imageTag) {
             [subview removeFromSuperview];
@@ -168,47 +163,47 @@
     }
 }
 
-- (IBAction)viewButtonPress:(id)sender {
+- (IBAction)didPressButton:(id)sender {
     if (!self.motion && [self.countTextField hasText] && [self.speedTextField hasText] || self.motion) {
-        NSString *buttonText = self.motion ? ButtonTxtOff : ButtonTxtOn;
+        NSString *buttonText = self.motion ? ButtonTextOff : ButtonTextOn;
         [self.button setTitle:buttonText forState:UIControlStateNormal];
         
         if (!self.motion) {
             self.count = [self.countTextField.text intValue];
             self.speed = [self.speedTextField.text doubleValue];
             
-            [self viewSubviewsClear];
-            [self viewSubviewsCreate];
+            [self destroySubviews];
+            [self createSubviews];
             
-            [self viewTimerStart];
+            [self startTimer];
         }
         else {
-            [self viewTimerStop];
+            [self stopTimer];
         }
         
         self.motion = !self.motion;
     }
     else {
         if (![self.countTextField hasText]) {
-            [self viewInformationAlert:@"Enter the images count!"];
+            [self showAlertMessage:@"Enter the images count!"];
         }
         else {
             if (![self.speedTextField hasText]) {
-                [self viewInformationAlert:@"Enter the movement speed!"];
+                [self showAlertMessage:@"Enter the movement speed!"];
             }
         }
     }
 }
 
 - (void)dealloc {
-    [self viewTimerStop];
+    [self stopTimer];
+    [self destroySubviews];
     
     [self.images release];
-    //[self.image release];
+    [self.image release];
     
     [self.speedTextField release];
     [self.countTextField release];
-    [self.button release];
     
     [super dealloc];
 }

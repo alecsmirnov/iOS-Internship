@@ -8,8 +8,8 @@
 
 #import "MyConstants.h"
 
-NSString *const ButtonTxtOn  = @"Stop";
-NSString *const ButtonTxtOff = @"Start";
+NSString *const ButtonTextOn  = @"Stop";
+NSString *const ButtonTextOff = @"Start";
 
 const NSInteger ImageTag  = 1;
 const CGFloat   ImageSize = 20;

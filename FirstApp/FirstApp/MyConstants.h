@@ -12,8 +12,8 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-extern NSString *const ButtonTxtOn;
-extern NSString *const ButtonTxtOff;
+extern NSString *const ButtonTextOn;
+extern NSString *const ButtonTextOff;
 
 extern const NSInteger ImageTag;
 extern const CGFloat   ImageSize;
