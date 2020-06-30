@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  FirstApp
+//  ImageMovement
 //
 //  Created by Admin on 23.06.2020.
 //  Copyright © 2020 Admin. All rights reserved.
@@ -61,8 +61,7 @@
 - (void)loadView {
     [super loadView];
     
-    self.images = [[NSMutableArray alloc] init];
-    [self.images release];
+    self.images = [[[NSMutableArray alloc] init] autorelease];
     self.image = [UIImage systemImageNamed:@"circle"];
     
     self.imageTag = ImageTag;
