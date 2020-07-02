@@ -65,4 +65,8 @@ extension ViewController: EditorDelegate {
     func didNumberChange(newNumber: Int) {
         tableData[tableView.indexPathForSelectedRow?.row ?? 0] = newNumber
     }
+    
+    func didNumberDelet() {
+        tableData.remove(at: tableView.indexPathForSelectedRow?.row ?? 0)
+    }
 }

@@ -10,6 +10,7 @@ import UIKit
 
 protocol EditorDelegate {
     func didNumberChange(newNumber: Int)
+    func didNumberDelet()
 }
 
 class DetailViewController: UIViewController {
@@ -30,7 +31,13 @@ class DetailViewController: UIViewController {
         self.number = number
     }
     
-    @IBAction func didPressButton(_ sender: UIButton) {
+    @IBAction func didPressEdit(_ sender: UIButton) {
         editorDelegate?.didNumberChange(newNumber: Int(textField.text ?? "") ?? 0)
+    }
+    
+    @IBAction func didPressDelete(_ sender: UIButton) {
+        textField.text = ""
+        
+        editorDelegate?.didNumberDelet()
     }
 }
