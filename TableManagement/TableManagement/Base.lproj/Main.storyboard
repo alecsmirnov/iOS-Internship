@@ -7,21 +7,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Statistic-->
+        <!--Statistics-->
         <scene sceneID="Pod-db-4pG">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="twK-Kb-NGF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <viewController id="qvX-Ob-G3t" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StatisticsViewController" id="qvX-Ob-G3t" customClass="StatisticsViewController" customModule="TableManagement" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MuM-jD-w19">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="bTp-we-XHt"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Statistic" id="fYq-Yz-cbJ"/>
+                    <tabBarItem key="tabBarItem" title="Statistics" id="fYq-Yz-cbJ"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="twK-Kb-NGF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-34" y="-550"/>
+            <point key="canvasLocation" x="-34" y="817"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="RJf-Gv-v7P">
@@ -39,12 +39,12 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n2M-ub-IWC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-902" y="-224"/>
+            <point key="canvasLocation" x="-865" y="447"/>
         </scene>
         <!--Table-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TableManagement" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="TableViewController" customModule="TableManagement" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -13,7 +13,7 @@ protocol EditorDelegate {
     func didNumberDelet()
 }
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController {  
     var number: Int?
     var editorDelegate: EditorDelegate?
     
@@ -36,8 +36,8 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func didPressDelete(_ sender: UIButton) {
-        textField.text = ""
-        
         editorDelegate?.didNumberDelet()
+        
+        navigationController?.popViewController(animated: true);
     }
 }

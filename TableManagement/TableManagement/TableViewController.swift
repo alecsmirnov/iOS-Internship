@@ -6,17 +6,19 @@
 //  Copyright © 2020 Admin. All rights reserved.
 //
 
-import UIKit
-
 let TableSize: Int = 50
 
-class ViewController: UIViewController {
-    var tableData: [Int] = DataSource.randomNumbers(size: TableSize);
+import UIKit
+
+class TableViewController: UIViewController {
+    var tableData: [Int] = []
 
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableData = DataSource.randomNumbers(size: TableSize)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -35,7 +37,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension TableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.count
     }
@@ -49,9 +51,8 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
         detailViewController.setNumber(number: tableData[indexPath.row])
@@ -61,7 +62,7 @@ extension ViewController: UITableViewDelegate {
     }
 }
 
-extension ViewController: EditorDelegate {
+extension TableViewController: EditorDelegate {
     func didNumberChange(newNumber: Int) {
         tableData[tableView.indexPathForSelectedRow?.row ?? 0] = newNumber
     }
