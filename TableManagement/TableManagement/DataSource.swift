@@ -9,6 +9,8 @@
 import UIKit
 
 class DataSource {
+    var data: [Int] = randomNumbers(size: TableSize)
+    
     static func randomNumbers(size: Int) -> [Int] {
         var data: [Int] = []
         

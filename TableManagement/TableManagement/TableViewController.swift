@@ -6,9 +6,14 @@
 //  Copyright © 2020 Admin. All rights reserved.
 //
 
+import UIKit
+
 let TableSize: Int = 50
 
-import UIKit
+enum TabBarViewControllers {
+    static let table: Int = 0
+    static let statistics: Int = 1
+}
 
 class TableViewController: UIViewController {
     var tableData: [Int] = []
@@ -17,23 +22,17 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableData = DataSource.randomNumbers(size: TableSize)
-        
+    
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tabBarController?.delegate = self
+        
+        tableData = DataSource.randomNumbers(size: TableSize)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         tableView.reloadData()
-    }
-    
-    func setCurrentRow(number: Int) {
-        tableData[tableView.indexPathForSelectedRow?.row ?? 0] = number
-    }
-    
-    func getCurrentRow() -> Int {
-        return tableView.indexPathForSelectedRow?.row ?? 0
     }
 }
 
@@ -43,11 +42,11 @@ extension TableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
+        let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         
-        cell.setLabelText(text: String(tableData[indexPath.row]))
+        tableViewCell.setLabelText(text: String(tableData[indexPath.row]))
         
-        return cell;
+        return tableViewCell;
     }
 }
 
@@ -59,6 +58,15 @@ extension TableViewController: UITableViewDelegate {
         detailViewController.editorDelegate = self
         
         navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
+
+extension TableViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let statisticsViewController = (self.tabBarController?.viewControllers![TabBarViewControllers.statistics]) as! StatisticsViewController
+        statisticsViewController.tableData = tableData
+        
+        return true
     }
 }
 
