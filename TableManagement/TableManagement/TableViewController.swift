@@ -72,10 +72,10 @@ extension TableViewController: UITabBarControllerDelegate {
 
 extension TableViewController: EditorDelegate {
     func didNumberChange(newNumber: Int) {
-        tableData[tableView.indexPathForSelectedRow?.row ?? 0] = newNumber
+        tableData[tableView.indexPathForSelectedRow!.row] = newNumber
     }
     
     func didNumberDelet() {
-        tableData.remove(at: tableView.indexPathForSelectedRow?.row ?? 0)
+        tableData.remove(at: tableView.indexPathForSelectedRow!.row)
     }
 }
