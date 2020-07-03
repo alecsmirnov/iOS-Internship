@@ -27,10 +27,6 @@ class EditorViewController: UIViewController {
         textField.text = String(number)
     }
     
-    func setNumber(number: Int) {
-        self.number = number
-    }
-    
     @IBAction func didPressEdit(_ sender: UIButton) {
         editorDelegate?.didChangeNumber(newNumber: Int(textField.text!)!)
     }
