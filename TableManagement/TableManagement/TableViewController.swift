@@ -12,27 +12,37 @@ let TableSize: Int = 50
 
 enum TabBarViewControllers {
     static let table: Int = 0
-    static let statistics: Int = 1
+    static let add: Int = 1
+    static let statistics: Int = 2
 }
 
 class TableViewController: UIViewController {
     var tableData: [Int] = []
 
+    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         tabBarController?.delegate = self
+        //tabBarController?.selectedIndex = TabBarViewControllers.table
         
         tableData = DataSource.randomNumbers(size: TableSize)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         tableView.reloadData()
+    }
+}
+
+extension TableViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // Later...
     }
 }
 
@@ -52,30 +62,45 @@ extension TableViewController: UITableViewDataSource {
 
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        let editorViewController = storyboard?.instantiateViewController(withIdentifier: "EditorViewController") as! EditorViewController
         
-        detailViewController.setNumber(number: tableData[indexPath.row])
-        detailViewController.editorDelegate = self
+        editorViewController.setNumber(number: tableData[indexPath.row])
+        editorViewController.editorDelegate = self
         
-        navigationController?.pushViewController(detailViewController, animated: true)
+        navigationController?.pushViewController(editorViewController, animated: true)
     }
 }
 
-extension TableViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        let statisticsViewController = (self.tabBarController?.viewControllers![TabBarViewControllers.statistics]) as! StatisticsViewController
-        statisticsViewController.tableData = tableData
+extension TableViewController: UITabBarControllerDelegate {   
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let tabBarIndex = self.tabBarController!.selectedIndex
+        let tabBarViewController = self.tabBarController?.viewControllers![tabBarIndex]
         
-        return true
+        switch tabBarIndex {
+        case TabBarViewControllers.statistics:
+            let statisticsViewController = tabBarViewController as! StatisticsViewController
+            statisticsViewController.tableData = tableData
+            break
+        case TabBarViewControllers.add:
+            let addViewController = tabBarViewController as! AddViewController
+            addViewController.addDelegate = self
+            break
+        default:
+            break
+        }
     }
 }
 
-extension TableViewController: EditorDelegate {
-    func didNumberChange(newNumber: Int) {
+extension TableViewController: EditorDelegate, AddDelegate {
+    func didChangeNumber(newNumber: Int) {
         tableData[tableView.indexPathForSelectedRow!.row] = newNumber
     }
     
-    func didNumberDelet() {
+    func didDeleteNumber() {
         tableData.remove(at: tableView.indexPathForSelectedRow!.row)
+    }
+    
+    func didAddNumber(number: Int) {
+        tableData.append(number)
     }
 }

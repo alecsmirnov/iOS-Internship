@@ -21,6 +21,10 @@ class StatisticsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Error
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         countLabel.text = String("Items count: \(tableData.count)")
         maxValueLabel.text = String("Max value: \(tableData.max()!)")
         minValueLabel.text = String("Min value: \(tableData.min()!)")
