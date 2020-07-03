@@ -14,8 +14,8 @@ protocol EditorDelegate {
 }
 
 class DetailViewController: UIViewController {  
-    var number: Int?
-    var editorDelegate: EditorDelegate?
+    var number: Int!
+    var editorDelegate: EditorDelegate!
     
     @IBOutlet var textField: UITextField!
     
@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        textField.text = String(number ?? 0)
+        textField.text = String(number)
     }
     
     func setNumber(number: Int) {
@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func didPressEdit(_ sender: UIButton) {
-        editorDelegate?.didNumberChange(newNumber: Int(textField.text ?? "") ?? 0)
+        editorDelegate?.didNumberChange(newNumber: Int(textField.text!)!)
     }
     
     @IBAction func didPressDelete(_ sender: UIButton) {
