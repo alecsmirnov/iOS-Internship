@@ -19,7 +19,6 @@ enum TabBarViewControllers {
 class TableViewController: UIViewController {
     var tableData: [Int] = []
 
-    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
