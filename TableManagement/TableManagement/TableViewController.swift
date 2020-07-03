@@ -54,7 +54,7 @@ extension TableViewController: UITableViewDataSource {
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editorViewController = storyboard?.instantiateViewController(withIdentifier: "EditorViewController") as! EditorViewController
-        
+
         editorViewController.setNumber(number: tableData[indexPath.row])
         editorViewController.editorDelegate = self
         
@@ -68,13 +68,13 @@ extension TableViewController: UITabBarControllerDelegate {
         let tabBarViewController = self.tabBarController?.viewControllers![tabBarIndex]
         
         switch tabBarIndex {
-        case TabBarViewControllers.statistics:
-            let statisticsViewController = tabBarViewController as! StatisticsViewController
-            statisticsViewController.tableData = tableData
-            break
         case TabBarViewControllers.add:
             let addViewController = tabBarViewController as! AddViewController
             addViewController.addDelegate = self
+            break
+        case TabBarViewControllers.statistics:
+            let statisticsViewController = tabBarViewController as! StatisticsViewController
+            statisticsViewController.tableData = tableData
             break
         default:
             break
