@@ -14,8 +14,8 @@ class DataSource {
     static func randomNumbers(size: Int) -> [Int] {
         var data: [Int] = []
         
-        for _ in 0...size {
-            data.append(Int.random(in: 0..<size))
+        for _ in 0..<size {
+            data.append(Int.random(in: -size..<size))
         }
         
         return data

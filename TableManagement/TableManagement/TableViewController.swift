@@ -25,24 +25,16 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
 
         tabBarController?.delegate = self
-        //tabBarController?.selectedIndex = TabBarViewControllers.table
         
         tableData = DataSource.randomNumbers(size: TableSize)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         tableView.reloadData()
-    }
-}
-
-extension TableViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Later...
     }
 }
 
