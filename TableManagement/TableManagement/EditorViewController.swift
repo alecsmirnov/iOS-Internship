@@ -17,23 +17,27 @@ class EditorViewController: UIViewController {
     var number: Int!
     var editorDelegate: EditorDelegate!
     
-    @IBOutlet var textField: UITextField!
+    @IBOutlet var numberField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        textField.text = String(number)
+        numberField.text = String(number)
     }
     
     @IBAction func didPressEdit(_ sender: UIButton) {
-        editorDelegate?.didChangeNumber(newNumber: Int(textField.text!)!)
+        editorDelegate?.didChangeNumber(newNumber: Int(numberField.text!)!)
     }
     
     @IBAction func didPressDelete(_ sender: UIButton) {
         editorDelegate?.didDeleteNumber()
         
         navigationController?.popViewController(animated: true);
+    }
+    
+    @IBAction func didTouchScreen(_ sender: UITapGestureRecognizer) {
+        numberField.resignFirstResponder()
     }
 }

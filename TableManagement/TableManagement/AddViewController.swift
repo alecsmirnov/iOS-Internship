@@ -15,17 +15,21 @@ protocol AddDelegate {
 class AddViewController: UIViewController {
     var addDelegate: AddDelegate!
     
-    @IBOutlet var textField: UITextField!
+    @IBOutlet var numberField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func didPressAdd(_ sender: Any) {
-        if !textField.text!.isEmpty {
-            addDelegate?.didAddNumber(number: Int(textField.text!)!)
+        if !numberField.text!.isEmpty {
+            addDelegate?.didAddNumber(number: Int(numberField.text!)!)
             
-            textField.text = ""
+            numberField.text = ""
         }
+    }
+    
+    @IBAction func didTouchScreen(_ sender: UITapGestureRecognizer) {
+        numberField.resignFirstResponder()
     }
 }

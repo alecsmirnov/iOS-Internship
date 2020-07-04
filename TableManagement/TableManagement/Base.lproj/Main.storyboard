@@ -88,10 +88,11 @@
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="48q-gF-6x6">
                                 <rect key="frame" x="120" y="316" width="97" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="48q-gF-6x6" firstAttribute="leading" secondItem="BXq-Vg-xOL" secondAttribute="leading" constant="120" id="7Pc-VM-9jc"/>
                             <constraint firstItem="48q-gF-6x6" firstAttribute="bottom" secondItem="ew6-6u-JPu" secondAttribute="bottom" id="WOa-LH-AsS"/>
@@ -101,13 +102,21 @@
                             <constraint firstItem="ew6-6u-JPu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="48q-gF-6x6" secondAttribute="trailing" constant="8" symbolic="YES" id="zER-dN-uAF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BXq-Vg-xOL"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="bpT-1t-bAN" appends="YES" id="K8A-ue-7ie"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Add" image="plus" catalog="system" id="a3Q-FW-dla"/>
                     <connections>
-                        <outlet property="textField" destination="48q-gF-6x6" id="Zal-03-R79"/>
+                        <outlet property="numberField" destination="48q-gF-6x6" id="Zal-03-R79"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xKh-aK-eem" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="bpT-1t-bAN">
+                    <connections>
+                        <action selector="didTouchScreen:" destination="606-2C-F3h" id="jbd-0t-2Be"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-31.199999999999999" y="1500.8995502248877"/>
         </scene>
@@ -143,14 +152,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="XQZ-Pf-ed3" customClass="TableViewCell" customModule="TableManagement" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="43"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XQZ-Pf-ed3" id="Tn0-ua-SLF">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tX9-uX-AZe">
-                                                    <rect key="frame" x="31.5" y="11" width="312" height="21"/>
+                                                    <rect key="frame" x="31.5" y="11" width="312" height="21.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="312" id="TPO-wU-1Ml"/>
                                                     </constraints>
@@ -217,7 +226,7 @@
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lye-ko-jDa">
                                 <rect key="frame" x="90" y="316" width="97" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvc-JU-PXN">
                                 <rect key="frame" x="240" y="317" width="45" height="30"/>
@@ -231,6 +240,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Lye-ko-jDa" firstAttribute="leading" secondItem="bCK-RI-qyy" secondAttribute="leading" constant="90" id="4Ab-Ua-kMJ"/>
                             <constraint firstItem="cvc-JU-PXN" firstAttribute="leading" secondItem="ieB-Aq-Q8q" secondAttribute="trailing" constant="8" symbolic="YES" id="Df7-bz-ibZ"/>
@@ -241,13 +251,21 @@
                             <constraint firstItem="ieB-Aq-Q8q" firstAttribute="baseline" secondItem="cvc-JU-PXN" secondAttribute="baseline" id="y2b-J3-XiL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bCK-RI-qyy"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="rTZ-1T-uM8" appends="YES" id="9e8-10-oPw"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="N2D-JL-ZY1"/>
                     <connections>
-                        <outlet property="textField" destination="Lye-ko-jDa" id="fNj-d9-2O2"/>
+                        <outlet property="numberField" destination="Lye-ko-jDa" id="fNj-d9-2O2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="grv-nC-Htl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rTZ-1T-uM8">
+                    <connections>
+                        <action selector="didTouchScreen:" destination="bmJ-tH-7ZC" id="yaF-16-ibD"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1367" y="125"/>
         </scene>
