@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TableViewControllerDelegate: class {
+protocol TableViewControllerDelegate: AnyObject {
     func tableViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int)
     func tableViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int)
     func tableViewControllerDelegateDeleteSelectedNumber(_ viewControllere: UIViewController)
