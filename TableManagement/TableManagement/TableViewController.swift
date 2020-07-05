@@ -10,16 +10,24 @@ import UIKit
 
 let TableSize: Int = 50
 
-enum TabBarViewControllers {
+enum TabBarItems {
     static let table: Int = 0
     static let add: Int = 1
     static let statistics: Int = 2
 }
 
-class TableViewController: UIViewController {
-    var tableData: [Int] = []
+protocol TableViewControllerDelegate: class {
+    func didAddNumber(number: Int)
+    func didChangeNumber(newNumber: Int)
+    func didDeleteNumber()
+    func selectedNumber() -> Int
+    func numbers() -> [Int]
+}
 
-    @IBOutlet var tableView: UITableView!
+class TableViewController: UIViewController {
+    private var tableData: [Int] = []
+    
+    @IBOutlet private var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,9 +62,8 @@ extension TableViewController: UITableViewDataSource {
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editorViewController = storyboard?.instantiateViewController(withIdentifier: "EditorViewController") as! EditorViewController
-
-        editorViewController.number = tableData[indexPath.row]
-        editorViewController.editorDelegate = self
+        
+        editorViewController.setDelegate(delegate: self)
         
         navigationController?.pushViewController(editorViewController, animated: true)
     }
@@ -67,13 +74,13 @@ extension TableViewController: UITabBarControllerDelegate {
         let tabBarIndex = self.tabBarController!.selectedIndex
         
         switch tabBarIndex {
-        case TabBarViewControllers.add:
+        case TabBarItems.add:
             let addViewController = viewController as! AddViewController
-            addViewController.addDelegate = self
+            addViewController.setDelegate(delegate: self)
             break
-        case TabBarViewControllers.statistics:
+        case TabBarItems.statistics:
             let statisticsViewController = viewController as! StatisticsViewController
-            statisticsViewController.tableData = tableData
+            statisticsViewController.setDelegate(delegate: self)
             break
         default:
             break
@@ -81,7 +88,11 @@ extension TableViewController: UITabBarControllerDelegate {
     }
 }
 
-extension TableViewController: EditorDelegate, AddDelegate {
+extension TableViewController: TableViewControllerDelegate {
+    func didAddNumber(number: Int) {
+        tableData.append(number)
+    }
+    
     func didChangeNumber(newNumber: Int) {
         tableData[tableView.indexPathForSelectedRow!.row] = newNumber
     }
@@ -90,7 +101,11 @@ extension TableViewController: EditorDelegate, AddDelegate {
         tableData.remove(at: tableView.indexPathForSelectedRow!.row)
     }
     
-    func didAddNumber(number: Int) {
-        tableData.append(number)
+    func selectedNumber() -> Int {
+        return tableData[tableView.indexPathForSelectedRow!.row]
+    }
+    
+    func numbers() -> [Int] {
+        return tableData
     }
 }

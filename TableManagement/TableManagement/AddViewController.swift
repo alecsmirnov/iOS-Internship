@@ -8,28 +8,28 @@
 
 import UIKit
 
-protocol AddDelegate {
-    func didAddNumber(number: Int)
-}
-
 class AddViewController: UIViewController {
-    var addDelegate: AddDelegate!
+    private weak var delegate: TableViewControllerDelegate?
     
-    @IBOutlet var numberField: UITextField!
+    @IBOutlet private var numberField: UITextField!
+    
+    func setDelegate(delegate: TableViewControllerDelegate) {
+        self.delegate = delegate
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    @IBAction func didPressAdd(_ sender: Any) {
+    @IBAction private func didPressAdd(_ sender: Any) {
         if !numberField.text!.isEmpty {
-            addDelegate?.didAddNumber(number: Int(numberField.text!)!)
+            delegate!.didAddNumber(number: Int(numberField.text!)!)
             
             numberField.text = ""
         }
     }
     
-    @IBAction func didTouchScreen(_ sender: UITapGestureRecognizer) {
+    @IBAction private func didTouchScreen(_ sender: UITapGestureRecognizer) {
         numberField.resignFirstResponder()
     }
 }

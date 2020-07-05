@@ -9,7 +9,7 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
-    @IBOutlet var label: UILabel!
+    @IBOutlet private var label: UILabel!
     
     func setLabelText(text: String) {
         label.text = text

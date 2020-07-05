@@ -8,36 +8,34 @@
 
 import UIKit
 
-protocol EditorDelegate {
-    func didChangeNumber(newNumber: Int)
-    func didDeleteNumber()
-}
-
 class EditorViewController: UIViewController {  
-    var number: Int!
-    var editorDelegate: EditorDelegate!
+    private weak var delegate: TableViewControllerDelegate?
     
-    @IBOutlet var numberField: UITextField!
+    @IBOutlet private var numberField: UITextField!
+    
+    func setDelegate(delegate: TableViewControllerDelegate) {
+        self.delegate = delegate
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        numberField.text = String(number)
+        numberField.text = String(delegate!.selectedNumber())
     }
     
-    @IBAction func didPressEdit(_ sender: UIButton) {
-        editorDelegate?.didChangeNumber(newNumber: Int(numberField.text!)!)
+    @IBAction private func didPressEdit(_ sender: UIButton) {
+        delegate!.didChangeNumber(newNumber: Int(numberField.text!)!)
     }
     
-    @IBAction func didPressDelete(_ sender: UIButton) {
-        editorDelegate?.didDeleteNumber()
+    @IBAction private func didPressDelete(_ sender: UIButton) {
+        delegate!.didDeleteNumber()
         
         navigationController?.popViewController(animated: true);
     }
     
-    @IBAction func didTouchScreen(_ sender: UITapGestureRecognizer) {
+    @IBAction private func didTouchScreen(_ sender: UITapGestureRecognizer) {
         numberField.resignFirstResponder()
     }
 }

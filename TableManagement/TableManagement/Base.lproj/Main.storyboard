@@ -152,14 +152,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" id="XQZ-Pf-ed3" customClass="TableViewCell" customModule="TableManagement" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XQZ-Pf-ed3" id="Tn0-ua-SLF">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tX9-uX-AZe">
-                                                    <rect key="frame" x="31.5" y="11" width="312" height="21.5"/>
+                                                    <rect key="frame" x="31.5" y="11" width="312" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="312" id="TPO-wU-1Ml"/>
                                                     </constraints>
@@ -197,7 +197,7 @@
                     <tabBarItem key="tabBarItem" title="Table" id="cBh-oZ-hli"/>
                     <navigationItem key="navigationItem" id="MRQ-0k-ZVI"/>
                     <connections>
-                        <outlet property="tableView" destination="4gj-U3-FPr" id="yQx-Wy-2di"/>
+                        <outlet property="tableView" destination="4gj-U3-FPr" id="3n6-3u-Drl"/>
                         <segue destination="bmJ-tH-7ZC" kind="push" id="O7x-68-RXX"/>
                     </connections>
                 </viewController>

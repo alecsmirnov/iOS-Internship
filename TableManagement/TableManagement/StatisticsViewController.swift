@@ -9,12 +9,16 @@
 import UIKit
 
 class StatisticsViewController: UIViewController {
-    var tableData: [Int] = []
+    private weak var delegate: TableViewControllerDelegate?
     
-    @IBOutlet var countLabel: UILabel!
-    @IBOutlet var maxValueLabel: UILabel!
-    @IBOutlet var minValueLabel: UILabel!
-    @IBOutlet var averageLabel: UILabel!
+    @IBOutlet private var countLabel: UILabel!
+    @IBOutlet private var maxValueLabel: UILabel!
+    @IBOutlet private var minValueLabel: UILabel!
+    @IBOutlet private var averageLabel: UILabel!
+    
+    func setDelegate(delegate: TableViewControllerDelegate) {
+        self.delegate = delegate
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +26,16 @@ class StatisticsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         // Error
+        //showStatistics()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        showStatistics()
+    }
+    
+    private func showStatistics() {
+        let tableData = delegate!.numbers()
+        
         countLabel.text = String("Items count: \(tableData.count)")
         maxValueLabel.text = String("Max value: \(tableData.max()!)")
         minValueLabel.text = String("Min value: \(tableData.min()!)")
