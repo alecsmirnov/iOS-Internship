@@ -16,10 +16,6 @@ class StatisticsViewController: UIViewController {
     @IBOutlet private var minValueLabel: UILabel!
     @IBOutlet private var averageLabel: UILabel!
     
-    func setDelegate(delegate: TableViewControllerDelegate) {
-        self.delegate = delegate
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -31,6 +27,10 @@ class StatisticsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         showStatistics()
+    }
+    
+    func setDelegate(delegate: TableViewControllerDelegate) {
+        self.delegate = delegate
     }
     
     private func showStatistics() {

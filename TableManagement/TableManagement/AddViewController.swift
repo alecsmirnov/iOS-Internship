@@ -13,12 +13,12 @@ class AddViewController: UIViewController {
     
     @IBOutlet private var numberField: UITextField!
     
-    func setDelegate(delegate: TableViewControllerDelegate) {
-        self.delegate = delegate
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func setDelegate(delegate: TableViewControllerDelegate) {
+        self.delegate = delegate
     }
     
     @IBAction private func didPressAdd(_ sender: Any) {
