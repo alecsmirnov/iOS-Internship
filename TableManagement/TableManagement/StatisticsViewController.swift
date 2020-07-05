@@ -34,7 +34,7 @@ class StatisticsViewController: UIViewController {
     }
     
     private func showStatistics() {
-        let tableData = delegate!.numbers()
+        let tableData = delegate!.tableViewControllerDelegateGetNumbers(self)
         
         countLabel.text = String("Items count: \(tableData.count)")
         maxValueLabel.text = String("Max value: \(tableData.max()!)")

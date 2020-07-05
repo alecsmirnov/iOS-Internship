@@ -23,7 +23,7 @@ class AddViewController: UIViewController {
     
     @IBAction private func didPressAdd(_ sender: Any) {
         if !numberField.text!.isEmpty {
-            delegate!.didAddNumber(number: Int(numberField.text!)!)
+            delegate!.tableViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
             
             numberField.text = ""
         }

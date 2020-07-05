@@ -16,14 +16,6 @@ enum TabBarItems {
     static let statistics: Int = 2
 }
 
-protocol TableViewControllerDelegate: class {
-    func didAddNumber(number: Int)
-    func didChangeNumber(newNumber: Int)
-    func didDeleteNumber()
-    func selectedNumber() -> Int
-    func numbers() -> [Int]
-}
-
 class TableViewController: UIViewController {
     private var tableData: [Int] = []
     
@@ -89,23 +81,23 @@ extension TableViewController: UITabBarControllerDelegate {
 }
 
 extension TableViewController: TableViewControllerDelegate {
-    func didAddNumber(number: Int) {
+    func tableViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
         tableData.append(number)
     }
     
-    func didChangeNumber(newNumber: Int) {
+    func tableViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int) {
         tableData[tableView.indexPathForSelectedRow!.row] = newNumber
     }
     
-    func didDeleteNumber() {
+    func tableViewControllerDelegateDeleteSelectedNumber(_ viewController: UIViewController) {
         tableData.remove(at: tableView.indexPathForSelectedRow!.row)
     }
     
-    func selectedNumber() -> Int {
+    func tableViewControllerDelegateGetSelectedNumber(_ viewController: UIViewController) -> Int {
         return tableData[tableView.indexPathForSelectedRow!.row]
     }
     
-    func numbers() -> [Int] {
+    func tableViewControllerDelegateGetNumbers(_ viewController: UIViewController) -> [Int] {
         return tableData
     }
 }

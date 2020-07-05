@@ -13,24 +13,24 @@ class EditorViewController: UIViewController {
     
     @IBOutlet private var numberField: UITextField!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        numberField.text = String(delegate!.tableViewControllerDelegateGetSelectedNumber(self))
+    }
+    
     func setDelegate(delegate: TableViewControllerDelegate) {
         self.delegate = delegate
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        numberField.text = String(delegate!.selectedNumber())
-    }
-    
     @IBAction private func didPressEdit(_ sender: UIButton) {
-        delegate!.didChangeNumber(newNumber: Int(numberField.text!)!)
+        delegate!.tableViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
     }
     
     @IBAction private func didPressDelete(_ sender: UIButton) {
-        delegate!.didDeleteNumber()
+        delegate!.tableViewControllerDelegateDeleteSelectedNumber(self)
         
         navigationController?.popViewController(animated: true);
     }
