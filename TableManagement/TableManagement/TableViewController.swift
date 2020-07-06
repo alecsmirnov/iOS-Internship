@@ -18,8 +18,6 @@ class TableViewController: UIViewController {
     
         tableView.delegate = self
         tableView.dataSource = self
-
-        tabBarController!.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,8 +59,6 @@ extension TableViewController: UITableViewDelegate {
         navigationController!.pushViewController(editorViewController, animated: true)
     }
 }
-
-extension TableViewController: UITabBarControllerDelegate {}
 
 extension TableViewController: TableViewControllerDelegate {
     func tableViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
