@@ -14,7 +14,7 @@ class TabBarController: UITabBarController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let dataSource: DataSource = DataSource(size: TableSize)
+        let dataSource = DataSource(size: TableSize)
         
         let tableViewController = TableViewController()
         tableViewController.dataSource = dataSource
@@ -27,7 +27,7 @@ class TabBarController: UITabBarController {
         addViewController.tabBarItem = UITabBarItem(title: "Add", image: UIImage(systemName: "plus"), tag: TabBarItems.add)
         statisticsViewController.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(systemName: "chart.bar"), tag: TabBarItems.statistics)
         
-        let controllers: [UIViewController] = [navigationController, addViewController, statisticsViewController]
+        let controllers = [navigationController, addViewController, statisticsViewController]
         self.viewControllers = controllers
     }
 }

@@ -13,7 +13,7 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let frame: CGRect = view.frame
         
         let displayX: CGFloat = 0
@@ -21,13 +21,14 @@ class TableViewController: UIViewController {
         let displayWidth: CGFloat = frame.width
         let displayHeight: CGFloat = frame.height
         
-        let tableView: UITableView = UITableView(frame: CGRect(x: displayX, y: displayY, width: displayWidth, height: displayHeight))
+        let tableView = UITableView(frame: CGRect(x: displayX, y: displayY, width: displayWidth, height: displayHeight))
         
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        
         tableView.dataSource = self
         tableView.delegate = self
         
-        self.view.addSubview(tableView)
+        view.addSubview(tableView)
     }
 }
 
@@ -47,7 +48,6 @@ extension TableViewController: UITableViewDataSource {
         
         if let unwrappedDataSource = dataSource {
             tableViewCell.setLabelText(text: String(unwrappedDataSource.data[indexPath.row]))
-            print(unwrappedDataSource.data[indexPath.row])
         }
         
         return tableViewCell
@@ -68,4 +68,3 @@ extension TableViewController: UITableViewDelegate {
     }
     */
 }
-
