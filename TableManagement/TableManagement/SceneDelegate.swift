@@ -8,6 +8,8 @@
 
 import UIKit
 
+let TableSize: Int = 50
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
@@ -26,10 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let statisticsViewController = tabBarController.viewControllers![TabBarItems.statistics] as! StatisticsViewController
         
-        addViewController.delegate = tableViewController
+        let dataSource: DataSource = DataSource(size: TableSize)
         
-        tableViewController.dataSource = DataSource.shared
-        statisticsViewController.dataSource = DataSource.shared
+        tableViewController.dataSource = dataSource
+        statisticsViewController.dataSource = dataSource
+        
+        addViewController.delegate = tableViewController
         
         guard let _ = (scene as? UIWindowScene) else { return }
     }

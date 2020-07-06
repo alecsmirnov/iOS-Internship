@@ -8,14 +8,10 @@
 
 import UIKit
 
-let TableSize: Int = 1
-
 class DataSource {
-    static let shared = DataSource(size: TableSize)
-    
     var data: [Int] = []
     
-    private init(size: Int) {
+    init(size: Int) {
         for _ in 0..<size {
             data.append(Int.random(in: -size..<size))
         }
