@@ -58,7 +58,7 @@ extension TableViewController: UITableViewDelegate {
             editorViewController.delegate = self
         }
 
-        navigationController?.pushViewController(editorViewController, animated: true)
+        navigationController!.pushViewController(editorViewController, animated: true)
     }
 }
 
