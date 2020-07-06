@@ -12,6 +12,4 @@ protocol TableViewControllerDelegate: AnyObject {
     func tableViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int)
     func tableViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int)
     func tableViewControllerDelegateDeleteSelectedNumber(_ viewControllere: UIViewController)
-    func tableViewControllerDelegateGetSelectedNumber(_ viewController: UIViewController) -> Int
-    func tableViewControllerDelegateGetNumbers(_ viewController: UIViewController) -> [Int]
 }

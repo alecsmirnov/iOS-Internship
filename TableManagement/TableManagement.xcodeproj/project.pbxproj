@@ -10,6 +10,7 @@
 		8445229224ACBCDA00DF858E /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445229124ACBCDA00DF858E /* EditorViewController.swift */; };
 		8445DE4624ADFF0F00ECB420 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */; };
 		8446999D24B2017700EF1508 /* TableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446999C24B2017700EF1508 /* TableViewControllerDelegate.swift */; };
+		8446D5F024B30C9E00FC1A87 /* TabBarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */; };
 		8446EF8B24AF45EE000C5805 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446EF8A24AF45ED000C5805 /* AddViewController.swift */; };
 		8447D74C24AC6F7C00298B00 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447D74B24AC6F7C00298B00 /* DataSource.swift */; };
 		8447D74E24AC7C7A00298B00 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447D74D24AC7C7A00298B00 /* TableViewCell.swift */; };
@@ -25,6 +26,7 @@
 		8445229124ACBCDA00DF858E /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		8446999C24B2017700EF1508 /* TableViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewControllerDelegate.swift; sourceTree = "<group>"; };
+		8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItems.swift; sourceTree = "<group>"; };
 		8446EF8A24AF45ED000C5805 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		8447D74B24AC6F7C00298B00 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		8447D74D24AC7C7A00298B00 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				8446EF8A24AF45ED000C5805 /* AddViewController.swift */,
 				8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */,
 				8447D74B24AC6F7C00298B00 /* DataSource.swift */,
+				8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */,
 				84E95B7624AB99150040D11A /* Main.storyboard */,
 				84E95B7924AB99160040D11A /* Assets.xcassets */,
 				84E95B7B24AB99160040D11A /* LaunchScreen.storyboard */,
@@ -159,6 +162,7 @@
 			files = (
 				8447D74E24AC7C7A00298B00 /* TableViewCell.swift in Sources */,
 				84E95B7524AB99150040D11A /* TableViewController.swift in Sources */,
+				8446D5F024B30C9E00FC1A87 /* TabBarItems.swift in Sources */,
 				8446EF8B24AF45EE000C5805 /* AddViewController.swift in Sources */,
 				84E95B7124AB99150040D11A /* AppDelegate.swift in Sources */,
 				8445229224ACBCDA00DF858E /* EditorViewController.swift in Sources */,

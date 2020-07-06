@@ -8,16 +8,8 @@
 
 import UIKit
 
-let TableSize: Int = 50
-
-enum TabBarItems {
-    static let table: Int = 0
-    static let add: Int = 1
-    static let statistics: Int = 2
-}
-
 class TableViewController: UIViewController {
-    private var tableData: [Int] = []
+    var dataSource: DataSource?
     
     @IBOutlet private var tableView: UITableView!
     
@@ -27,9 +19,7 @@ class TableViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
-        tabBarController?.delegate = self
-        
-        tableData = DataSource.randomNumbers(size: TableSize)
+        tabBarController!.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,13 +29,21 @@ class TableViewController: UIViewController {
 
 extension TableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        var rowsCount: Int = 0
+        
+        if let unwrappedDataSource = dataSource {
+            rowsCount = unwrappedDataSource.data.count
+        }
+        
+        return rowsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         
-        tableViewCell.setLabelText(text: String(tableData[indexPath.row]))
+        if let unwrappedDataSource = dataSource {
+            tableViewCell.setLabelText(text: String(unwrappedDataSource.data[indexPath.row]))
+        }
         
         return tableViewCell;
     }
@@ -53,51 +51,35 @@ extension TableViewController: UITableViewDataSource {
 
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editorViewController = storyboard?.instantiateViewController(withIdentifier: "EditorViewController") as! EditorViewController
+        let editorViewController = storyboard!.instantiateViewController(withIdentifier: "EditorViewController") as! EditorViewController
         
-        editorViewController.setDelegate(delegate: self)
-        
+        if let unwrappedDataSource = dataSource {
+            editorViewController.number = unwrappedDataSource.data[indexPath.row]
+            editorViewController.delegate = self
+        }
+
         navigationController?.pushViewController(editorViewController, animated: true)
     }
 }
 
-extension TableViewController: UITabBarControllerDelegate {   
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        let tabBarIndex = self.tabBarController!.selectedIndex
-        
-        switch tabBarIndex {
-        case TabBarItems.add:
-            let addViewController = viewController as! AddViewController
-            addViewController.setDelegate(delegate: self)
-            break
-        case TabBarItems.statistics:
-            let statisticsViewController = viewController as! StatisticsViewController
-            statisticsViewController.setDelegate(delegate: self)
-            break
-        default:
-            break
-        }
-    }
-}
+extension TableViewController: UITabBarControllerDelegate {}
 
 extension TableViewController: TableViewControllerDelegate {
     func tableViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
-        tableData.append(number)
+        if let unwrappedDataSource = dataSource {
+            unwrappedDataSource.data.append(number)
+        }
     }
     
     func tableViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int) {
-        tableData[tableView.indexPathForSelectedRow!.row] = newNumber
+        if let unwrappedDataSource = dataSource {
+            unwrappedDataSource.data[tableView.indexPathForSelectedRow!.row] = newNumber
+        }
     }
     
     func tableViewControllerDelegateDeleteSelectedNumber(_ viewController: UIViewController) {
-        tableData.remove(at: tableView.indexPathForSelectedRow!.row)
-    }
-    
-    func tableViewControllerDelegateGetSelectedNumber(_ viewController: UIViewController) -> Int {
-        return tableData[tableView.indexPathForSelectedRow!.row]
-    }
-    
-    func tableViewControllerDelegateGetNumbers(_ viewController: UIViewController) -> [Int] {
-        return tableData
+        if let unwrappedDataSource = dataSource {
+            unwrappedDataSource.data.remove(at: tableView.indexPathForSelectedRow!.row)
+        }
     }
 }

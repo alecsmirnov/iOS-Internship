@@ -8,8 +8,9 @@
 
 import UIKit
 
-class EditorViewController: UIViewController {  
-    private weak var delegate: TableViewControllerDelegate?
+class EditorViewController: UIViewController {
+    var number: Int?
+    weak var delegate: TableViewControllerDelegate?
     
     @IBOutlet private var numberField: UITextField!
     
@@ -18,21 +19,23 @@ class EditorViewController: UIViewController {
     }
         
     override func viewWillAppear(_ animated: Bool) {
-        numberField.text = String(delegate!.tableViewControllerDelegateGetSelectedNumber(self))
-    }
-    
-    func setDelegate(delegate: TableViewControllerDelegate) {
-        self.delegate = delegate
+        if let unwrappedNumber = number {
+            numberField.text = String(unwrappedNumber)
+        }
     }
     
     @IBAction private func didPressEdit(_ sender: UIButton) {
-        delegate!.tableViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
+        if let unwrappedDelegate = delegate {
+            unwrappedDelegate.tableViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
+        }
     }
     
     @IBAction private func didPressDelete(_ sender: UIButton) {
-        delegate!.tableViewControllerDelegateDeleteSelectedNumber(self)
-        
-        navigationController?.popViewController(animated: true);
+        if let unwrappedDelegate = delegate {
+            unwrappedDelegate.tableViewControllerDelegateDeleteSelectedNumber(self)
+            
+            navigationController!.popViewController(animated: true);
+        }
     }
     
     @IBAction private func didTouchScreen(_ sender: UITapGestureRecognizer) {

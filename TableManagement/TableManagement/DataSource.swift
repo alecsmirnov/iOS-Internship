@@ -8,14 +8,16 @@
 
 import UIKit
 
-class DataSource {   
-    static func randomNumbers(size: Int) -> [Int] {
-        var data: [Int] = []
-        
+let TableSize: Int = 50
+
+class DataSource {
+    static let shared = DataSource(size: TableSize)
+    
+    var data: [Int] = []
+    
+    private init(size: Int) {
         for _ in 0..<size {
             data.append(Int.random(in: -size..<size))
         }
-        
-        return data
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 class AddViewController: UIViewController {
-    private weak var delegate: TableViewControllerDelegate?
+    weak var delegate: TableViewControllerDelegate?
     
     @IBOutlet private var numberField: UITextField!
     
@@ -17,15 +17,13 @@ class AddViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    func setDelegate(delegate: TableViewControllerDelegate) {
-        self.delegate = delegate
-    }
-    
     @IBAction private func didPressAdd(_ sender: Any) {
-        if !numberField.text!.isEmpty {
-            delegate!.tableViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
-            
-            numberField.text = ""
+        if let unwrappedDelegate = delegate {
+            if !numberField.text!.isEmpty {
+                unwrappedDelegate.tableViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
+                
+                numberField.text = ""
+            }
         }
     }
     

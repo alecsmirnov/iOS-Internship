@@ -9,7 +9,7 @@
 import UIKit
 
 class StatisticsViewController: UIViewController {
-    private weak var delegate: TableViewControllerDelegate?
+    var dataSource: DataSource?
     
     @IBOutlet private var countLabel: UILabel!
     @IBOutlet private var maxValueLabel: UILabel!
@@ -20,25 +20,16 @@ class StatisticsViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        // Error
-        //showStatistics()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         showStatistics()
     }
     
-    func setDelegate(delegate: TableViewControllerDelegate) {
-        self.delegate = delegate
-    }
-    
     private func showStatistics() {
-        let tableData = delegate!.tableViewControllerDelegateGetNumbers(self)
-        
-        countLabel.text = String("Items count: \(tableData.count)")
-        maxValueLabel.text = String("Max value: \(tableData.max()!)")
-        minValueLabel.text = String("Min value: \(tableData.min()!)")
-        averageLabel.text = String(format: "Average: %.3f ", Double(tableData.reduce(0, +)) / Double(tableData.count))
+        if let unwrappedDataSource = dataSource {
+            countLabel.text = String("Items count: \(unwrappedDataSource.data.count)")
+            maxValueLabel.text = String("Max value: \(unwrappedDataSource.data.max()!)")
+            minValueLabel.text = String("Min value: \(unwrappedDataSource.data.min()!)")
+            averageLabel.text = String(format: "Average: %.3f ", Double(unwrappedDataSource.data.reduce(0, +)) / Double(unwrappedDataSource.data.count))
+        }
     }
 }
