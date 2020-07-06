@@ -8,7 +8,7 @@
 
 import UIKit
 
-let TableSize: Int = 50
+let TableSize: Int = 1
 
 class DataSource {
     static let shared = DataSource(size: TableSize)
