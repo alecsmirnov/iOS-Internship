@@ -23,8 +23,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = TabBarController()
         
-        //let navigationController = tabBarController.viewControllers![TabBarItems.table] as! UINavigationController
-        //let tableViewController = navigationController.viewControllers[TabBarItems.table] as! TableViewController
+        let navigationController = tabBarController.viewControllers![TabBarItems.table] as! UINavigationController
+        let tableViewController = navigationController.viewControllers[TabBarItems.table] as! TableViewController
+        
+        let addViewController = tabBarController.viewControllers![TabBarItems.add] as! AddViewController
+        let statisticsViewController = tabBarController.viewControllers![TabBarItems.statistics] as! StatisticsViewController
+        
+        let dataSource = DataSource(size: TableSize)
+        
+        tableViewController.dataSource = dataSource
+        statisticsViewController.dataSource = dataSource
+        
+        addViewController.delegate = tableViewController
     
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()

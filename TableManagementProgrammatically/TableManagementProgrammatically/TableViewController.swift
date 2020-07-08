@@ -9,17 +9,37 @@
 import UIKit
 
 class TableViewController: UIViewController {
-    let tableView = UITableView()
     var dataSource: DataSource?
+    
+    private var tableView: UITableView!
+    
+    override func loadView() {
+        setupView()
+        setupTableView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.frame = view.frame
-        
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
+    private func setupView() {
+        view = UIView()
         
+        view.frame = UIScreen.main.bounds
+        view.backgroundColor = .white
+    }
+    
+    private func setupTableView() {
+        tableView = UITableView()
+        
+        tableView.frame = view.frame
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
         view.addSubview(tableView)

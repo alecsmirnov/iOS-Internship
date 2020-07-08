@@ -72,9 +72,9 @@
 			children = (
 				8446D5FD24B332D600FC1A87 /* AppDelegate.swift */,
 				8446D5FF24B332D600FC1A87 /* SceneDelegate.swift */,
-				844C837124B5A4C20007F9B3 /* TableViewControllerDelegate.swift */,
 				8446D63124B3774C00FC1A87 /* TabBarItems.swift */,
 				8446D61324B33BFA00FC1A87 /* TabBarController.swift */,
+				844C837124B5A4C20007F9B3 /* TableViewControllerDelegate.swift */,
 				8446D62D24B35B0600FC1A87 /* TableViewController.swift */,
 				8446D62F24B3763400FC1A87 /* TableViewCell.swift */,
 				8446D62124B3500600FC1A87 /* AddViewController.swift */,

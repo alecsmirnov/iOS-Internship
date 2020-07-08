@@ -9,15 +9,10 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    override func viewDidLoad() {
+    override func viewDidLoad() {        
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let dataSource = DataSource(size: TableSize)
         
         let tableViewController = TableViewController()
-        tableViewController.dataSource = dataSource
         
         let navigationController = UINavigationController(rootViewController: tableViewController)
         let addViewController = AddViewController()
@@ -28,6 +23,7 @@ class TabBarController: UITabBarController {
         statisticsViewController.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(systemName: "chart.bar"), tag: TabBarItems.statistics)
         
         let controllers = [navigationController, addViewController, statisticsViewController]
-        self.viewControllers = controllers
+        
+        viewControllers = controllers
     }
 }
