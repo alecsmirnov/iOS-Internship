@@ -14,19 +14,12 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let frame: CGRect = view.frame
-        
-        let displayX: CGFloat = 0
-        let displayY: CGFloat = 0
-        let displayWidth: CGFloat = frame.width
-        let displayHeight: CGFloat = frame.height
-        
-        let tableView = UITableView(frame: CGRect(x: displayX, y: displayY, width: displayWidth, height: displayHeight))
-        
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        let tableView = UITableView(frame: view.frame)
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
         view.addSubview(tableView)
     }
