@@ -18,6 +18,8 @@
 		8446D63024B3763400FC1A87 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446D62F24B3763400FC1A87 /* TableViewCell.swift */; };
 		8446D63224B3774C00FC1A87 /* TabBarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446D63124B3774C00FC1A87 /* TabBarItems.swift */; };
 		8446D63424B37CDB00FC1A87 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446D63324B37CDB00FC1A87 /* DataSource.swift */; };
+		844C837024B5A32B0007F9B3 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C836F24B5A32B0007F9B3 /* EditorViewController.swift */; };
+		844C837224B5A4C20007F9B3 /* TableViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C837124B5A4C20007F9B3 /* TableViewControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		8446D62F24B3763400FC1A87 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		8446D63124B3774C00FC1A87 /* TabBarItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItems.swift; sourceTree = "<group>"; };
 		8446D63324B37CDB00FC1A87 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		844C836F24B5A32B0007F9B3 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
+		844C837124B5A4C20007F9B3 /* TableViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewControllerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,12 +72,14 @@
 			children = (
 				8446D5FD24B332D600FC1A87 /* AppDelegate.swift */,
 				8446D5FF24B332D600FC1A87 /* SceneDelegate.swift */,
+				844C837124B5A4C20007F9B3 /* TableViewControllerDelegate.swift */,
 				8446D63124B3774C00FC1A87 /* TabBarItems.swift */,
 				8446D61324B33BFA00FC1A87 /* TabBarController.swift */,
 				8446D62D24B35B0600FC1A87 /* TableViewController.swift */,
 				8446D62F24B3763400FC1A87 /* TableViewCell.swift */,
 				8446D62124B3500600FC1A87 /* AddViewController.swift */,
 				8446D62324B3501800FC1A87 /* StatisticsViewController.swift */,
+				844C836F24B5A32B0007F9B3 /* EditorViewController.swift */,
 				8446D63324B37CDB00FC1A87 /* DataSource.swift */,
 				8446D60624B332D900FC1A87 /* Assets.xcassets */,
 				8446D60824B332D900FC1A87 /* LaunchScreen.storyboard */,
@@ -152,9 +158,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844C837224B5A4C20007F9B3 /* TableViewControllerDelegate.swift in Sources */,
 				8446D5FE24B332D600FC1A87 /* AppDelegate.swift in Sources */,
 				8446D61424B33BFA00FC1A87 /* TabBarController.swift in Sources */,
 				8446D63224B3774C00FC1A87 /* TabBarItems.swift in Sources */,
+				844C837024B5A32B0007F9B3 /* EditorViewController.swift in Sources */,
 				8446D63424B37CDB00FC1A87 /* DataSource.swift in Sources */,
 				8446D63024B3763400FC1A87 /* TableViewCell.swift in Sources */,
 				8446D62224B3500600FC1A87 /* AddViewController.swift in Sources */,

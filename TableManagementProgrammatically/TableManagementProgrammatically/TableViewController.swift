@@ -9,12 +9,13 @@
 import UIKit
 
 class TableViewController: UIViewController {
+    let tableView = UITableView()
     var dataSource: DataSource?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tableView = UITableView(frame: view.frame)
+        tableView.frame = view.frame
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -48,9 +49,8 @@ extension TableViewController: UITableViewDataSource {
 }
 
 extension TableViewController: UITableViewDelegate {
-    /*
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editorViewController = storyboard!.instantiateViewController(withIdentifier: "EditorViewController") as! EditorViewController
+        let editorViewController = EditorViewController()
         
         if let unwrappedDataSource = dataSource {
             editorViewController.number = unwrappedDataSource.data[indexPath.row]
@@ -59,5 +59,24 @@ extension TableViewController: UITableViewDelegate {
 
         navigationController!.pushViewController(editorViewController, animated: true)
     }
-    */
+}
+
+extension TableViewController: TableViewControllerDelegate {
+    func tableViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
+        if let unwrappedDataSource = dataSource {
+            unwrappedDataSource.data.append(number)
+        }
+    }
+    
+    func tableViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int) {
+        if let unwrappedDataSource = dataSource {
+            unwrappedDataSource.data[tableView.indexPathForSelectedRow!.row] = newNumber
+        }
+    }
+    
+    func tableViewControllerDelegateDeleteSelectedNumber(_ viewController: UIViewController) {
+        if let unwrappedDataSource = dataSource {
+            unwrappedDataSource.data.remove(at: tableView.indexPathForSelectedRow!.row)
+        }
+    }
 }
