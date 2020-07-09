@@ -25,7 +25,7 @@ class StatisticsViewController: UIViewController {
     
     override func loadView() {
         setupView()
-        setupCountLabel()
+        setupLabels()
     }
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class StatisticsViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    private func setupCountLabel() {
+    private func setupLabels() {
         let center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
         let width: CGFloat = 200
         let height: CGFloat = 30
