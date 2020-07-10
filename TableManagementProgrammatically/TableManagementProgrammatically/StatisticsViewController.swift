@@ -11,13 +11,6 @@ import UIKit
 class StatisticsViewController: UIViewController {
     var dataSource: DataSource?
     
-    private enum LabelsId {
-        static let count: Int = 0
-        static let maxValue: Int = 1
-        static let minValue: Int = 2
-        static let average: Int = 3
-    }
-    
     private var countLabel: UILabel!
     private var maxValueLabel: UILabel!
     private var minValueLabel: UILabel!
@@ -62,10 +55,28 @@ class StatisticsViewController: UIViewController {
             view.addSubview(labels[i])
          }
         
-        countLabel = labels[LabelsId.count]
-        maxValueLabel = labels[LabelsId.maxValue]
-        minValueLabel = labels[LabelsId.minValue]
-        averageLabel = labels[LabelsId.average]
+        countLabel = labels[0]
+        maxValueLabel = labels[1]
+        minValueLabel = labels[2]
+        averageLabel = labels[3]
+    }
+    
+    private func setupLabelsConstraint() {
+        let labelsDistance: CGFloat = 30
+        let labels: [UILabel] = [countLabel, maxValueLabel, minValueLabel, averageLabel]
+        
+        for i in 0..<labels.count {
+            labels[i].translatesAutoresizingMaskIntoConstraints = false
+            
+            let widthConstraint = NSLayoutConstraint(item: labels[i], attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: labels[i].frame.width)
+            let heigtConstraint = NSLayoutConstraint(item: labels[i], attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: labels[i].frame.height)
+            let horizontalConstraint = NSLayoutConstraint(item: labels[i], attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+            let verticalConstraint = NSLayoutConstraint(item: labels[i], attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: CGFloat(i) * labelsDistance - 2 * labelsDistance)
+            
+            let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
+            
+            view.addConstraints(constraints)
+        }
     }
     
     private func showStatistics() {
@@ -86,24 +97,6 @@ class StatisticsViewController: UIViewController {
             maxValueLabel.text = String("Max value: \(maxString)")
             minValueLabel.text = String("Min value: \(minString)")
             averageLabel.text = String("Average: \(averageString)")
-        }
-    }
-    
-    private func setupLabelsConstraint() {
-        let labelsDistance: CGFloat = 30
-        let labels: [UILabel] = [countLabel, maxValueLabel, minValueLabel, averageLabel]
-        
-        for i in 0..<labels.count {
-            labels[i].translatesAutoresizingMaskIntoConstraints = false
-            
-            let widthConstraint = NSLayoutConstraint(item: labels[i], attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: labels[i].frame.width)
-            let heigtConstraint = NSLayoutConstraint(item: labels[i], attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: labels[i].frame.height)
-            let horizontalConstraint = NSLayoutConstraint(item: labels[i], attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
-            let verticalConstraint = NSLayoutConstraint(item: labels[i], attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: CGFloat(i) * labelsDistance - 2 * labelsDistance)
-            
-            let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
-            
-            view.addConstraints(constraints)
         }
     }
 }
