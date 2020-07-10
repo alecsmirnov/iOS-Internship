@@ -15,6 +15,7 @@ class TableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupLabel()
+//        setupLabelConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -35,4 +36,15 @@ class TableViewCell: UITableViewCell {
         
         addSubview(label)
     }
+    
+//    private func setupLabelConstraints() {
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let horizontalConstraint = NSLayoutConstraint(item: label!, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
+//        let verticalConstraint = NSLayoutConstraint(item: label!, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0)
+//
+//        let constraints = [horizontalConstraint, verticalConstraint]
+//
+//        contentView.addConstraints(constraints)
+//    }
 }

@@ -25,7 +25,10 @@ class StatisticsViewController: UIViewController {
     
     override func loadView() {
         setupView()
+        
         setupLabels()
+        
+        setupLabelsConstraint()
     }
     
     override func viewDidLoad() {
@@ -44,16 +47,14 @@ class StatisticsViewController: UIViewController {
     }
     
     private func setupLabels() {
-        let center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
         let width: CGFloat = 200
         let height: CGFloat = 30
         
         let labelsCount: Int = 4
-        let labelsDistance: CGFloat = 30
         var labels: [UILabel] = []
         
         for i in 0..<labelsCount {
-            let newLabel = UILabel(frame: CGRect(x: center.x - width / 2, y: center.y - 100 + labelsDistance * CGFloat(i), width: width, height: height))
+            let newLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: height))
             
             labels.append(newLabel)
             labels[i].textAlignment = .center
@@ -85,6 +86,24 @@ class StatisticsViewController: UIViewController {
             maxValueLabel.text = String("Max value: \(maxString)")
             minValueLabel.text = String("Min value: \(minString)")
             averageLabel.text = String("Average: \(averageString)")
+        }
+    }
+    
+    private func setupLabelsConstraint() {
+        let labelsDistance: CGFloat = 30
+        let labels: [UILabel] = [countLabel, maxValueLabel, minValueLabel, averageLabel]
+        
+        for i in 0..<labels.count {
+            labels[i].translatesAutoresizingMaskIntoConstraints = false
+            
+            let widthConstraint = NSLayoutConstraint(item: labels[i], attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: labels[i].frame.width)
+            let heigtConstraint = NSLayoutConstraint(item: labels[i], attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: labels[i].frame.height)
+            let horizontalConstraint = NSLayoutConstraint(item: labels[i], attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+            let verticalConstraint = NSLayoutConstraint(item: labels[i], attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: CGFloat(i) * labelsDistance - 2 * labelsDistance)
+            
+            let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
+            
+            view.addConstraints(constraints)
         }
     }
 }

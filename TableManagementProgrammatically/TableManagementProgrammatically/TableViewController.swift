@@ -15,7 +15,10 @@ class TableViewController: UIViewController {
     
     override func loadView() {
         setupView()
+        
         setupTableView()
+        
+        setupTableViewConstraints()
     }
     
     override func viewDidLoad() {
@@ -43,6 +46,19 @@ class TableViewController: UIViewController {
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
         view.addSubview(tableView)
+    }
+    
+    private func setupTableViewConstraints() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let topConstraint = NSLayoutConstraint(item: tableView!, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0)
+        let bottomConstraint = NSLayoutConstraint(item: tableView!, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        let leftConstraint = NSLayoutConstraint(item: tableView!, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0)
+        let rightConstraint = NSLayoutConstraint(item: tableView!, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0)
+        
+        let constraints = [topConstraint, bottomConstraint, leftConstraint, rightConstraint]
+        
+        view.addConstraints(constraints)
     }
 }
 

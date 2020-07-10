@@ -18,9 +18,14 @@ class EditorViewController: UIViewController {
     
     override func loadView() {
         setupView()
+        
         setupTextField()
         setupEditButton()
         setupDeleteButton()
+        
+        setupTextFieldConstraints()
+        setupEditButtonConstraints()
+        setupDeleteButtonConstraints()
     }
     
     override func viewDidLoad() {
@@ -46,7 +51,7 @@ class EditorViewController: UIViewController {
         
         textFiled = UITextField()
         
-        textFiled.frame = CGRect(x: view.frame.width / 2 - 100, y: view.frame.height / 2, width: width, height: height)
+        textFiled.frame = CGRect(x: 0, y: 0, width: width, height: height)
         textFiled.borderStyle = .roundedRect
         
         view.addSubview(textFiled)
@@ -58,7 +63,7 @@ class EditorViewController: UIViewController {
         
         editButton = UIButton(type: .system)
         
-        editButton.frame = CGRect(x: view.frame.width / 2 + 10, y: view.frame.height / 2, width: width, height: height)
+        editButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
         
         editButton.setTitle("Edit", for: .normal)
         editButton.addTarget(self, action: #selector(didPressEdit(_:)), for: .touchUpInside)
@@ -70,14 +75,53 @@ class EditorViewController: UIViewController {
         let width: CGFloat = 50
         let height: CGFloat = 30
         
-        editButton = UIButton(type: .system)
+        deleteButton = UIButton(type: .system)
         
-        editButton.frame = CGRect(x: view.frame.width / 2 + 60, y: view.frame.height / 2, width: width, height: height)
+        deleteButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
         
-        editButton.setTitle("Delete", for: .normal)
-        editButton.addTarget(self, action: #selector(didPressDelete(_:)), for: .touchUpInside)
+        deleteButton.setTitle("Delete", for: .normal)
+        deleteButton.addTarget(self, action: #selector(didPressDelete(_:)), for: .touchUpInside)
         
-        view.addSubview(editButton)
+        view.addSubview(deleteButton)
+    }
+    
+    private func setupTextFieldConstraints() {
+        textFiled.translatesAutoresizingMaskIntoConstraints = false
+        
+        let widthConstraint = NSLayoutConstraint(item: textFiled!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: textFiled.frame.width)
+        let heigtConstraint = NSLayoutConstraint(item: textFiled!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: textFiled.frame.height)
+        let horizontalConstraint = NSLayoutConstraint(item: textFiled!, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: -30)
+        let verticalConstraint = NSLayoutConstraint(item: textFiled!, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
+        
+        view.addConstraints(constraints)
+    }
+    
+    private func setupEditButtonConstraints() {
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let widthConstraint = NSLayoutConstraint(item: editButton!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: editButton.frame.width)
+        let heigtConstraint = NSLayoutConstraint(item: editButton!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: editButton.frame.height)
+        let horizontalConstraint = NSLayoutConstraint(item: editButton!, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 50)
+        let verticalConstraint = NSLayoutConstraint(item: editButton!, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
+        
+        view.addConstraints(constraints)
+    }
+    
+    private func setupDeleteButtonConstraints() {
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let widthConstraint = NSLayoutConstraint(item: deleteButton!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: deleteButton.frame.width)
+        let heigtConstraint = NSLayoutConstraint(item: deleteButton!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: deleteButton.frame.height)
+        let horizontalConstraint = NSLayoutConstraint(item: deleteButton!, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 100)
+        let verticalConstraint = NSLayoutConstraint(item: deleteButton!, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
+        
+        view.addConstraints(constraints)
     }
     
     @objc func didPressEdit(_ sender : UIButton) {
