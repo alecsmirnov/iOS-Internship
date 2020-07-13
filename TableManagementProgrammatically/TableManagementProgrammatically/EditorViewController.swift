@@ -24,6 +24,11 @@ class EditorViewController: UIViewController {
     private var editButton: UIButton!
     private var deleteButton: UIButton!
     
+    private struct ItemsSize {
+        static let textField = CGSize(width: 100, height: 30)
+        static let button = CGSize(width: 50, height: 30)
+    }
+    
     init() {
         mode = EditorViewControllerMode.edit
         
@@ -78,40 +83,28 @@ class EditorViewController: UIViewController {
     }
     
     private func setupTextField() {
-        let width: CGFloat = 100
-        let height: CGFloat = 30
-        
         textFiled = UITextField()
-        
-        textFiled.frame = CGRect(x: 0, y: 0, width: width, height: height)
+
+        textFiled.frame = CGRect(x: 0, y: 0, width: ItemsSize.textField.width, height: ItemsSize.textField.height)
         textFiled.borderStyle = .roundedRect
 
         view.addSubview(textFiled)
     }
     
     private func setupAddButton() {
-        let width: CGFloat = 50
-        let height: CGFloat = 30
-        
         addButton = UIButton(type: .system)
         
-        addButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        
+        addButton.frame = CGRect(x: 0, y: 0, width: ItemsSize.button.width, height: ItemsSize.button.height)
         addButton.setTitle("Add", for: .normal)
         addButton.addTarget(self, action: #selector(didPressAdd(_:)), for: .touchUpInside)
         
         view.addSubview(addButton)
     }
     
-    
     private func setupEditButton() {
-        let width: CGFloat = 50
-        let height: CGFloat = 30
-        
         editButton = UIButton(type: .system)
         
-        editButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        
+        editButton.frame = CGRect(x: 0, y: 0, width: ItemsSize.button.width, height: ItemsSize.button.height)
         editButton.setTitle("Edit", for: .normal)
         editButton.addTarget(self, action: #selector(didPressEdit(_:)), for: .touchUpInside)
         
@@ -119,13 +112,9 @@ class EditorViewController: UIViewController {
     }
     
     private func setupDeleteButton() {
-        let width: CGFloat = 50
-        let height: CGFloat = 30
-        
         deleteButton = UIButton(type: .system)
         
-        deleteButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        
+        deleteButton.frame = CGRect(x: 0, y: 0, width: ItemsSize.button.width, height: ItemsSize.button.height)
         deleteButton.setTitle("Delete", for: .normal)
         deleteButton.addTarget(self, action: #selector(didPressDelete(_:)), for: .touchUpInside)
         

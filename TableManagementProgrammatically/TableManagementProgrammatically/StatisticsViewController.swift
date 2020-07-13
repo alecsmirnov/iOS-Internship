@@ -16,6 +16,10 @@ class StatisticsViewController: UIViewController {
     private var minValueLabel: UILabel!
     private var averageLabel: UILabel!
     
+    private struct ItemsSize {
+         static let label = CGSize(width: 200, height: 30)
+     }
+    
     override func loadView() {
         setupView()
         setupLabels()
@@ -38,14 +42,11 @@ class StatisticsViewController: UIViewController {
     }
     
     private func setupLabels() {
-        let width: CGFloat = 200
-        let height: CGFloat = 30
-        
         let labelsCount: Int = 4
         var labels: [UILabel] = []
         
         for i in 0..<labelsCount {
-            let newLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            let newLabel = UILabel(frame: CGRect(x: 0, y: 0, width: ItemsSize.label.width, height: ItemsSize.label.height))
             
             labels.append(newLabel)
             labels[i].textAlignment = .center
