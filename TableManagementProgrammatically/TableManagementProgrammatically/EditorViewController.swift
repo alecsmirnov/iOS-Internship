@@ -8,29 +8,50 @@
 
 import UIKit
 
-protocol EditorViewControllerDelegate: AnyObject {
-    func editorViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int)
-    func editorViewControllerDelegateDeleteSelectedNumber(_ viewControllere: UIViewController)
+enum EditorViewControllerMode {
+    case edit
+    case add
 }
 
 class EditorViewController: UIViewController {
     var number: Int?
     weak var delegate: EditorViewControllerDelegate?
     
+    private var mode: EditorViewControllerMode
+    
     private var textFiled: UITextField!
+    private var addButton: UIButton!
     private var editButton: UIButton!
     private var deleteButton: UIButton!
     
+    init(mode: EditorViewControllerMode) {
+        self.mode = mode
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         setupView()
-        
         setupTextField()
-        setupEditButton()
-        setupDeleteButton()
+        
+        switch mode {
+        case EditorViewControllerMode.edit:
+            setupEditButton()
+            setupDeleteButton()
+            setupEditButtonConstraints()
+            setupDeleteButtonConstraints()
+            break
+        case EditorViewControllerMode.add:
+            setupAddButton()
+            setupAddButtonConstraints()
+            break
+        }
         
         setupTextFieldConstraints()
-        setupEditButtonConstraints()
-        setupDeleteButtonConstraints()
     }
     
     override func viewDidLoad() {
@@ -42,7 +63,7 @@ class EditorViewController: UIViewController {
             textFiled.text = String(unwrappedNumber)
         }
     }
-
+    
     private func setupView() {
         view = UIView()
         
@@ -58,9 +79,24 @@ class EditorViewController: UIViewController {
         
         textFiled.frame = CGRect(x: 0, y: 0, width: width, height: height)
         textFiled.borderStyle = .roundedRect
-        
+
         view.addSubview(textFiled)
     }
+    
+    private func setupAddButton() {
+        let width: CGFloat = 50
+        let height: CGFloat = 30
+        
+        addButton = UIButton(type: .system)
+        
+        addButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        
+        addButton.setTitle("Add", for: .normal)
+        addButton.addTarget(self, action: #selector(didPressAdd(_:)), for: .touchUpInside)
+        
+        view.addSubview(addButton)
+    }
+    
     
     private func setupEditButton() {
         let width: CGFloat = 50
@@ -103,6 +139,19 @@ class EditorViewController: UIViewController {
         view.addConstraints(constraints)
     }
     
+    private func setupAddButtonConstraints() {
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let widthConstraint = NSLayoutConstraint(item: addButton!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: addButton.frame.width)
+        let heigtConstraint = NSLayoutConstraint(item: addButton!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: addButton.frame.height)
+        let horizontalConstraint = NSLayoutConstraint(item: addButton!, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 50)
+        let verticalConstraint = NSLayoutConstraint(item: addButton!, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
+        
+        view.addConstraints(constraints)
+    }
+    
     private func setupEditButtonConstraints() {
         editButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -127,6 +176,16 @@ class EditorViewController: UIViewController {
         let constraints = [widthConstraint, heigtConstraint, horizontalConstraint, verticalConstraint]
         
         view.addConstraints(constraints)
+    }
+    
+    @objc func didPressAdd(_ sender : UIButton) {
+        if let unwrappedDelegate = delegate {
+            if !textFiled.text!.isEmpty {
+                unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(textFiled.text!)!)
+                
+                textFiled.text = ""
+            }
+        }
     }
     
     @objc func didPressEdit(_ sender : UIButton) {

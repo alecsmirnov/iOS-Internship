@@ -86,7 +86,7 @@ extension TableViewController: UITableViewDataSource {
 
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editorViewController = EditorViewController()
+        let editorViewController = EditorViewController(mode: EditorViewControllerMode.edit)
         
         if let unwrappedDataSource = dataSource {
             editorViewController.number = unwrappedDataSource.get(at: indexPath.row)
@@ -96,16 +96,14 @@ extension TableViewController: UITableViewDelegate {
         navigationController!.pushViewController(editorViewController, animated: true)
     }
 }
-
-extension TableViewController: AddViewControllerDelegate {
-    func addViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
+    
+extension TableViewController: EditorViewControllerDelegate {
+    func editorViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
         if let unwrappedDataSource = dataSource {
             unwrappedDataSource.append(number: number)
         }
     }
-}
     
-extension TableViewController: EditorViewControllerDelegate {
     func editorViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int) {
         if let unwrappedDataSource = dataSource {
             let selectedRowIndex = tableView.indexPathForSelectedRow!.row

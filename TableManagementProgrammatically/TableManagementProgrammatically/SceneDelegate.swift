@@ -30,7 +30,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tableViewController = TableViewController()
         let navigationController = UINavigationController(rootViewController: tableViewController)
-        let addViewController = AddViewController()
+        //let addViewController = AddViewController()
+        let addViewController = EditorViewController(mode: EditorViewControllerMode.add)
         let statisticsViewController = StatisticsViewController()
         
         navigationController.tabBarItem = UITabBarItem(title: "Table", image: UIImage(systemName: "table"), tag: TabBarItems.table)
