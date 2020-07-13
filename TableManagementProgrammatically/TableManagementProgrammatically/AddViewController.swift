@@ -8,8 +8,12 @@
 
 import UIKit
 
+protocol AddViewControllerDelegate: AnyObject {
+    func addViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int)
+}
+
 class AddViewController: UIViewController, UITextFieldDelegate {
-    weak var delegate: TableViewControllerDelegate?
+    weak var delegate: AddViewControllerDelegate?
     
     private var textFiled: UITextField!
     private var addButton: UIButton!
@@ -90,7 +94,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     @objc func didPressAdd(_ sender : UIButton) {
         if let unwrappedDelegate = delegate {
             if !textFiled.text!.isEmpty {
-                unwrappedDelegate.tableViewControllerDelegateAddNumber(self, number: Int(textFiled.text!)!)
+                unwrappedDelegate.addViewControllerDelegateAddNumber(self, number: Int(textFiled.text!)!)
                 
                 textFiled.text = ""
             }

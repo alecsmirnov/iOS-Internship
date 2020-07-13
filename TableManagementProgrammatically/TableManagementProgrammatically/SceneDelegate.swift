@@ -20,24 +20,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+    
+        guard let window = window else {
+            assertionFailure("Cannot attach window to the scene")
+            return
+        }
         
-        let tabBarController = TabBarController()
+        let tabBarController = UITabBarController()
         
-        let navigationController = tabBarController.viewControllers![TabBarItems.table] as! UINavigationController
-        let tableViewController = navigationController.viewControllers[TabBarItems.table] as! TableViewController
+        let tableViewController = TableViewController()
+        let navigationController = UINavigationController(rootViewController: tableViewController)
+        let addViewController = AddViewController()
+        let statisticsViewController = StatisticsViewController()
         
-        let addViewController = tabBarController.viewControllers![TabBarItems.add] as! AddViewController
-        let statisticsViewController = tabBarController.viewControllers![TabBarItems.statistics] as! StatisticsViewController
+        navigationController.tabBarItem = UITabBarItem(title: "Table", image: UIImage(systemName: "table"), tag: TabBarItems.table)
+        addViewController.tabBarItem = UITabBarItem(title: "Add", image: UIImage(systemName: "plus"), tag: TabBarItems.add)
+        statisticsViewController.tabBarItem = UITabBarItem(title: "Statistics", image: UIImage(systemName: "chart.bar"), tag: TabBarItems.statistics)
+        
+        let controllers = [navigationController, addViewController, statisticsViewController]
+        tabBarController.viewControllers = controllers
         
         let dataSource = DataSource(size: TableSize)
-        
         tableViewController.dataSource = dataSource
         statisticsViewController.dataSource = dataSource
         
         addViewController.delegate = tableViewController
     
-        window?.rootViewController = tabBarController
-        window?.makeKeyAndVisible()
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

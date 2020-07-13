@@ -15,7 +15,6 @@ class TableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupLabel()
-        //setupLabelConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -27,26 +26,12 @@ class TableViewCell: UITableViewCell {
     }
     
     private func setupLabel() {
-        let offsetX: CGFloat = 40
-        let offsetY: CGFloat = 5
+        let width: CGFloat = 100
+        let height: CGFloat = 30
         
-        label = UILabel(frame: CGRect(x: offsetX, y: offsetY, width: frame.width - offsetX, height: frame.height - offsetY))
-        
-        label.textAlignment = .center
+        label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        //label.textAlignment = .center
         
         addSubview(label)
     }
-    
-    /*
-    private func setupLabelConstraints() {
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        let horizontalConstraint = NSLayoutConstraint(item: label!, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
-        let verticalConstraint = NSLayoutConstraint(item: label!, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0)
-
-        let constraints = [horizontalConstraint, verticalConstraint]
-
-        contentView.addConstraints(constraints)
-    }
-    */
 }

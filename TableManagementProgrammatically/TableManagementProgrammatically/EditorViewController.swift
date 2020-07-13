@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol EditorViewControllerDelegate: AnyObject {
+    func editorViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int)
+    func editorViewControllerDelegateDeleteSelectedNumber(_ viewControllere: UIViewController)
+}
+
 class EditorViewController: UIViewController {
     var number: Int?
-    weak var delegate: TableViewControllerDelegate?
+    weak var delegate: EditorViewControllerDelegate?
     
     private var textFiled: UITextField!
     private var editButton: UIButton!
@@ -126,13 +131,13 @@ class EditorViewController: UIViewController {
     
     @objc func didPressEdit(_ sender : UIButton) {
         if let unwrappedDelegate = delegate {
-            unwrappedDelegate.tableViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(textFiled.text!)!)
+            unwrappedDelegate.editorViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(textFiled.text!)!)
         }
     }
     
     @objc func didPressDelete(_ sender : UIButton) {
         if let unwrappedDelegate = delegate {
-            unwrappedDelegate.tableViewControllerDelegateDeleteSelectedNumber(self)
+            unwrappedDelegate.editorViewControllerDelegateDeleteSelectedNumber(self)
             
             navigationController!.popViewController(animated: true);
         }
