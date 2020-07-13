@@ -9,6 +9,8 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
+    static let CellId = "TableViewCell"
+    
     private var label: UILabel!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
@@ -30,7 +32,6 @@ class TableViewCell: UITableViewCell {
         let height: CGFloat = 30
         
         label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        //label.textAlignment = .center
         
         addSubview(label)
     }

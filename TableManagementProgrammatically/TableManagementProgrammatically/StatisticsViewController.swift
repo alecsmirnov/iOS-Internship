@@ -18,9 +18,7 @@ class StatisticsViewController: UIViewController {
     
     override func loadView() {
         setupView()
-        
         setupLabels()
-        
         setupLabelsConstraint()
     }
     

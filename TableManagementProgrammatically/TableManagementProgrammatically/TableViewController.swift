@@ -15,9 +15,7 @@ class TableViewController: UIViewController {
     
     override func loadView() {
         setupView()
-        
         setupTableView()
-        
         setupTableViewConstraints()
     }
     
@@ -43,7 +41,7 @@ class TableViewController: UIViewController {
         tableView = UITableView()
         
         tableView.frame = view.frame
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.CellId)
         
         view.addSubview(tableView)
     }
@@ -74,7 +72,7 @@ extension TableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tableViewCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
+        let tableViewCell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.CellId, for: indexPath) as! TableViewCell
         
         if let unwrappedDataSource = dataSource {
             tableViewCell.setLabelText(text: String(unwrappedDataSource.get(at: indexPath.row)))
@@ -86,7 +84,7 @@ extension TableViewController: UITableViewDataSource {
 
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editorViewController = EditorViewController(mode: EditorViewControllerMode.edit)
+        let editorViewController = EditorViewController()
         
         if let unwrappedDataSource = dataSource {
             editorViewController.number = unwrappedDataSource.get(at: indexPath.row)
@@ -107,7 +105,6 @@ extension TableViewController: EditorViewControllerDelegate {
     func editorViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int) {
         if let unwrappedDataSource = dataSource {
             let selectedRowIndex = tableView.indexPathForSelectedRow!.row
-            
             unwrappedDataSource.replace(at: selectedRowIndex, with: newNumber)
         }
     }
@@ -115,7 +112,6 @@ extension TableViewController: EditorViewControllerDelegate {
     func editorViewControllerDelegateDeleteSelectedNumber(_ viewController: UIViewController) {
         if let unwrappedDataSource = dataSource {
             let selectedRowIndex = tableView.indexPathForSelectedRow!.row
-            
             unwrappedDataSource.remove(at: selectedRowIndex)
         }
     }

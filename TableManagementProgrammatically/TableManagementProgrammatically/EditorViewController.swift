@@ -24,6 +24,12 @@ class EditorViewController: UIViewController {
     private var editButton: UIButton!
     private var deleteButton: UIButton!
     
+    init() {
+        mode = EditorViewControllerMode.edit
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     init(mode: EditorViewControllerMode) {
         self.mode = mode
         

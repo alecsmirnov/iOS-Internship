@@ -27,8 +27,7 @@ class DataSource {
     
     func remove(at index: Int) {
         guard data.indices.contains(index) else {
-            assertionFailure("Elemtn index is out of range")
-            return
+            fatalError("index is out of range")
         }
         
         data.remove(at: index)
@@ -36,8 +35,7 @@ class DataSource {
     
     func replace(at index: Int, with number: Int) {
         guard data.indices.contains(index) else {
-            assertionFailure("Elemtn index is out of range")
-            return
+            fatalError("index is out of range")
         }
         
         data[index] = number
@@ -49,8 +47,7 @@ class DataSource {
     
     func get(at index: Int) -> Int {
         guard data.indices.contains(index) else {
-            assertionFailure("Elemtn index is out of range")
-            return 0 // ?
+            fatalError("index is out of range")
         }
         
         return data[index]

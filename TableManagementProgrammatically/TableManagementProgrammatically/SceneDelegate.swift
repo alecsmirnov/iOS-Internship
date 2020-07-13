@@ -22,15 +22,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
     
         guard let window = window else {
-            assertionFailure("Cannot attach window to the scene")
-            return
+            fatalError("Cannot attach window to the scene")
         }
         
         let tabBarController = UITabBarController()
         
         let tableViewController = TableViewController()
         let navigationController = UINavigationController(rootViewController: tableViewController)
-        //let addViewController = AddViewController()
         let addViewController = EditorViewController(mode: EditorViewControllerMode.add)
         let statisticsViewController = StatisticsViewController()
         
