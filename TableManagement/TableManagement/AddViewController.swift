@@ -8,22 +8,46 @@
 
 import UIKit
 
-class AddViewController: UIViewController {
-    weak var delegate: TableViewControllerDelegate?
+class EditorViewController: UIViewController {
+    var number: Int?
+    weak var delegate: EditorViewControllerDelegate?
     
     @IBOutlet private var numberField: UITextField!
+    @IBOutlet private var addButton: UIButton!
+    @IBOutlet private var editButton: UIButton!
+    @IBOutlet private var deleteButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if let unwrappedNumber = number {
+            numberField.text = String(unwrappedNumber)
+        }
+    }
+    
     @IBAction private func didPressAdd(_ sender: Any) {
         if let unwrappedDelegate = delegate {
             if !numberField.text!.isEmpty {
-                unwrappedDelegate.tableViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
+                unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
                 
                 numberField.text = ""
             }
+        }
+    }
+    
+    @IBAction func didPressEdit(_ sender: Any) {
+        if let unwrappedDelegate = delegate {
+            unwrappedDelegate.editorViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
+        }
+    }
+    
+    @IBAction func didPressDelete(_ sender: Any) {
+        if let unwrappedDelegate = delegate {
+            unwrappedDelegate.editorViewControllerDelegateDeleteSelectedNumber(self)
+            
+            navigationController!.popViewController(animated: true);
         }
     }
     

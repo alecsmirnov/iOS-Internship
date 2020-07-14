@@ -26,19 +26,23 @@ class StatisticsViewController: UIViewController {
     
     private func showStatistics() {
         if let unwrappedDataSource = dataSource {
+            var countString: String = "0"
             var maxString: String = "-"
             var minString: String = "-"
             var averageString: String = "-"
             
-            if !unwrappedDataSource.data.isEmpty {
-                maxString = String(unwrappedDataSource.data.max()!)
-                minString = String(unwrappedDataSource.data.min()!)
+            if !unwrappedDataSource.isEmpty() {
+                let data = unwrappedDataSource.arrayData()
                 
-                let average: Double = Double(unwrappedDataSource.data.reduce(0, +)) / Double(unwrappedDataSource.data.count)
+                countString = String(data.count)
+                maxString = String(data.max()!)
+                minString = String(data.min()!)
+                
+                let average: Double = Double(data.reduce(0, +)) / Double(data.count)
                 averageString = String(format: "%.3f", average)
             }
             
-            countLabel.text = String("Items count: \(unwrappedDataSource.data.count)")
+            countLabel.text = String("Items count: \(countString)")
             maxValueLabel.text = String("Max value: \(maxString)")
             minValueLabel.text = String("Min value: \(minString)")
             averageLabel.text = String("Average: \(averageString)")

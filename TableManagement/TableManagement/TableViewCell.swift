@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {   
     @IBOutlet private var label: UILabel!
     
     func setLabelText(text: String) {

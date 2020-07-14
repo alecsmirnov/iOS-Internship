@@ -1,38 +1,51 @@
 //
-//  DetailViewController.swift
+//  AddViewController.swift
 //  TableManagement
 //
-//  Created by Admin on 01.07.2020.
+//  Created by Admin on 03.07.2020.
 //  Copyright © 2020 Admin. All rights reserved.
 //
 
 import UIKit
 
-class EditorViewController: UIViewController {
+class EditorViewController: UIViewController {    
     var number: Int?
-    weak var delegate: TableViewControllerDelegate?
+    weak var delegate: EditorViewControllerDelegate?
     
-    @IBOutlet private var numberField: UITextField!
+    @IBOutlet var numberField: UITextField!
+    @IBOutlet var addButton: UIButton!
+    @IBOutlet var editButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-        
+    
     override func viewWillAppear(_ animated: Bool) {
         if let unwrappedNumber = number {
             numberField.text = String(unwrappedNumber)
         }
     }
     
-    @IBAction private func didPressEdit(_ sender: UIButton) {
+    @IBAction private func didPressAdd(_ sender: Any) {
         if let unwrappedDelegate = delegate {
-            unwrappedDelegate.tableViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
+            if !numberField.text!.isEmpty {
+                unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
+                
+                numberField.text = ""
+            }
         }
     }
     
-    @IBAction private func didPressDelete(_ sender: UIButton) {
+    @IBAction func didPressEdit(_ sender: Any) {
         if let unwrappedDelegate = delegate {
-            unwrappedDelegate.tableViewControllerDelegateDeleteSelectedNumber(self)
+            unwrappedDelegate.editorViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
+        }
+    }
+    
+    @IBAction func didPressDelete(_ sender: Any) {
+        if let unwrappedDelegate = delegate {
+            unwrappedDelegate.editorViewControllerDelegateDeleteSelectedNumber(self)
             
             navigationController!.popViewController(animated: true);
         }
