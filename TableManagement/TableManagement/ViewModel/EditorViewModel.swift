@@ -59,14 +59,17 @@ class EditorViewModel {
     }
     
     func textNumber() -> String {
-        guard let index = index else {
-            fatalError("index is equal to nul")
-        }
-        guard numbersData.data.indices.contains(index) else {
-            fatalError("index is out of range")
+        var numberString = ""
+        
+        if let index = index {
+            guard numbersData.data.indices.contains(index) else {
+                fatalError("index is out of range")
+            }
+         
+            numberString = String(numbersData.data[index])
         }
           
-        return String(numbersData.data[index])
+        return numberString
     }
     
     func mode() -> EditorMode {

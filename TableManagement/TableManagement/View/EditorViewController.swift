@@ -9,7 +9,7 @@
 import UIKit
 
 class EditorViewController: UIViewController {
-    weak var editorViewModel: EditorViewModel!
+    var editorViewModel: EditorViewModel!
 
     @IBOutlet var numberField: UITextField!
     @IBOutlet var addButton: UIButton!
@@ -22,17 +22,12 @@ class EditorViewController: UIViewController {
         applyMode()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        if let editorViewModel = editorViewModel {
-            numberField.text = editorViewModel.textNumber()
-        }
-    }
-    
     private func applyMode() {
         if let editorViewModel = editorViewModel {
             switch editorViewModel.mode() {
             case EditorMode.edit:
                 showEdit()
+                numberField.text = editorViewModel.textNumber()
                 break
             case EditorMode.add:
                 showAdd()
@@ -48,8 +43,7 @@ class EditorViewController: UIViewController {
         addButton.isHidden = true
     }
     
-    private func showAdd() {
-        numberField.text = ""
+    private func showAdd() {       
         editButton.isHidden = true
         deleteButton.isHidden = true
     }

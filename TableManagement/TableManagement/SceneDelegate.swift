@@ -8,7 +8,13 @@
 
 import UIKit
 
-let DataSize: Int = 50
+private let DataSize: Int = 50
+
+private enum TabBarItems {
+    static let table: Int = 0
+    static let add: Int = 1
+    static let statistics: Int = 2
+}
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
