@@ -8,15 +8,11 @@
 
 import Foundation
 
-class NumbersDataViewModel {
+class TableViewModel {
     private weak var numbersData: NumbersData!
     
     init(numbersData: NumbersData) {
         self.numbersData = numbersData
-    }
-    
-    func isEmpty() -> Bool {
-        return numbersData.data.isEmpty
     }
     
     func append(number: Int) {

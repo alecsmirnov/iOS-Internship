@@ -8,47 +8,68 @@
 
 import Foundation
 
-class EditorViewModel {
-    private weak var editorData: EditorData!
-    
-    init(editorData: EditorData) {
-        self.editorData = editorData
-    }
-    
-    func setMode(mode: CustomEditorViewControllerMode) {
-        editorData.mode = mode
-    }
-    
-    func setNumber(number: Int) {
-        editorData.number = number
-    }
-    
-    func mode() -> CustomEditorViewControllerMode {
-        return editorData.mode
-    }
+enum EditorMode {
+    case edit
+    case add
+}
 
-    func text() -> String {
-        var textNumber = ""
-        
-        if let number = editorData.number {
-            textNumber = String(number)
+class EditorViewModel {
+    private var editorMode: EditorMode!
+    private var index: Int!
+    private weak var numbersData: NumbersData!
+    
+    init(numbersData: NumbersData) {
+        self.numbersData = numbersData
+    }
+    
+    func setEditorMode(_ editorMode: EditorMode) {
+        self.editorMode = editorMode
+    }
+    
+    func setSelectedIndex(_ index: Int) {
+        self.index = index
+    }
+    
+    func addNumber(numberString: String) {
+        if let number = Int(numberString) {
+            numbersData.data.append(number)
         }
-        
-        return textNumber
     }
     
-    func addNumber(_ viewController: AnyObject, number: Int) {
-        let delegate = editorData.delegate as! EditorViewControllerDelegate
-        delegate.editorViewControllerDelegateAddNumber(viewController, number: number)
+    func changeSelectedNumber(newNumberString: String) {
+        if let index = index {
+            guard numbersData.data.indices.contains(index) else {
+                fatalError("index is out of range")
+            }
+            
+            if let newNumber = Int(newNumberString) {
+                numbersData.data[index] = newNumber
+            }
+        }
     }
     
-    func changeNumber(_ viewController: AnyObject, newNumber: Int) {
-        let delegate = editorData.delegate as! EditorViewControllerDelegate
-        delegate.editorViewControllerDelegateChangeSelectedNumber(viewController, newNumber: newNumber)
+    func deleteSelectedNumber() {
+        if let index = index {
+            guard numbersData.data.indices.contains(index) else {
+                fatalError("index is out of range")
+            }
+            
+            numbersData.data.remove(at: index)
+        }
     }
     
-    func deleteNumber(_ viewController: AnyObject) {
-        let delegate = editorData.delegate as! EditorViewControllerDelegate
-        delegate.editorViewControllerDelegateDeleteSelectedNumber(viewController)
+    func textNumber() -> String {
+        guard let index = index else {
+            fatalError("index is equal to nul")
+        }
+        guard numbersData.data.indices.contains(index) else {
+            fatalError("index is out of range")
+        }
+          
+        return String(numbersData.data[index])
+    }
+    
+    func mode() -> EditorMode {
+        return editorMode
     }
 }

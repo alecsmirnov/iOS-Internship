@@ -8,17 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		8445DE4624ADFF0F00ECB420 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */; };
-		8446999D24B2017700EF1508 /* EditorViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446999C24B2017700EF1508 /* EditorViewControllerDelegate.swift */; };
 		8446D5F024B30C9E00FC1A87 /* TabBarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */; };
 		8446EF8B24AF45EE000C5805 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446EF8A24AF45ED000C5805 /* EditorViewController.swift */; };
 		8447D74C24AC6F7C00298B00 /* NumbersData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447D74B24AC6F7C00298B00 /* NumbersData.swift */; };
 		8447D74E24AC7C7A00298B00 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447D74D24AC7C7A00298B00 /* TableViewCell.swift */; };
-		844A21B024BD921C00FDC260 /* CustomEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A21AF24BD921C00FDC260 /* CustomEditorViewController.swift */; };
-		844A21B524BDCBB100FDC260 /* NumbersDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A21B424BDCBB100FDC260 /* NumbersDataViewModel.swift */; };
+		844A21B524BDCBB100FDC260 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A21B424BDCBB100FDC260 /* TableViewModel.swift */; };
 		844D83FB24BEF35900E77AA9 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D83FA24BEF35900E77AA9 /* CellViewModel.swift */; };
 		844D83FD24BEFC1A00E77AA9 /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D83FC24BEFC1A00E77AA9 /* EditorViewModel.swift */; };
 		844D83FF24BEFCBA00E77AA9 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */; };
-		844D840124BF046E00E77AA9 /* EditorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D840024BF046E00E77AA9 /* EditorData.swift */; };
 		84E95B7124AB99150040D11A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E95B7024AB99150040D11A /* AppDelegate.swift */; };
 		84E95B7324AB99150040D11A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E95B7224AB99150040D11A /* SceneDelegate.swift */; };
 		84E95B7524AB99150040D11A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E95B7424AB99150040D11A /* TableViewController.swift */; };
@@ -29,17 +26,14 @@
 
 /* Begin PBXFileReference section */
 		8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
-		8446999C24B2017700EF1508 /* EditorViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewControllerDelegate.swift; sourceTree = "<group>"; };
 		8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItems.swift; sourceTree = "<group>"; };
 		8446EF8A24AF45ED000C5805 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		8447D74B24AC6F7C00298B00 /* NumbersData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersData.swift; sourceTree = "<group>"; };
 		8447D74D24AC7C7A00298B00 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		844A21AF24BD921C00FDC260 /* CustomEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditorViewController.swift; sourceTree = "<group>"; };
-		844A21B424BDCBB100FDC260 /* NumbersDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersDataViewModel.swift; sourceTree = "<group>"; };
+		844A21B424BDCBB100FDC260 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		844D83FA24BEF35900E77AA9 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		844D83FC24BEFC1A00E77AA9 /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
-		844D840024BF046E00E77AA9 /* EditorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorData.swift; sourceTree = "<group>"; };
 		84E95B6D24AB99150040D11A /* TableManagement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableManagement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E95B7024AB99150040D11A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84E95B7224AB99150040D11A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				8447D74B24AC6F7C00298B00 /* NumbersData.swift */,
-				844D840024BF046E00E77AA9 /* EditorData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -76,7 +69,6 @@
 				84E95B7424AB99150040D11A /* TableViewController.swift */,
 				8447D74D24AC7C7A00298B00 /* TableViewCell.swift */,
 				8446EF8A24AF45ED000C5805 /* EditorViewController.swift */,
-				844A21AF24BD921C00FDC260 /* CustomEditorViewController.swift */,
 				8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */,
 			);
 			path = View;
@@ -85,7 +77,7 @@
 		844D840D24BF3CFF00E77AA9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				844A21B424BDCBB100FDC260 /* NumbersDataViewModel.swift */,
+				844A21B424BDCBB100FDC260 /* TableViewModel.swift */,
 				844D83FC24BEFC1A00E77AA9 /* EditorViewModel.swift */,
 				844D83FA24BEF35900E77AA9 /* CellViewModel.swift */,
 				844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */,
@@ -112,12 +104,11 @@
 		84E95B6F24AB99150040D11A /* TableManagement */ = {
 			isa = PBXGroup;
 			children = (
-				844D840D24BF3CFF00E77AA9 /* ViewModel */,
-				844D840C24BF3CF200E77AA9 /* View */,
 				844D840B24BF3CE100E77AA9 /* Model */,
+				844D840C24BF3CF200E77AA9 /* View */,
+				844D840D24BF3CFF00E77AA9 /* ViewModel */,
 				84E95B7224AB99150040D11A /* SceneDelegate.swift */,
 				84E95B7024AB99150040D11A /* AppDelegate.swift */,
-				8446999C24B2017700EF1508 /* EditorViewControllerDelegate.swift */,
 				8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */,
 				84E95B7624AB99150040D11A /* Main.storyboard */,
 				84E95B7924AB99160040D11A /* Assets.xcassets */,
@@ -201,18 +192,15 @@
 			files = (
 				8447D74E24AC7C7A00298B00 /* TableViewCell.swift in Sources */,
 				84E95B7524AB99150040D11A /* TableViewController.swift in Sources */,
-				844A21B024BD921C00FDC260 /* CustomEditorViewController.swift in Sources */,
 				844D83FF24BEFCBA00E77AA9 /* StatisticsViewModel.swift in Sources */,
 				8446D5F024B30C9E00FC1A87 /* TabBarItems.swift in Sources */,
-				844A21B524BDCBB100FDC260 /* NumbersDataViewModel.swift in Sources */,
+				844A21B524BDCBB100FDC260 /* TableViewModel.swift in Sources */,
 				8446EF8B24AF45EE000C5805 /* EditorViewController.swift in Sources */,
 				844D83FB24BEF35900E77AA9 /* CellViewModel.swift in Sources */,
 				84E95B7124AB99150040D11A /* AppDelegate.swift in Sources */,
 				8447D74C24AC6F7C00298B00 /* NumbersData.swift in Sources */,
 				84E95B7324AB99150040D11A /* SceneDelegate.swift in Sources */,
 				844D83FD24BEFC1A00E77AA9 /* EditorViewModel.swift in Sources */,
-				844D840124BF046E00E77AA9 /* EditorData.swift in Sources */,
-				8446999D24B2017700EF1508 /* EditorViewControllerDelegate.swift in Sources */,
 				8445DE4624ADFF0F00ECB420 /* StatisticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

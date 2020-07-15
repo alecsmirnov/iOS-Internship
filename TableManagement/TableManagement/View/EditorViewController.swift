@@ -18,18 +18,46 @@ class EditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        applyMode()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if let editorViewModel = editorViewModel {
-            numberField.text = editorViewModel.text()
+            numberField.text = editorViewModel.textNumber()
         }
+    }
+    
+    private func applyMode() {
+        if let editorViewModel = editorViewModel {
+            switch editorViewModel.mode() {
+            case EditorMode.edit:
+                showEdit()
+                break
+            case EditorMode.add:
+                showAdd()
+                break
+            }
+        }
+        else {
+            showAdd()
+        }
+    }
+    
+    private func showEdit() {
+        addButton.isHidden = true
+    }
+    
+    private func showAdd() {
+        numberField.text = ""
+        editButton.isHidden = true
+        deleteButton.isHidden = true
     }
     
     @IBAction private func didPressAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            if !numberField.text!.isEmpty {
-                editorViewModel.addNumber(self, number: Int(numberField.text!)!)
+            if let numberString = numberField.text {
+                editorViewModel.addNumber(numberString: numberString)
                 
                 numberField.text = ""
             }
@@ -38,13 +66,15 @@ class EditorViewController: UIViewController {
     
     @IBAction func didPressEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            editorViewModel.changeNumber(self, newNumber: Int(numberField.text!)!)
+            if let newNumberString = numberField.text {
+                editorViewModel.changeSelectedNumber(newNumberString: newNumberString)
+            }
         }
     }
     
     @IBAction func didPressDelete(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            editorViewModel.deleteNumber(self)
+            editorViewModel.deleteSelectedNumber()
             
             navigationController!.popViewController(animated: true);
         }
