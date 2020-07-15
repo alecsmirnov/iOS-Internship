@@ -61,7 +61,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		844A21B124BDC97900FDC260 /* Model */ = {
+		844D840B24BF3CE100E77AA9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				8447D74B24AC6F7C00298B00 /* NumbersData.swift */,
@@ -70,20 +70,25 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		844A21B224BDC9AB00FDC260 /* View */ = {
+		844D840C24BF3CF200E77AA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				84E95B7424AB99150040D11A /* TableViewController.swift */,
+				8447D74D24AC7C7A00298B00 /* TableViewCell.swift */,
+				8446EF8A24AF45ED000C5805 /* EditorViewController.swift */,
+				844A21AF24BD921C00FDC260 /* CustomEditorViewController.swift */,
+				8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		844A21B324BDC9B500FDC260 /* ViewModel */ = {
+		844D840D24BF3CFF00E77AA9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				844D83FA24BEF35900E77AA9 /* CellViewModel.swift */,
-				844D83FC24BEFC1A00E77AA9 /* EditorViewModel.swift */,
-				844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */,
 				844A21B424BDCBB100FDC260 /* NumbersDataViewModel.swift */,
+				844D83FC24BEFC1A00E77AA9 /* EditorViewModel.swift */,
+				844D83FA24BEF35900E77AA9 /* CellViewModel.swift */,
+				844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -107,17 +112,12 @@
 		84E95B6F24AB99150040D11A /* TableManagement */ = {
 			isa = PBXGroup;
 			children = (
-				844A21B124BDC97900FDC260 /* Model */,
-				844A21B224BDC9AB00FDC260 /* View */,
-				844A21B324BDC9B500FDC260 /* ViewModel */,
-				84E95B7024AB99150040D11A /* AppDelegate.swift */,
+				844D840D24BF3CFF00E77AA9 /* ViewModel */,
+				844D840C24BF3CF200E77AA9 /* View */,
+				844D840B24BF3CE100E77AA9 /* Model */,
 				84E95B7224AB99150040D11A /* SceneDelegate.swift */,
+				84E95B7024AB99150040D11A /* AppDelegate.swift */,
 				8446999C24B2017700EF1508 /* EditorViewControllerDelegate.swift */,
-				84E95B7424AB99150040D11A /* TableViewController.swift */,
-				8447D74D24AC7C7A00298B00 /* TableViewCell.swift */,
-				8446EF8A24AF45ED000C5805 /* EditorViewController.swift */,
-				844A21AF24BD921C00FDC260 /* CustomEditorViewController.swift */,
-				8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */,
 				8446D5EF24B30C9E00FC1A87 /* TabBarItems.swift */,
 				84E95B7624AB99150040D11A /* Main.storyboard */,
 				84E95B7924AB99160040D11A /* Assets.xcassets */,

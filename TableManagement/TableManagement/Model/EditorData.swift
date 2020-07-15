@@ -10,6 +10,11 @@ import Foundation
 
 class EditorData {
     var mode: CustomEditorViewControllerMode!
+    weak var delegate: AnyObject!
     var number: Int!
-    var delegate: AnyObject!
+    
+    init(mode: CustomEditorViewControllerMode, delegate: AnyObject) {
+        self.mode = mode
+        self.delegate = delegate
+    }
 }

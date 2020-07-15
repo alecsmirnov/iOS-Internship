@@ -12,6 +12,9 @@ let DataSize: Int = 50
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    
+    var numbersData: NumbersData!
+    var editorData: EditorData!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -31,11 +34,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let addViewController = tabBarController.viewControllers![TabBarItems.add] as! EditorViewController
         let statisticsViewController = tabBarController.viewControllers![TabBarItems.statistics] as! StatisticsViewController
         
-        let dataSource: NumbersData = NumbersData(size: DataSize)
-        tableViewController.dataSource = dataSource
-        statisticsViewController.dataSource = dataSource
+        numbersData = NumbersData(size: DataSize)
+        editorData = EditorData(mode: CustomEditorViewControllerMode.add, delegate: tableViewController)
         
-        addViewController.delegate = tableViewController
+        let numbersDataViewModel = NumbersDataViewModel(numbersData: numbersData)
+        let editorViewModel = EditorViewModel(editorData: editorData)
+        let statisticsViewModel = StatisticsViewModel(numbersData: numbersData)
+        
+        addViewController.editorViewModel = editorViewModel
+        tableViewController.numbersDataViewModel = numbersDataViewModel
+        tableViewController.editorViewModel = editorViewModel
+        statisticsViewController.statisticsViewModel = statisticsViewModel
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

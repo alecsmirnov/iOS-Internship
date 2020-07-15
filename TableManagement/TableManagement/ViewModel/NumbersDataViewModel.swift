@@ -9,34 +9,10 @@
 import Foundation
 
 class NumbersDataViewModel {
-    weak private var numbersData: NumbersData! {
-        didSet {
-            cellViewModels.removeAll()
-            
-            for number in numbersData.data {
-                cellViewModels.append(CellViewModel(number: number))
-            }
-        }
-    }
+    private weak var numbersData: NumbersData!
     
-    private var cellViewModels: [CellViewModel] = []
-    private var editorViewModel: EditorViewModel!
-    private var statisticsViewModel: StatisticsViewModel!
-    
-    func cellViewModel(at index: Int) -> CellViewModel {
-        guard cellViewModels.indices.contains(index) else {
-            fatalError("index is out of range")
-        }
-        
-        return cellViewModels[index]
-    }
-    
-    func editorViewModel(_ delegate: EditorViewControllerDelegate, mode: CustomEditorViewControllerMode, at index: Int) -> EditorViewModel {
-        guard numbersData.data.indices.contains(index) else {
-            fatalError("index is out of range")
-        }
-        
-        return EditorViewModel(delegate: delegate, mode: mode, number: numbersData.data[index])
+    init(numbersData: NumbersData) {
+        self.numbersData = numbersData
     }
     
     func isEmpty() -> Bool {
@@ -73,21 +49,5 @@ class NumbersDataViewModel {
     
     func count() -> Int {
         return numbersData.data.count
-    }
-        
-    func min() ->Int? {
-        return numbersData.data.min()
-    }
-    
-    func max() ->Int? {
-        return numbersData.data.max()
-    }
-    
-    func average() -> Double? {
-        return numbersData.data.isEmpty ? Double(numbersData.data.reduce(0, +)) / Double(numbersData.data.count) : nil
-    }
-    
-    deinit {
-        cellViewModels.removeAll()
     }
 }

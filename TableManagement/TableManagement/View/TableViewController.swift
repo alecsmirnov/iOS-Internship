@@ -15,11 +15,8 @@ private enum StoryboardIds {
 }
 
 class TableViewController: UIViewController {
-    weak var numbersDataViewModel: NumbersDataViewModel! {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var numbersDataViewModel: NumbersDataViewModel!
+    var editorViewModel: EditorViewModel!
     
     @IBOutlet private var tableView: UITableView!
     
@@ -28,6 +25,12 @@ class TableViewController: UIViewController {
     
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let tableView = self.tableView {
+            tableView.reloadData()
+        }
     }
 }
 
@@ -46,7 +49,7 @@ extension TableViewController: UITableViewDataSource {
         let tableViewCell = tableView.dequeueReusableCell(withIdentifier: StoryboardIds.tableViewCell) as! TableViewCell
         
         if let numbersDataViewModel = numbersDataViewModel {
-            tableViewCell.cellViewModel = numbersDataViewModel.cellViewModel(at: indexPath.row)
+            tableViewCell.cellViewModel = CellViewModel(number: numbersDataViewModel.get(at: indexPath.row))
         }
         
         return tableViewCell;
@@ -56,13 +59,11 @@ extension TableViewController: UITableViewDataSource {
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editorViewController = storyboard!.instantiateViewController(withIdentifier: StoryboardIds.customEditorViewController) as! CustomEditorViewController
-        //editorViewController.selectMode(mode: CustomEditorViewControllerMode.edit)
         
-        if let numbersDataViewModel = numbersDataViewModel {
-            //editorViewController.number = numbersDataViewModel.get(at: indexPath.row)
-            //editorViewController.delegate = self
-            
-            editorViewController.editorViewModel = numbersDataViewModel.editorViewModel
+        if let numbersDataViewModel = numbersDataViewModel, let editorViewModel = editorViewModel {
+            editorViewModel.setMode(mode: CustomEditorViewControllerMode.edit)
+            editorViewModel.setNumber(number: numbersDataViewModel.get(at: indexPath.row))
+            editorViewController.editorViewModel = editorViewModel
         }
 
         navigationController!.pushViewController(editorViewController, animated: true)
@@ -70,20 +71,20 @@ extension TableViewController: UITableViewDelegate {
 }
 
 extension TableViewController: EditorViewControllerDelegate {
-    func editorViewControllerDelegateAddNumber(_ viewController: UIViewController, number: Int) {
+    func editorViewControllerDelegateAddNumber(_ viewController: AnyObject, number: Int) {
         if let numbersDataViewModel = numbersDataViewModel {
             numbersDataViewModel.append(number: number)
         }
     }
     
-    func editorViewControllerDelegateChangeSelectedNumber(_ viewController: UIViewController, newNumber: Int) {
+    func editorViewControllerDelegateChangeSelectedNumber(_ viewController: AnyObject, newNumber: Int) {
         if let numbersDataViewModel = numbersDataViewModel {
             let selectedRowIndex = tableView.indexPathForSelectedRow!.row
             numbersDataViewModel.replace(at: selectedRowIndex, with: newNumber)
         }
     }
     
-    func editorViewControllerDelegateDeleteSelectedNumber(_ viewController: UIViewController) {
+    func editorViewControllerDelegateDeleteSelectedNumber(_ viewController: AnyObject) {
         if let numbersDataViewModel = numbersDataViewModel {
             let selectedRowIndex = tableView.indexPathForSelectedRow!.row
             numbersDataViewModel.remove(at: selectedRowIndex)

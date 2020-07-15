@@ -9,15 +9,8 @@
 import UIKit
 
 class EditorViewController: UIViewController {
-    var editorViewModel: EditorViewModel! {
-        didSet {
-            numberField.text = editorViewModel.text()
-        }
-    }
-    
-    //var number: Int?
-    //weak var delegate: EditorViewControllerDelegate?
-    
+    weak var editorViewModel: EditorViewModel!
+
     @IBOutlet var numberField: UITextField!
     @IBOutlet var addButton: UIButton!
     @IBOutlet var editButton: UIButton!
@@ -27,25 +20,16 @@ class EditorViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    /*
     override func viewWillAppear(_ animated: Bool) {
-        if let unwrappedNumber = number {
-            numberField.text = String(unwrappedNumber)
+        if let editorViewModel = editorViewModel {
+            numberField.text = editorViewModel.text()
         }
     }
-    */
     
     @IBAction private func didPressAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if !numberField.text!.isEmpty {
-                unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
-                
-                numberField.text = ""
-            }
-        }
-        if let unwrappedDelegate = delegate {
-            if !numberField.text!.isEmpty {
-                unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
+                editorViewModel.addNumber(self, number: Int(numberField.text!)!)
                 
                 numberField.text = ""
             }
@@ -53,14 +37,14 @@ class EditorViewController: UIViewController {
     }
     
     @IBAction func didPressEdit(_ sender: Any) {
-        if let unwrappedDelegate = delegate {
-            unwrappedDelegate.editorViewControllerDelegateChangeSelectedNumber(self, newNumber: Int(numberField.text!)!)
+        if let editorViewModel = editorViewModel {
+            editorViewModel.changeNumber(self, newNumber: Int(numberField.text!)!)
         }
     }
     
     @IBAction func didPressDelete(_ sender: Any) {
-        if let unwrappedDelegate = delegate {
-            unwrappedDelegate.editorViewControllerDelegateDeleteSelectedNumber(self)
+        if let editorViewModel = editorViewModel {
+            editorViewModel.deleteNumber(self)
             
             navigationController!.popViewController(animated: true);
         }

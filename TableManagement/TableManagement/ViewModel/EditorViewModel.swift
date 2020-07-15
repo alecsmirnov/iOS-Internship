@@ -8,34 +8,47 @@
 
 import Foundation
 
-struct EditorViewModel {
-    weak var editorData: EditorData!
+class EditorViewModel {
+    private weak var editorData: EditorData!
+    
+    init(editorData: EditorData) {
+        self.editorData = editorData
+    }
+    
+    func setMode(mode: CustomEditorViewControllerMode) {
+        editorData.mode = mode
+    }
+    
+    func setNumber(number: Int) {
+        editorData.number = number
+    }
     
     func mode() -> CustomEditorViewControllerMode {
         return editorData.mode
     }
-    
-    func number() -> Int {
-        return editorData.number
-    }
-    
+
     func text() -> String {
-        return String(editorData.number)
-    }
-    
-    func delegate() -> AnyObject! {
-        return editorData.delegate
-    }
-    
-    func addNumber() {
+        var textNumber = ""
         
+        if let number = editorData.number {
+            textNumber = String(number)
+        }
+        
+        return textNumber
     }
     
-    func changeNumber() {
-        
+    func addNumber(_ viewController: AnyObject, number: Int) {
+        let delegate = editorData.delegate as! EditorViewControllerDelegate
+        delegate.editorViewControllerDelegateAddNumber(viewController, number: number)
     }
     
-    func deleteNumber() {
-        
+    func changeNumber(_ viewController: AnyObject, newNumber: Int) {
+        let delegate = editorData.delegate as! EditorViewControllerDelegate
+        delegate.editorViewControllerDelegateChangeSelectedNumber(viewController, newNumber: newNumber)
+    }
+    
+    func deleteNumber(_ viewController: AnyObject) {
+        let delegate = editorData.delegate as! EditorViewControllerDelegate
+        delegate.editorViewControllerDelegateDeleteSelectedNumber(viewController)
     }
 }

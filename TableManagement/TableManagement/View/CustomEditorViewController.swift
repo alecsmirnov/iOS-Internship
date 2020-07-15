@@ -14,12 +14,10 @@ enum CustomEditorViewControllerMode {
 }
 
 class CustomEditorViewController: EditorViewController {
-    private var mode = CustomEditorViewControllerMode.add
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        switch mode {
+        switch editorViewModel.mode() {
         case CustomEditorViewControllerMode.edit:
             showEdit()
             break
@@ -29,15 +27,12 @@ class CustomEditorViewController: EditorViewController {
         }
     }
     
-    func selectMode(mode: CustomEditorViewControllerMode) {
-        self.mode = mode
-    }
-    
     private func showEdit() {
         addButton.isHidden = true
     }
     
     private func showAdd() {
+        numberField.text = ""
         editButton.isHidden = true
         deleteButton.isHidden = true
     }

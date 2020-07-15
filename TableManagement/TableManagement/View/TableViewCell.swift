@@ -16,12 +16,4 @@ class TableViewCell: UITableViewCell {
     }
     
     @IBOutlet private var label: UILabel!
-    
-    /*
-    func setLabelText(text: String) {
-        if let cellModel = tableViewCellViewModel {
-            label.text = cellModel.text
-        }
-    }
-     */
 }
