@@ -8,7 +8,7 @@
 
 import UIKit
 
-let TableSize: Int = 50
+let DataSize: Int = 50
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let addViewController = tabBarController.viewControllers![TabBarItems.add] as! EditorViewController
         let statisticsViewController = tabBarController.viewControllers![TabBarItems.statistics] as! StatisticsViewController
         
-        let dataSource: DataSource = DataSource(size: TableSize)
+        let dataSource: NumbersData = NumbersData(size: DataSize)
         tableViewController.dataSource = dataSource
         statisticsViewController.dataSource = dataSource
         

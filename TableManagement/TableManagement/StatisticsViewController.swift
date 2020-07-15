@@ -9,7 +9,13 @@
 import UIKit
 
 class StatisticsViewController: UIViewController {
-    var dataSource: DataSource?
+    //weak var numbersDataViewModel: NumbersDataViewModel! {
+    //  didSet {
+    //
+    //
+    //  }
+    //}
+    var numbersData: NumbersData?
     
     @IBOutlet private var countLabel: UILabel!
     @IBOutlet private var maxValueLabel: UILabel!
@@ -25,14 +31,14 @@ class StatisticsViewController: UIViewController {
     }
     
     private func showStatistics() {
-        if let unwrappedDataSource = dataSource {
+        if let numbersData = numbersData {
             var countString: String = "0"
             var maxString: String = "-"
             var minString: String = "-"
             var averageString: String = "-"
             
-            if !unwrappedDataSource.isEmpty() {
-                let data = unwrappedDataSource.arrayData()
+            if !numbersData.isEmpty() {
+                let data = numbersData.arrayData()
                 
                 countString = String(data.count)
                 maxString = String(data.max()!)

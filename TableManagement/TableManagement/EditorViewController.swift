@@ -8,9 +8,15 @@
 
 import UIKit
 
-class EditorViewController: UIViewController {    
-    var number: Int?
-    weak var delegate: EditorViewControllerDelegate?
+class EditorViewController: UIViewController {
+    var editorViewModel: EditorViewModel! {
+        didSet {
+            numberField.text = editorViewModel.text()
+        }
+    }
+    
+    //var number: Int?
+    //weak var delegate: EditorViewControllerDelegate?
     
     @IBOutlet var numberField: UITextField!
     @IBOutlet var addButton: UIButton!
@@ -21,13 +27,22 @@ class EditorViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    /*
     override func viewWillAppear(_ animated: Bool) {
         if let unwrappedNumber = number {
             numberField.text = String(unwrappedNumber)
         }
     }
+    */
     
     @IBAction private func didPressAdd(_ sender: Any) {
+        if let editorViewModel = editorViewModel {
+            if !numberField.text!.isEmpty {
+                unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)
+                
+                numberField.text = ""
+            }
+        }
         if let unwrappedDelegate = delegate {
             if !numberField.text!.isEmpty {
                 unwrappedDelegate.editorViewControllerDelegateAddNumber(self, number: Int(numberField.text!)!)

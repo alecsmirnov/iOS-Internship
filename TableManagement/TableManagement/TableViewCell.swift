@@ -8,10 +8,20 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {   
+class TableViewCell: UITableViewCell {
+    var cellViewModel: CellViewModel! {
+        didSet {
+            label.text = cellViewModel.text
+        }
+    }
+    
     @IBOutlet private var label: UILabel!
     
+    /*
     func setLabelText(text: String) {
-        label.text = text
+        if let cellModel = tableViewCellViewModel {
+            label.text = cellModel.text
+        }
     }
+     */
 }
