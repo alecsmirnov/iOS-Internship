@@ -37,7 +37,7 @@ extension TableViewController: UITableViewDataSource {
         var rowsCount: Int = 0
         
         if let tableViewModel = tableViewModel {
-            rowsCount = tableViewModel.count()
+            rowsCount = tableViewModel.count
         }
         
         return rowsCount

@@ -11,16 +11,19 @@ import Foundation
 class NumbersData {
     private var data: [Int] = []
     
+    var isEmpty: Bool {
+        return data.isEmpty
+    }
+    
+    var count: Int {
+        return data.count
+    }
+    
     init(size: Int) {
         for _ in 0..<size {
             data.append(Int.random(in: -size..<size))
         }
     }
-    
-    func isEmpty() -> Bool {
-        return data.isEmpty
-    }
-    
     
     func append(number: Int) {
         data.append(number)
@@ -48,10 +51,6 @@ class NumbersData {
         }
         
         data[index] = number
-    }
-    
-    func count() -> Int {
-        return data.count
     }
     
     func min() -> Int? {
