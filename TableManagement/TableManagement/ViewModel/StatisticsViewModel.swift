@@ -9,32 +9,60 @@
 import Foundation
 
 class StatisticsViewModel {
-    private weak var numbersData: NumbersData!
+    var count: String!
+    var min: String!
+    var max: String!
+    var average: String!
+    
+    private var numbersData: NumbersData! {
+        didSet {
+            updateData()
+        }
+    }
+    
+    init(numbersData: NumbersData) {
+        setNumbersData(numbersData)
+    }
+    
+    private func setNumbersData(_ numbersData: NumbersData) {
+        self.numbersData = numbersData
+    }
+    
+    private func updateData() {
+        count = String(numbersData.count())
+        if numbersData.isEmpty() {
+            min = "-"
+            max = "-"
+            average = "-"
+        }
+        else {
+            min = String(numbersData.min()!)
+            max = String(numbersData.max()!)
+            average = String(format: "%.3f", numbersData.average()!)
+        }
+    }
+    
+    /*
+    private var numbersData: NumbersData!
     
     init(numbersData: NumbersData) {
         self.numbersData = numbersData
     }
     
     func count() -> String {
-        return String(numbersData.data.count)
+        return String(numbersData.count())
     }
         
     func min() -> String {
-        return numbersData.data.isEmpty ? "-" : String(numbersData.data.min()!)
+        return numbersData.isEmpty() ? "-" : String(numbersData.min()!)
     }
     
     func max() -> String {
-        return numbersData.data.isEmpty ? "-" : String(numbersData.data.max()!)
+        return numbersData.isEmpty() ? "-" : String(numbersData.max()!)
     }
     
     func average() -> String {
-        var averageString = "-"
-        
-        if !numbersData.data.isEmpty {
-            let average = Double(numbersData.data.reduce(0, +)) / Double(numbersData.data.count)
-            averageString = String(format: "%.3f", average)
-        }
-        
-        return averageString
+        return numbersData.isEmpty() ? "-" : String(format: "%.3f", numbersData.averrage()!)
     }
+    */
 }

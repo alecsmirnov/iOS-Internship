@@ -9,41 +9,57 @@
 import Foundation
 
 class TableViewModel {
-    private weak var numbersData: NumbersData!
+    var count: Int!
+    
+    private var numbersData: NumbersData! {
+        didSet {
+            count = numbersData.count()
+        }
+    }
+    
+    private var selectedRow: Int?
     
     init(numbersData: NumbersData) {
+        setNumbersData(numbersData)
+    }
+    
+    private func setNumbersData(_ numbersData: NumbersData) {
         self.numbersData = numbersData
     }
     
-    func append(number: Int) {
-        numbersData.data.append(number)
+    private func updateData() {
+        count = numbersData.count()
     }
     
-    func remove(at index: Int) {
-        guard numbersData.data.indices.contains(index) else {
-            fatalError("index is out of range")
-        }
+    func editorViewModel(at index: Int) -> EditorViewModel {
+        selectedRow = index
         
-        numbersData.data.remove(at: index)
+        return EditorViewModel(mode: EditorMode.edit, number: numbersData.get(at: index), delegate: self)
     }
     
-    func replace(at index: Int, with number: Int) {
-        guard numbersData.data.indices.contains(index) else {
-            fatalError("index is out of range")
-        }
-        
-        numbersData.data[index] = number
+    func cellViewModel(at index: Int) -> CellViewModel {
+        return CellViewModel(number: numbersData.get(at: index))
     }
+}
 
-    func get(at index: Int) -> Int {
-        guard numbersData.data.indices.contains(index) else {
-            fatalError("index is out of range")
-        }
-        
-        return numbersData.data[index]
+extension TableViewModel: EditorViewModelDelegate {
+    func editorViewModelDelegateAddNumber(_ viewModel: AnyObject, number: Int) {
+        numbersData.append(number: number)
     }
     
-    func count() -> Int {
-        return numbersData.data.count
+    func editorViewModelDelegateChangeSelectedNumber(_ viewModel: AnyObject, newNumber: Int) {
+        guard let selectedRow = selectedRow else {
+            fatalError("Row are not specified")
+        }
+        
+        numbersData.replace(at: selectedRow, with: newNumber)
+    }
+    
+    func editorViewModelDelegateDeleteSelectedNumber(_ viewModel: AnyObject) {
+        guard let selectedRow = selectedRow else {
+            fatalError("Row are not specified")
+        }
+        
+        numbersData.remove(at: selectedRow)
     }
 }

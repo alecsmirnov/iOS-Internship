@@ -19,56 +19,55 @@ class EditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        applyMode()
+        applyEditorMode()
     }
     
-    private func applyMode() {
+    private func applyEditorMode() {
         if let editorViewModel = editorViewModel {
-            switch editorViewModel.mode() {
-            case EditorMode.edit:
-                showEdit()
-                numberField.text = editorViewModel.textNumber()
-                break
-            case EditorMode.add:
-                showAdd()
-                break
+            if let editorMode = editorViewModel.mode {
+                switch editorMode {
+                case EditorMode.edit:
+                    showEditMode()
+                    break
+                case EditorMode.add:
+                    showAddMode()
+                    break
+                }
             }
         }
         else {
-            showAdd()
+            showAddMode()
         }
     }
     
-    private func showEdit() {
+    private func showEditMode() {
         addButton.isHidden = true
+        
+        numberField.text = editorViewModel.numberString
     }
     
-    private func showAdd() {       
+    private func showAddMode() {
         editButton.isHidden = true
         deleteButton.isHidden = true
     }
     
-    @IBAction private func didPressAdd(_ sender: Any) {
+    @IBAction private func didTapAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            if let numberString = numberField.text {
-                editorViewModel.addNumber(numberString: numberString)
-                
-                numberField.text = ""
-            }
+            editorViewModel.userAddedNewNumber(newNumberString: numberField.text)
+            
+            numberField.text = ""
         }
     }
     
-    @IBAction func didPressEdit(_ sender: Any) {
+    @IBAction func didTapEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            if let newNumberString = numberField.text {
-                editorViewModel.changeSelectedNumber(newNumberString: newNumberString)
-            }
+            editorViewModel.userChangedSelectedNumber(newNumberString: numberField.text)
         }
     }
     
-    @IBAction func didPressDelete(_ sender: Any) {
+    @IBAction func didTapDelete(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            editorViewModel.deleteSelectedNumber()
+            editorViewModel.userdDeletedSelectedNumber()
             
             navigationController!.popViewController(animated: true);
         }

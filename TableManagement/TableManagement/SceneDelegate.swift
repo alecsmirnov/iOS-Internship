@@ -41,15 +41,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         numbersData = NumbersData(size: DataSize)
         
         let tableViewModel = TableViewModel(numbersData: numbersData)
-        let editorViewModel = EditorViewModel(numbersData: numbersData)
-        editorViewModel.setEditorMode(EditorMode.edit)
-        let addViewModel = EditorViewModel(numbersData: numbersData)
-        addViewModel.setEditorMode(EditorMode.add)
+        let addViewModel = EditorViewModel(mode: EditorMode.add, number: nil, delegate: tableViewModel)
         let statisticsViewModel = StatisticsViewModel(numbersData: numbersData)
         
         addViewController.editorViewModel = addViewModel
         tableViewController.tableViewModel = tableViewModel
-        tableViewController.editorViewModel = editorViewModel
         statisticsViewController.statisticsViewModel = statisticsViewModel
     }
 

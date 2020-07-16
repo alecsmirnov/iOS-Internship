@@ -22,10 +22,10 @@ class StatisticsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         if let statisticsViewModel = statisticsViewModel {
-            countLabel.text = String("Items count: \(statisticsViewModel.count())")
-            maxValueLabel.text = String("Max value: \(statisticsViewModel.max())")
-            minValueLabel.text = String("Min value: \(statisticsViewModel.min())")
-            averageLabel.text = String("Average: \(statisticsViewModel.average())")
+            countLabel.text = String("Items count: \(statisticsViewModel.count!)")
+            maxValueLabel.text = String("Max value: \(statisticsViewModel.max!)")
+            minValueLabel.text = String("Min value: \(statisticsViewModel.min!)")
+            averageLabel.text = String("Average: \(statisticsViewModel.average!)")
         }
     }
 }

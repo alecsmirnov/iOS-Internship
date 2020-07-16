@@ -15,7 +15,6 @@ private enum StoryboardIds {
 
 class TableViewController: UIViewController {
     var tableViewModel: TableViewModel!
-    var editorViewModel: EditorViewModel!
     
     @IBOutlet private var tableView: UITableView!
     
@@ -38,7 +37,7 @@ extension TableViewController: UITableViewDataSource {
         var rowsCount: Int = 0
         
         if let tableViewModel = tableViewModel {
-            rowsCount = tableViewModel.count()
+            rowsCount = tableViewModel.count
         }
         
         return rowsCount
@@ -48,7 +47,7 @@ extension TableViewController: UITableViewDataSource {
         let tableViewCell = tableView.dequeueReusableCell(withIdentifier: StoryboardIds.tableViewCell) as! TableViewCell
         
         if let tableViewModel = tableViewModel {
-            tableViewCell.cellViewModel = CellViewModel(number: tableViewModel.get(at: indexPath.row))
+            tableViewCell.cellViewModel = tableViewModel.cellViewModel(at: indexPath.row)
         }
         
         return tableViewCell;
@@ -59,9 +58,8 @@ extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let editorViewController = storyboard!.instantiateViewController(withIdentifier: StoryboardIds.editorViewController) as! EditorViewController
         
-        if let editorViewModel = editorViewModel {
-            editorViewModel.setSelectedIndex(indexPath.row)
-            editorViewController.editorViewModel = editorViewModel
+        if let tableViewModel = tableViewModel {
+            editorViewController.editorViewModel = tableViewModel.editorViewModel(at: indexPath.row)
         }
 
         navigationController!.pushViewController(editorViewController, animated: true)
