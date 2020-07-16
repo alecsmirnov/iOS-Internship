@@ -9,6 +9,7 @@
 import Foundation
 
 class StatisticsViewModel {
+    /*
     var count: String!
     var min: String!
     var max: String!
@@ -41,8 +42,8 @@ class StatisticsViewModel {
             average = String(format: "%.3f", numbersData.average()!)
         }
     }
+    */
     
-    /*
     private var numbersData: NumbersData!
     
     init(numbersData: NumbersData) {
@@ -62,7 +63,6 @@ class StatisticsViewModel {
     }
     
     func average() -> String {
-        return numbersData.isEmpty() ? "-" : String(format: "%.3f", numbersData.averrage()!)
+        return numbersData.isEmpty() ? "-" : String(format: "%.3f", numbersData.average()!)
     }
-    */
 }

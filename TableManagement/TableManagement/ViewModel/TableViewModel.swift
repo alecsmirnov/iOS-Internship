@@ -9,26 +9,17 @@
 import Foundation
 
 class TableViewModel {
-    var count: Int!
+    //var count: Int!
     
-    private var numbersData: NumbersData! {
-        didSet {
-            count = numbersData.count()
-        }
-    }
-    
+    private var numbersData: NumbersData!
     private var selectedRow: Int?
     
     init(numbersData: NumbersData) {
-        setNumbersData(numbersData)
-    }
-    
-    private func setNumbersData(_ numbersData: NumbersData) {
         self.numbersData = numbersData
     }
     
-    private func updateData() {
-        count = numbersData.count()
+    func count() -> Int {
+        return numbersData.count()
     }
     
     func editorViewModel(at index: Int) -> EditorViewModel {

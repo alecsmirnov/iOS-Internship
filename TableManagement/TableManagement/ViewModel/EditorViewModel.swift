@@ -15,32 +15,29 @@ enum EditorMode {
 
 class EditorViewModel {
     var mode: EditorMode!
-    var numberString: String!
+    var text: String!
     
     private var delegate: EditorViewModelDelegate!
 
     init(mode: EditorMode, number: Int?, delegate: EditorViewModelDelegate) {
         self.mode = mode
         if let number = number {
-            numberString = String(number)
-        }
-        else {
-            numberString = ""
+            text = String(number)
         }
         self.delegate = delegate
     }
     
-    func userAddedNewNumber(newNumberString: String?) {
-        if let newNumberString = newNumberString {
-            if let newNumber = Int(newNumberString) {
+    func userAddedNewNumber(text: String?) {
+        if let text = text {
+            if let newNumber = Int(text) {
                 delegate.editorViewModelDelegateAddNumber(self, number: newNumber)
             }
         }
     }
     
-    func userChangedSelectedNumber(newNumberString: String?) {
-        if let newNumberString = newNumberString {
-            if let newNumber = Int(newNumberString) {
+    func userChangedSelectedNumber(text: String?) {
+        if let text = text {
+            if let newNumber = Int(text) {
                 delegate.editorViewModelDelegateChangeSelectedNumber(self, newNumber: newNumber)
             }
         }

@@ -42,8 +42,7 @@ class EditorViewController: UIViewController {
     
     private func showEditMode() {
         addButton.isHidden = true
-        
-        numberField.text = editorViewModel.numberString
+        numberField.text = editorViewModel.text
     }
     
     private func showAddMode() {
@@ -53,7 +52,7 @@ class EditorViewController: UIViewController {
     
     @IBAction private func didTapAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            editorViewModel.userAddedNewNumber(newNumberString: numberField.text)
+            editorViewModel.userAddedNewNumber(text: numberField.text)
             
             numberField.text = ""
         }
@@ -61,7 +60,7 @@ class EditorViewController: UIViewController {
     
     @IBAction func didTapEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            editorViewModel.userChangedSelectedNumber(newNumberString: numberField.text)
+            editorViewModel.userChangedSelectedNumber(text: numberField.text)
         }
     }
     
