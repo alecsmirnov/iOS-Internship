@@ -20,14 +20,14 @@ class StatisticsViewModel {
     }
     
     func min() -> String {
-        return numbersData.isEmpty ? "" : String(numbersData.min()!)
+        return numbersData.isEmpty ? "" : String(format: "%.2f", numbersData.min()!.value!)
     }
     
     func max() -> String {
-        return numbersData.isEmpty ? "" : String(numbersData.max()!)
+        return numbersData.isEmpty ? "" : String(format: "%.2f", numbersData.max()!.value!)
     }
     
     func average() -> String {
-        return numbersData.isEmpty ? "-" : String(format: "%.3f", numbersData.average()!)
+        return numbersData.isEmpty ? "-" : String(format: "%.2f", numbersData.average()!)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol EditorViewModelDelegate: AnyObject {
-    func editorViewModelDelegateAddNumber(_ viewModel: AnyObject, number: Int)
-    func editorViewModelDelegateChangeSelectedNumber(_ viewModel: AnyObject, newNumber: Int)
+    func editorViewModelDelegateAddNumber(_ viewModel: AnyObject, number: Number)
+    func editorViewModelDelegateChangeSelectedNumber(_ viewModel: AnyObject, newNumber: Number)
     func editorViewModelDelegateDeleteSelectedNumber(_ viewModel: AnyObject)
 }

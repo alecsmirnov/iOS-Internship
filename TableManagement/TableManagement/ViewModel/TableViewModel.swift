@@ -20,6 +20,10 @@ class TableViewModel {
         self.numbersData = numbersData
     }
     
+    func userDeletedNumber(at index: Int) {
+        numbersData.remove(at: index)
+    }
+    
     func editorViewModel(at index: Int) -> EditorViewModel {
         selectedRow = index
         
@@ -32,11 +36,11 @@ class TableViewModel {
 }
 
 extension TableViewModel: EditorViewModelDelegate {
-    func editorViewModelDelegateAddNumber(_ viewModel: AnyObject, number: Int) {
+    func editorViewModelDelegateAddNumber(_ viewModel: AnyObject, number: Number) {
         numbersData.append(number: number)
     }
     
-    func editorViewModelDelegateChangeSelectedNumber(_ viewModel: AnyObject, newNumber: Int) {
+    func editorViewModelDelegateChangeSelectedNumber(_ viewModel: AnyObject, newNumber: Number) {
         guard let selectedRow = selectedRow else {
             fatalError("Row are not specified")
         }

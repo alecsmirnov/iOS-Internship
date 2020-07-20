@@ -64,4 +64,12 @@ extension TableViewController: UITableViewDelegate {
 
         navigationController!.pushViewController(editorViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableViewModel.userDeletedNumber(at: indexPath.row)
+            
+            tableView.reloadData()
+        }
+    }
 }

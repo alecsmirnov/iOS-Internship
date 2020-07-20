@@ -8,7 +8,10 @@
 
 import UIKit
 
-private let DataSize: Int = 50
+private enum Data {
+    static let size: Int = 50
+    static let range: Float = 100.0
+}
 
 private enum TabBarItems {
     static let table: Int = 0
@@ -38,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let addViewController = tabBarController.viewControllers![TabBarItems.add] as! EditorViewController
         let statisticsViewController = tabBarController.viewControllers![TabBarItems.statistics] as! StatisticsViewController
         
-        numbersData = NumbersData(size: DataSize)
+        numbersData = NumbersData(size: Data.size, range: Data.range)
         
         let tableViewModel = TableViewModel(numbersData: numbersData)
         let addViewModel = EditorViewModel(mode: EditorMode.add, number: nil, delegate: tableViewModel)

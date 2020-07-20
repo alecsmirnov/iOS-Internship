@@ -8,8 +8,20 @@
 
 import Foundation
 
+struct Color {
+    var red: Float!
+    var green: Float!
+    var blue: Float!
+    var alpha: Float!
+}
+
+struct Number {
+    var value: Float!
+    var color: Color!
+}
+
 class NumbersData {
-    private var data: [Int] = []
+    private var data: [Number] = []
     
     var isEmpty: Bool {
         return data.isEmpty
@@ -19,17 +31,20 @@ class NumbersData {
         return data.count
     }
     
-    init(size: Int) {
+    init(size: Int, range: Float) {
         for _ in 0..<size {
-            data.append(Int.random(in: -size..<size))
+            let value = Float.random(in: -range..<range)
+            let color = Color(red: Float.random(in: 0.0...1.0), green: Float.random(in: 0.0...1.0), blue: Float.random(in: 0.0...1.0), alpha: 1.0)
+
+            data.append(Number(value: value, color: color))
         }
     }
     
-    func append(number: Int) {
+    func append(number: Number) {
         data.append(number)
     }
     
-    func get(at index: Int) -> Int {
+    func get(at index: Int) -> Number {
         guard data.indices.contains(index) else {
             fatalError("index is out of range")
         }
@@ -45,7 +60,7 @@ class NumbersData {
         data.remove(at: index)
     }
     
-    func replace(at index: Int, with number: Int) {
+    func replace(at index: Int, with number: Number) {
         guard data.indices.contains(index) else {
             fatalError("index is out of range")
         }
@@ -53,16 +68,16 @@ class NumbersData {
         data[index] = number
     }
     
-    func min() -> Int? {
-        return data.min()
+    func min() -> Number? {
+        return data.min { $0.value < $1.value }
     }
     
-    func max() -> Int? {
-        return data.max()
+    func max() -> Number? {
+        return data.max { $0.value < $1.value }
     }
     
-    func average() -> Double? {
-        return data.isEmpty ? nil : Double(data.reduce(0, +)) / Double(data.count)
+    func average() -> Float? {
+        return data.isEmpty ? nil : data.reduce(0.0) { $0 + $1.value } / Float(data.count)
     }
     
     deinit {
