@@ -25,6 +25,8 @@ class EditorViewController: UIViewController {
         super.viewDidLoad()
         
         applyEditorMode()
+        
+        numberField.delegate = self
     }
     
     private func applyEditorMode() {
@@ -49,8 +51,10 @@ class EditorViewController: UIViewController {
         addButton.isHidden = true
         
         numberField.text = editorViewModel.text
-        numberField.textColor = EditorViewController.colorToUIColor(editorViewModel.color)
-        
+        if let color = editorViewModel.color {
+             numberField.textColor = EditorViewController.colorToUIColor(color)
+        }
+       
         redColorSlider.value = editorViewModel.color.red * 255.0
         greenColorSlider.value = editorViewModel.color.green * 255.0
         blueColorSlider.value = editorViewModel.color.blue * 255.0
@@ -105,5 +109,11 @@ class EditorViewController: UIViewController {
     
     @IBAction private func didSlideColor(_ sender: Any) {
         numberField.textColor = EditorViewController.colorToUIColor(slidersColor())
+    }
+}
+
+extension EditorViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return true
     }
 }

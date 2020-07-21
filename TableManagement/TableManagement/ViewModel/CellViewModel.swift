@@ -9,13 +9,17 @@
 import Foundation
 
 struct CellViewModel {
-    var value: Float!
-    var text: String!
+    var valueText: String!
+    var numberText: String!
     var color: Color!
     
     init(number: Number) {
-        value = number.value
-        text = String(format: "%.2f", number.value)
+        valueText = String(format: "%.2f", number.value)
+        numberText = CellViewModel.capitalizeFirstLetter(NumberConverter.toText((number.value * 100).rounded() / 100))
         color = number.color
+    }
+    
+    private static func capitalizeFirstLetter(_ string: String) -> String {
+        return string.prefix(1).capitalized + string.dropFirst()
     }
 }

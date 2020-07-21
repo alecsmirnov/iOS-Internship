@@ -11,20 +11,19 @@ import Foundation
 private enum Words {
     static let empty = ""
     static let minus = "минус"
+    static let zero  = "ноль"
     
-    static let ones       = ["ноль", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"]
+    static let ones       = [empty, "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"]
     static let teens      = ["десять", "одинадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"]
     static let tens       = [empty, empty, "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"]
-    static let hundredths = [empty, "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девяьсот"]
-    static let thousands  = [empty, "тысяча"]
-    static let number     = [ones, tens, hundredths, thousands]
+    static let hundredths = [empty, "сто"]
+    static let number     = [ones, tens, hundredths]
     
     static let integerSuffix            = ["целых", "целая"]
     static let emptyFractionSuffix      = [empty, empty]
-    static let onesFractionSuffix       = ["десятых", "десятая"]
-    static let tensFractionSuffix       = ["сотых", "сотая"]
-    static let hundredthsFractionSuffix = ["тысячных", "тысячная"]
-    static let fractionSuffix           = [emptyFractionSuffix, onesFractionSuffix, tensFractionSuffix, hundredthsFractionSuffix]
+    static let tensFractionSuffix       = ["десятых", "десятая"]
+    static let hundredthsFractionSuffix = ["сотых", "сотая"]
+    static let fractionSuffix           = [emptyFractionSuffix, tensFractionSuffix, hundredthsFractionSuffix]
 }
 
 enum NumberConverter {
@@ -39,50 +38,58 @@ enum NumberConverter {
             let fractionString = String(string[string.index(after: firstIndex)...])
             
             integer = getDigitsFromString(integerString)
-            fraction = getDigitsFromString(removeLeadingZeros(fractionString))
+            fraction = getDigitsFromString(fractionString)
         }
         else {
-            integer = NumberConverter.getDigitsFromString(string)
+            integer = getDigitsFromString(string)
+        }
+
+        let sign = (number < 0 ? Words.minus + " " : Words.empty)
+        var integerText = digitsToText(integer)
+        var fractionText = digitsToText(removeFractionLeadingZeros(fraction))
+        
+        if !fractionText.isEmpty {
+            integerText.append((integer.last == 1 ? Words.integerSuffix.last! : Words.integerSuffix.first!) + " ")
+            fractionText.append(fraction.last == 1 ? Words.fractionSuffix[fraction.count].last! : Words.fractionSuffix[fraction.count].first!)
         }
         
-        var text = (number < 0 ? Words.minus + " " : Words.empty)
-        text.append(digitsToText(integer) + (integer.last == 1 ? Words.integerSuffix.last! : Words.integerSuffix.first!) + " ")
-        //text.append(digitsToText(fraction, lenMax: Words.number.count - 1) + (fraction.last == 1 ? Words.fractionSuffix[fraction.count].last! : Words.fractionSuffix[fraction.count].first!))
-        
-        return text
+        return sign + integerText + fractionText
     }
     
-    private static func removeLeadingZeros(_ string: String) -> String {
-        var newString = string
+    private static func removeFractionLeadingZeros(_ fraction: [Int]) -> [Int] {
+        var newFraction = fraction
         
-        while newString.first == "0" {
-            newString.removeFirst()
+        while newFraction.first == 0 {
+            newFraction.removeFirst()
         }
         
-        return newString
+        return newFraction
     }
 
     private static func getDigitsFromString(_ string: String) -> [Int] {
-        return string.compactMap {
-            return $0.wholeNumberValue
-        }
+        return string.compactMap { $0.wholeNumberValue }
     }
 
-    private static func digitsToText(_ digits: [Int], lenMax: Int = Words.number.count) -> String {
+    private static func digitsToText(_ digits: [Int]) -> String {
         let reversedDigits = [Int](digits.reversed())
      
         var text = ""
-        var digitPosition = (lenMax < digits.count ? lenMax : digits.count) - 1
+        var digitPosition = digits.count - 1
 
         while 0 <= digitPosition {
             var word = ""
-
-            if digitPosition == 1 && reversedDigits[digitPosition] == 1 {
-                word = Words.teens[reversedDigits[digitPosition - 1]]
-                digitPosition = 0
+            
+            if reversedDigits.count == 1 && reversedDigits[digitPosition] == 0  {
+                word = Words.zero
             }
             else {
-                word = Words.number[digitPosition][reversedDigits[digitPosition]]
+                if digitPosition == 1 && reversedDigits[digitPosition] == 1 {
+                    digitPosition = 0
+                    word = Words.teens[reversedDigits[digitPosition]]
+                }
+                else {
+                    word = Words.number[digitPosition][reversedDigits[digitPosition]]
+                }
             }
 
             if !word.isEmpty {
