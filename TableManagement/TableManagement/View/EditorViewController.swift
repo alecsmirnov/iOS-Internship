@@ -114,6 +114,49 @@ class EditorViewController: UIViewController {
 
 extension EditorViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return true
+        var isValid = false
+        
+        if string.isEmpty {
+            isValid = true
+        }
+        
+        guard let text = textField.text else {
+            return false
+        }
+        
+        if !isValid {
+            let filtered = string.filter("0123456789".contains)
+            
+            switch string {
+            case filtered:
+                isValid = true
+            case ".":
+                let dotsCount = text.components(separatedBy: ".").count
+                if dotsCount <= 1 {
+                    isValid = true
+                }
+            case "-":
+                let signsCount = text.components(separatedBy: "-").count
+                if text.count <= 1 && signsCount <= 1 {
+                    isValid = true
+                }
+            default:
+                isValid = false
+            }
+            
+            var integer: Float = (text as NSString).floatValue
+            var fraction: Float = 0
+              
+            if let firstIndex = text.firstIndex(of: ".") {
+                integer = (text[..<firstIndex] as NSString).floatValue
+                fraction = (text[text.index(after: firstIndex)...] as NSString).floatValue
+            }
+
+            if 100 < integer || 10 < fraction {
+                isValid = false
+            }
+        }
+
+        return isValid
     }
 }
