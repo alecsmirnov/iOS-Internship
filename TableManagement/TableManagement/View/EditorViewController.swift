@@ -118,6 +118,9 @@ extension EditorViewController: UITextFieldDelegate {
         
         if string.isEmpty {
             isValid = true
+            
+            addButton.isEnabled = true
+            editButton.isEnabled = true
         }
         
         guard let text = textField.text else {
@@ -154,9 +157,12 @@ extension EditorViewController: UITextFieldDelegate {
 
             if 100 < integer || 10 < fraction {
                 isValid = false
+                
+                addButton.isEnabled = false
+                editButton.isEnabled = false
             }
         }
-
+        
         return isValid
     }
 }
