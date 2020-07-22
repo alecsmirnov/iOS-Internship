@@ -118,9 +118,6 @@ extension EditorViewController: UITextFieldDelegate {
         
         if string.isEmpty {
             isValid = true
-            
-            addButton.isEnabled = true
-            editButton.isEnabled = true
         }
         
         guard let text = textField.text else {
@@ -128,38 +125,38 @@ extension EditorViewController: UITextFieldDelegate {
         }
         
         if !isValid {
+            let numberMax = 100
             let filtered = string.filter("0123456789".contains)
+            
+            var integer = abs((text as NSString).integerValue)
+            if let firstIndex = text.firstIndex(of: ".") {
+                integer = (text[..<firstIndex] as NSString).integerValue
+            }
+            else {
+                if string != "." {
+                    integer = integer * 10 + (string as NSString).integerValue
+                }
+            }
             
             switch string {
             case filtered:
                 isValid = true
             case ".":
                 let dotsCount = text.components(separatedBy: ".").count
-                if dotsCount <= 1 {
+                if dotsCount <= 1 && integer < numberMax {
                     isValid = true
                 }
             case "-":
                 let signsCount = text.components(separatedBy: "-").count
-                if text.count <= 1 && signsCount <= 1 {
+                if text.isEmpty && signsCount <= 1 {
                     isValid = true
                 }
             default:
                 isValid = false
             }
             
-            var integer: Float = (text as NSString).floatValue
-            var fraction: Float = 0
-              
-            if let firstIndex = text.firstIndex(of: ".") {
-                integer = (text[..<firstIndex] as NSString).floatValue
-                fraction = (text[text.index(after: firstIndex)...] as NSString).floatValue
-            }
-
-            if 100 < integer || 10 < fraction {
+            if numberMax < integer {
                 isValid = false
-                
-                addButton.isEnabled = false
-                editButton.isEnabled = false
             }
         }
         
