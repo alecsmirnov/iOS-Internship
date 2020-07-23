@@ -49,8 +49,19 @@ enum NumberConverter {
         var fractionText = digitsToText(removeFractionLeadingZeros(fraction))
         
         if !fractionText.isEmpty {
-            integerText.append((integer.last == 1 ? Words.integerSuffix.last! : Words.integerSuffix.first!) + " ")
-            fractionText.append(fraction.last == 1 ? Words.fractionSuffix[fraction.count].last! : Words.fractionSuffix[fraction.count].first!)
+            if 1 < integer.count && integer[integer.count - 2] == 1 {
+                integerText.append(Words.integerSuffix.first! + " ")
+            }
+            else {
+                integerText.append((integer.last == 1 ? Words.integerSuffix.last! : Words.integerSuffix.first!) + " ")
+            }
+            
+            if 1 < fraction.count && fraction[fraction.count - 2] == 1 {
+                fractionText.append(Words.fractionSuffix[fraction.count].first!)
+            }
+            else {
+                fractionText.append(fraction.last == 1 ? Words.fractionSuffix[fraction.count].last! : Words.fractionSuffix[fraction.count].first!)
+            }
         }
         
         return sign + integerText + fractionText
