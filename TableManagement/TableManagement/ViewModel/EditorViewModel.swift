@@ -14,7 +14,7 @@ enum EditorMode {
 }
 
 class EditorViewModel {
-    var mode: EditorMode!
+    var mode: EditorMode
     var text: String!
     var color: Color!
     

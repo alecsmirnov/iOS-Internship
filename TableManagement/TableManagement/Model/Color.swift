@@ -9,34 +9,22 @@
 import Foundation
 
 struct Color {
-    var redInt: Int! {
-        guard let red = red else {
-            return nil
-        }
-        
+    var redInt: Int {
         return Int(red * 255.0)
     }
     
-    var greenInt: Int! {
-        guard let green = green else {
-            return nil
-        }
-        
+    var greenInt: Int {
         return Int(green * 255.0)
     }
     
-    var blueInt: Int! {
-        guard let blue = blue else {
-            return nil
-        }
-        
+    var blueInt: Int {
         return Int(blue * 255.0)
     }
     
-    var red: Float!
-    var green: Float!
-    var blue: Float!
-    var alpha: Float!
+    var red: Float
+    var green: Float
+    var blue: Float
+    var alpha: Float
     
     init(red: Float, green: Float, blue: Float, alpha: Float = 1.0) {
         self.red = red

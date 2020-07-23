@@ -56,13 +56,17 @@ extension TableViewController: UITableViewDataSource {
 
 extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let editorViewController = storyboard!.instantiateViewController(withIdentifier: StoryboardIds.editorViewController) as! EditorViewController
-        
-        if let tableViewModel = tableViewModel {
-            editorViewController.editorViewModel = tableViewModel.editorViewModel(at: indexPath.row)
+        if let storyboard = storyboard {
+            let editorViewController = storyboard.instantiateViewController(withIdentifier: StoryboardIds.editorViewController) as! EditorViewController
+            
+            if let tableViewModel = tableViewModel {
+                editorViewController.editorViewModel = tableViewModel.editorViewModel(at: indexPath.row)
+            }
+            
+            if let navigationController = navigationController {
+                navigationController.pushViewController(editorViewController, animated: true)
+            }
         }
-
-        navigationController!.pushViewController(editorViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

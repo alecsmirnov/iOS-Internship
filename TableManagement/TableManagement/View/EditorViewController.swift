@@ -31,15 +31,13 @@ class EditorViewController: UIViewController {
     
     private func applyEditorMode() {
         if let editorViewModel = editorViewModel {
-            if let editorMode = editorViewModel.mode {
-                switch editorMode {
-                case EditorMode.edit:
-                    showEditMode()
-                    break
-                case EditorMode.add:
-                    showAddMode()
-                    break
-                }
+            switch editorViewModel.mode {
+            case EditorMode.edit:
+                showEditMode()
+                break
+            case EditorMode.add:
+                showAddMode()
+                break
             }
         }
         else {
@@ -55,9 +53,9 @@ class EditorViewController: UIViewController {
              numberField.textColor = UIColor(color)
         }
        
-        redColorSlider.value = Float(editorViewModel.color.redInt!)
-        greenColorSlider.value = Float(editorViewModel.color.greenInt!)
-        blueColorSlider.value = Float(editorViewModel.color.blueInt!)
+        redColorSlider.value = Float(editorViewModel.color.redInt)
+        greenColorSlider.value = Float(editorViewModel.color.greenInt)
+        blueColorSlider.value = Float(editorViewModel.color.blueInt)
     }
     
     private func showAddMode() {
@@ -72,7 +70,7 @@ class EditorViewController: UIViewController {
     @IBAction private func didTapAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if let text = numberField.text {
-                editorViewModel.userAddedNewNumber(Number(value: Float(text), color: slidersColor()))
+                editorViewModel.userAddedNewNumber(Number(value: (text as NSString).floatValue, color: slidersColor()))
                 
                 numberField.text = ""
                 
@@ -86,7 +84,7 @@ class EditorViewController: UIViewController {
     @IBAction private func didTapEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if let text = numberField.text {
-                editorViewModel.userChangedSelectedNumber(Number(value: Float(text), color: slidersColor()))
+                editorViewModel.userChangedSelectedNumber(Number(value: (text as NSString).floatValue, color: slidersColor()))
             }
         }
     }

@@ -9,8 +9,8 @@
 import Foundation
 
 struct Number {
-    var value: Float!
-    var color: Color!
+    var value: Float
+    var color: Color
 }
 
 class NumbersData {
