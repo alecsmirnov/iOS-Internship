@@ -55,9 +55,9 @@ class EditorViewController: UIViewController {
              numberField.textColor = UIColor(color)
         }
        
-        redColorSlider.value = editorViewModel.color.red * 255.0
-        greenColorSlider.value = editorViewModel.color.green * 255.0
-        blueColorSlider.value = editorViewModel.color.blue * 255.0
+        redColorSlider.value = Float(editorViewModel.color.redInt!)
+        greenColorSlider.value = Float(editorViewModel.color.greenInt!)
+        blueColorSlider.value = Float(editorViewModel.color.blueInt!)
     }
     
     private func showAddMode() {
@@ -66,7 +66,7 @@ class EditorViewController: UIViewController {
     }
     
     private func slidersColor() -> Color {
-        return Color(red: redColorSlider.value / 255.0, green: greenColorSlider.value / 255.0, blue: blueColorSlider.value / 255.0, alpha: 1.0)
+        return Color(red: Int(redColorSlider.value), green: Int(greenColorSlider.value), blue: Int(blueColorSlider.value))
     }
     
     @IBAction private func didTapAdd(_ sender: Any) {
