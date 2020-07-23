@@ -93,7 +93,9 @@ class EditorViewController: UIViewController {
         if let editorViewModel = editorViewModel {
             editorViewModel.userDeletedSelectedNumber()
             
-            navigationController!.popViewController(animated: true);
+            if let navigationController = navigationController {
+                navigationController.popViewController(animated: true);
+            }
         }
     }
     

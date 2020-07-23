@@ -13,10 +13,7 @@ class TableViewCell: UITableViewCell {
         didSet {
             label.text = cellViewModel.valueText
             textView.text = cellViewModel.numberText
-            
-            if let color = cellViewModel.color {
-                label.textColor = UIColor(color)
-            }
+            label.textColor = UIColor(cellViewModel.color)
         }
     }
     

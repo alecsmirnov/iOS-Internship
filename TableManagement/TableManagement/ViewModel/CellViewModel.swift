@@ -9,9 +9,9 @@
 import Foundation
 
 struct CellViewModel {
-    var valueText: String!
-    var numberText: String!
-    var color: Color!
+    var valueText: String
+    var numberText: String
+    var color: Color
     
     init(number: Number) {
         valueText = String(format: "%.2f", number.value)
