@@ -15,26 +15,58 @@ enum EditorMode {
 
 class EditorViewModel {
     var mode: EditorMode
-    var text: String!
-    var color: Color!
+    
+    var text: String?
+    var textColor: Color
+    
+    var redColorSliderValue: Float {
+        return textColor.red * 255.0
+    }
+    
+    var greenColorSliderValue: Float {
+        return textColor.green * 255.0
+    }
+    
+    var blueColorSliderValue: Float {
+        return textColor.blue * 255.0
+    }
     
     private var delegate: EditorViewModelDelegate!
-
+    
     init(mode: EditorMode, number: Number?, delegate: EditorViewModelDelegate) {
         self.mode = mode
+        
         if let number = number {
             text = String(number.value)
-            color = number.color
+            textColor = number.color
         }
+        else {
+            textColor = Color(red: 0, green: 0, blue: 0)
+        }
+        
         self.delegate = delegate
     }
     
-    func userAddedNewNumber(_ number: Number) {
-        delegate.editorViewModelDelegateAddNumber(self, number: number)
+    func userChangedRedColorSlider(_ value: Float) {
+        textColor.red = value / 255.0
     }
     
-    func userChangedSelectedNumber(_ number: Number) {
-        delegate.editorViewModelDelegateChangeSelectedNumber(self, newNumber: number)
+    func userChangedGreenColorSlider(_ value: Float) {
+        textColor.green = value / 255.0
+    }
+    
+    func userChangedBlueColorSlider(_ value: Float) {
+        textColor.blue = value / 255.0
+    }
+    
+    func userAddedNewNumber(_ text: String) {
+        delegate.editorViewModelDelegateAddNumber(self, number: Number(value: (text as NSString).floatValue, color: textColor))
+        
+        textColor = Color(red: 0, green: 0, blue: 0)
+    }
+    
+    func userChangedSelectedNumber(_ text: String) {
+        delegate.editorViewModelDelegateChangeSelectedNumber(self, newNumber: Number(value: (text as NSString).floatValue, color: textColor))
     }
     
     func userDeletedSelectedNumber() {

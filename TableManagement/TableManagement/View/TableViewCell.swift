@@ -12,8 +12,9 @@ class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
             label.text = cellViewModel.valueText
-            textView.text = cellViewModel.numberText
             label.textColor = UIColor(cellViewModel.color)
+            
+            textView.text = cellViewModel.numberText
         }
     }
     

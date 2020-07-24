@@ -8,6 +8,12 @@
 
 import UIKit
 
+private enum SlidersTag {
+    static let redColor   = 0
+    static let greenColor = 1
+    static let blueColor  = 2
+}
+
 class EditorViewController: UIViewController {
     var editorViewModel: EditorViewModel!
 
@@ -49,13 +55,11 @@ class EditorViewController: UIViewController {
         addButton.isHidden = true
         
         numberField.text = editorViewModel.text
-        if let color = editorViewModel.color {
-             numberField.textColor = UIColor(color)
-        }
+        numberField.textColor = UIColor(editorViewModel.textColor)
        
-        redColorSlider.value = Float(editorViewModel.color.redInt)
-        greenColorSlider.value = Float(editorViewModel.color.greenInt)
-        blueColorSlider.value = Float(editorViewModel.color.blueInt)
+        redColorSlider.value = editorViewModel.redColorSliderValue
+        greenColorSlider.value = editorViewModel.greenColorSliderValue
+        blueColorSlider.value = editorViewModel.blueColorSliderValue
     }
     
     private func showAddMode() {
@@ -63,20 +67,12 @@ class EditorViewController: UIViewController {
         deleteButton.isHidden = true
     }
     
-    private func slidersColor() -> Color {
-        return Color(red: Int(redColorSlider.value), green: Int(greenColorSlider.value), blue: Int(blueColorSlider.value))
-    }
-    
     @IBAction private func didTapAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if let text = numberField.text {
-                editorViewModel.userAddedNewNumber(Number(value: (text as NSString).floatValue, color: slidersColor()))
+                editorViewModel.userAddedNewNumber(text)
                 
                 numberField.text = ""
-                
-                redColorSlider.value = 0
-                greenColorSlider.value = 0
-                blueColorSlider.value = 0
             }
         }
     }
@@ -84,7 +80,7 @@ class EditorViewController: UIViewController {
     @IBAction private func didTapEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if let text = numberField.text {
-                editorViewModel.userChangedSelectedNumber(Number(value: (text as NSString).floatValue, color: slidersColor()))
+                editorViewModel.userChangedSelectedNumber(text)
             }
         }
     }
@@ -104,7 +100,23 @@ class EditorViewController: UIViewController {
     }
     
     @IBAction private func didSlideColor(_ sender: Any) {
-        numberField.textColor = UIColor(slidersColor())
+        let slider = sender as! UISlider
+        
+        switch slider.tag {
+        case SlidersTag.redColor:
+            editorViewModel.userChangedRedColorSlider(redColorSlider.value)
+            break
+        case SlidersTag.greenColor:
+            editorViewModel.userChangedGreenColorSlider(greenColorSlider.value)
+            break
+        case SlidersTag.blueColor:
+            editorViewModel.userChangedBlueColorSlider(blueColorSlider.value)
+            break
+        default:
+            break
+        }
+        
+        numberField.textColor = UIColor(editorViewModel.textColor)
     }
 }
 

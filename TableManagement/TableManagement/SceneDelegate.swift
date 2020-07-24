@@ -9,14 +9,14 @@
 import UIKit
 
 private enum Data {
-    static let size: Int = 50
+    static let size:  Int   = 50
     static let range: Float = 100.0
 }
 
 private enum TabBarItems {
-    static let table: Int = 0
-    static let add: Int = 1
-    static let statistics: Int = 2
+    static let table      = 0
+    static let add        = 1
+    static let statistics = 2
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

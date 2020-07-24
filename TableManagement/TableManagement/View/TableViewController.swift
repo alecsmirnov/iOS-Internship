@@ -9,7 +9,7 @@
 import UIKit
 
 private enum StoryboardIds {
-    static let tableViewCell = "TableViewCell"
+    static let tableViewCell        = "TableViewCell"
     static let editorViewController = "EditorViewController"
 }
 
