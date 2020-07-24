@@ -47,15 +47,15 @@ class EditorViewModel {
         self.delegate = delegate
     }
     
-    func userChangedRedColor(_ value: Float) {
+    func userChangedRedColorValue(_ value: Float) {
         textColor.red = value / 255.0
     }
     
-    func userChangedGreenColor(_ value: Float) {
+    func userChangedGreenColorValue(_ value: Float) {
         textColor.green = value / 255.0
     }
     
-    func userChangedBlueColor(_ value: Float) {
+    func userChangedBlueColorValue(_ value: Float) {
         textColor.blue = value / 255.0
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-private enum SlidersTag {
+private enum SliderTags {
     static let redColor   = 0
     static let greenColor = 1
     static let blueColor  = 2
@@ -69,8 +69,8 @@ class EditorViewController: UIViewController {
     
     @IBAction private func didTapAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            if let text = numberField.text {
-                editorViewModel.userAddedNewNumber(text)
+            if let textNumber = numberField.text {
+                editorViewModel.userAddedNewNumber(textNumber)
                 
                 numberField.text = ""
                 
@@ -83,8 +83,8 @@ class EditorViewController: UIViewController {
     
     @IBAction private func didTapEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
-            if let text = numberField.text {
-                editorViewModel.userChangedSelectedNumber(text)
+            if let textNumber = numberField.text {
+                editorViewModel.userChangedSelectedNumber(textNumber)
             }
         }
     }
@@ -107,14 +107,14 @@ class EditorViewController: UIViewController {
         let slider = sender as! UISlider
         
         switch slider.tag {
-        case SlidersTag.redColor:
-            editorViewModel.userChangedRedColor(redColorSlider.value)
+        case SliderTags.redColor:
+            editorViewModel.userChangedRedColorValue(redColorSlider.value)
             break
-        case SlidersTag.greenColor:
-            editorViewModel.userChangedGreenColor(greenColorSlider.value)
+        case SliderTags.greenColor:
+            editorViewModel.userChangedGreenColorValue(greenColorSlider.value)
             break
-        case SlidersTag.blueColor:
-            editorViewModel.userChangedBlueColor(blueColorSlider.value)
+        case SliderTags.blueColor:
+            editorViewModel.userChangedBlueColorValue(blueColorSlider.value)
             break
         default:
             break
