@@ -8,19 +8,68 @@
 
 import Foundation
 
-struct RGB {
+struct Color {
+    var red: Float {
+        get { return rgb.red }
+        set { rgb.red = newValue }
+    }
+    
+    var green: Float {
+        get { return rgb.green }
+        set { rgb.green = newValue}
+    }
+    
+    var blue: Float {
+        get { return rgb.blue }
+        set { rgb.blue = newValue }
+    }
+    
+    var hue: Float {
+        get { return hsv.hue }
+        set { hsv.hue = newValue }
+    }
+    
+    var saturation: Float {
+        get { return hsv.saturation }
+        set { hsv.saturation = newValue }
+    }
+    
+    var brightness: Float {
+        get { return hsv.brightness }
+        set { hsv.brightness = newValue }
+    }
+    
+    var alpha: Float
+    
+    private var rgb: RGB
+    private var hsv: HSV
+    
+    init(red: Float, green: Float, blue: Float, alpha: Float = 1.0) {
+        rgb = RGB(red: red, green: green, blue: blue)
+        hsv = ColorConverter.rgbToHSV(rgb)
+        self.alpha = alpha
+    }
+    
+    init(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1.0) {
+        hsv = HSV(hue: hue, saturation: saturation, brightness: brightness)
+        rgb = ColorConverter.hsvToRGB(hsv)
+        self.alpha = alpha
+    }
+}
+
+private struct RGB {
     var red: Float
     var green: Float
     var blue: Float
 }
 
-struct HSV {
+private struct HSV {
     var hue: Float
     var saturation: Float
     var brightness: Float
 }
 
-enum ColorConverter {
+private enum ColorConverter {
     static func rgbToHSV(_ rgb: RGB) -> HSV {
         let colorMax = max(rgb.red, rgb.green, rgb.blue)
         let colorMin = min(rgb.red, rgb.green, rgb.blue)
@@ -82,54 +131,5 @@ enum ColorConverter {
         }
 
         return rgb
-    }
-}
-
-struct Color {
-    var red: Float {
-        get { return rgb.red }
-        set { rgb.red = newValue }
-    }
-    
-    var green: Float {
-        get { return rgb.green }
-        set { rgb.green = newValue}
-    }
-    
-    var blue: Float {
-        get { return rgb.blue }
-        set { rgb.blue = newValue }
-    }
-    
-    var hue: Float {
-        get { return hsv.hue }
-        set { hsv.hue = newValue }
-    }
-    
-    var saturation: Float {
-        get { return hsv.saturation }
-        set { hsv.saturation = newValue }
-    }
-    
-    var brightness: Float {
-        get { return hsv.brightness }
-        set { hsv.brightness = newValue }
-    }
-    
-    var alpha: Float
-    
-    private var rgb: RGB
-    private var hsv: HSV
-    
-    init(red: Float, green: Float, blue: Float, alpha: Float = 1.0) {
-        rgb = RGB(red: red, green: green, blue: blue)
-        hsv = ColorConverter.rgbToHSV(rgb)
-        self.alpha = alpha
-    }
-    
-    init(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1.0) {
-        hsv = HSV(hue: hue, saturation: saturation, brightness: brightness)
-        rgb = ColorConverter.hsvToRGB(hsv)
-        self.alpha = alpha
     }
 }
