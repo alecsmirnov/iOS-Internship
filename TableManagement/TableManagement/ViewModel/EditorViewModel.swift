@@ -20,15 +20,15 @@ class EditorViewModel {
     var textColor: Color
     
     var redColorValue: Float {
-        return textColor.red * 255.0
+        return textColor.red * 255
     }
     
     var greenColorValue: Float {
-        return textColor.green * 255.0
+        return textColor.green * 255
     }
     
     var blueColorValue: Float {
-        return textColor.blue * 255.0
+        return textColor.blue * 255
     }
     
     private var delegate: EditorViewModelDelegate!
@@ -48,15 +48,15 @@ class EditorViewModel {
     }
     
     func userChangedRedColorValue(_ value: Float) {
-        textColor.red = value / 255.0
+        textColor.red = value / 255
     }
     
     func userChangedGreenColorValue(_ value: Float) {
-        textColor.green = value / 255.0
+        textColor.green = value / 255
     }
     
     func userChangedBlueColorValue(_ value: Float) {
-        textColor.blue = value / 255.0
+        textColor.blue = value / 255
     }
     
     func userAddedNewNumber(_ textNumber: String) {
