@@ -71,6 +71,10 @@ class EditorViewModel {
         delegate.editorViewModelDelegateDeleteSelectedNumber(self)
     }
     
+    func isFunnyTextColor() -> Bool {
+        textColor.saturation == 1 && textColor.brightness == 1
+    }
+    
     func isValidUserInput(text: String, string: String) -> Bool {
         var valid = false
         

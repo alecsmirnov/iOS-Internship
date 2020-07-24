@@ -67,16 +67,28 @@ class EditorViewController: UIViewController {
         deleteButton.isHidden = true
     }
     
+    private func showAlertMessage() {
+        let alert = UIAlertController(title: "This color is not funny!", message: "Change this color and try again.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+
+        self.present(alert, animated: true)
+    }
+    
     @IBAction private func didTapAdd(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if let textNumber = numberField.text {
-                editorViewModel.userAddedNewNumber(textNumber)
-                
-                numberField.text = ""
-                
-                redColorSlider.value = 0
-                greenColorSlider.value = 0
-                blueColorSlider.value = 0
+                if editorViewModel.isFunnyTextColor() {
+                    editorViewModel.userAddedNewNumber(textNumber)
+                    
+                    numberField.text = ""
+                    
+                    redColorSlider.value = 0
+                    greenColorSlider.value = 0
+                    blueColorSlider.value = 0
+                }
+                else {
+                    showAlertMessage()
+                }
             }
         }
     }
@@ -84,7 +96,12 @@ class EditorViewController: UIViewController {
     @IBAction private func didTapEdit(_ sender: Any) {
         if let editorViewModel = editorViewModel {
             if let textNumber = numberField.text {
-                editorViewModel.userChangedSelectedNumber(textNumber)
+                if editorViewModel.isFunnyTextColor() {
+                    editorViewModel.userChangedSelectedNumber(textNumber)
+                }
+                else {
+                    showAlertMessage()
+                }
             }
         }
     }

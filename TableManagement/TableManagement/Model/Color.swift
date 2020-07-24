@@ -10,33 +10,63 @@ import Foundation
 
 struct Color {
     var red: Float {
-        get { return rgb.red }
-        set { rgb.red = newValue }
+        get {
+            return rgb.red
+        }
+        set {
+            rgb.red = newValue
+            hsv = ColorConverter.rgbToHSV(rgb)
+        }
     }
     
     var green: Float {
-        get { return rgb.green }
-        set { rgb.green = newValue}
+        get {
+            return rgb.green
+        }
+        set {
+            rgb.green = newValue
+            hsv = ColorConverter.rgbToHSV(rgb)
+        }
     }
     
     var blue: Float {
-        get { return rgb.blue }
-        set { rgb.blue = newValue }
+        get {
+            return rgb.blue
+        }
+        set {
+            rgb.blue = newValue
+            hsv = ColorConverter.rgbToHSV(rgb)
+        }
     }
     
     var hue: Float {
-        get { return hsv.hue }
-        set { hsv.hue = newValue }
+        get {
+            return hsv.hue
+        }
+        set {
+            hsv.hue = newValue
+            rgb = ColorConverter.hsvToRGB(hsv)
+        }
     }
     
     var saturation: Float {
-        get { return hsv.saturation }
-        set { hsv.saturation = newValue }
+        get {
+            return hsv.saturation
+        }
+        set {
+            hsv.saturation = newValue
+            rgb = ColorConverter.hsvToRGB(hsv)
+        }
     }
     
     var brightness: Float {
-        get { return hsv.brightness }
-        set { hsv.brightness = newValue }
+        get {
+            return hsv.brightness
+        }
+        set {
+            hsv.brightness = newValue
+            rgb = ColorConverter.hsvToRGB(hsv)
+        }
     }
     
     var alpha: Float
