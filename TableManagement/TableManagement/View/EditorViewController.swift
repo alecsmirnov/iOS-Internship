@@ -57,9 +57,9 @@ class EditorViewController: UIViewController {
         numberField.text = editorViewModel.text
         numberField.textColor = UIColor(editorViewModel.textColor)
        
-        redColorSlider.value = editorViewModel.redColorSliderValue
-        greenColorSlider.value = editorViewModel.greenColorSliderValue
-        blueColorSlider.value = editorViewModel.blueColorSliderValue
+        redColorSlider.value = editorViewModel.redColorValue
+        greenColorSlider.value = editorViewModel.greenColorValue
+        blueColorSlider.value = editorViewModel.blueColorValue
     }
     
     private func showAddMode() {
@@ -73,6 +73,10 @@ class EditorViewController: UIViewController {
                 editorViewModel.userAddedNewNumber(text)
                 
                 numberField.text = ""
+                
+                redColorSlider.value = 0
+                greenColorSlider.value = 0
+                blueColorSlider.value = 0
             }
         }
     }
@@ -104,13 +108,13 @@ class EditorViewController: UIViewController {
         
         switch slider.tag {
         case SlidersTag.redColor:
-            editorViewModel.userChangedRedColorSlider(redColorSlider.value)
+            editorViewModel.userChangedRedColor(redColorSlider.value)
             break
         case SlidersTag.greenColor:
-            editorViewModel.userChangedGreenColorSlider(greenColorSlider.value)
+            editorViewModel.userChangedGreenColor(greenColorSlider.value)
             break
         case SlidersTag.blueColor:
-            editorViewModel.userChangedBlueColorSlider(blueColorSlider.value)
+            editorViewModel.userChangedBlueColor(blueColorSlider.value)
             break
         default:
             break

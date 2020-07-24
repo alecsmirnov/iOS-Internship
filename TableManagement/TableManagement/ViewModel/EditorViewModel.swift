@@ -19,15 +19,15 @@ class EditorViewModel {
     var text: String?
     var textColor: Color
     
-    var redColorSliderValue: Float {
+    var redColorValue: Float {
         return textColor.red * 255.0
     }
     
-    var greenColorSliderValue: Float {
+    var greenColorValue: Float {
         return textColor.green * 255.0
     }
     
-    var blueColorSliderValue: Float {
+    var blueColorValue: Float {
         return textColor.blue * 255.0
     }
     
@@ -47,22 +47,20 @@ class EditorViewModel {
         self.delegate = delegate
     }
     
-    func userChangedRedColorSlider(_ value: Float) {
+    func userChangedRedColor(_ value: Float) {
         textColor.red = value / 255.0
     }
     
-    func userChangedGreenColorSlider(_ value: Float) {
+    func userChangedGreenColor(_ value: Float) {
         textColor.green = value / 255.0
     }
     
-    func userChangedBlueColorSlider(_ value: Float) {
+    func userChangedBlueColor(_ value: Float) {
         textColor.blue = value / 255.0
     }
     
     func userAddedNewNumber(_ textNumber: String) {
         delegate.editorViewModelDelegateAddNumber(self, number: Number(value: (textNumber as NSString).floatValue, color: textColor))
-        
-        textColor = Color(red: 0, green: 0, blue: 0)
     }
     
     func userChangedSelectedNumber(_ textNumber: String) {
