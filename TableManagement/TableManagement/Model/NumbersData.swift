@@ -27,7 +27,7 @@ class NumbersData {
     init(size: Int, range: Float) {
         for _ in 0..<size {
             let value = Float.random(in: -range..<range)
-            let color = Color(red: Float.random(in: 0.0...1.0), green: Float.random(in: 0.0...1.0), blue: Float.random(in: 0.0...1.0))
+            let color = Color(hue: Float.random(in: 0...1), saturation: 1, brightness: 1)
 
             data.append(Number(value: value, color: color))
         }
