@@ -13,11 +13,16 @@ private enum StoryboardIds {
     static let editorViewController = "EditorViewController"
 }
 
+private enum ReloadData {
+    case none
+    case all
+    case row(index: Int)
+}
+
 class TableViewController: UIViewController {
     var tableViewModel: TableViewModel!
     
-    private var reloadAll: Bool = false
-    private var reloadRows: Set<Int> = []
+    private var reloadData = ReloadData.none
     
     @IBOutlet private var tableView: UITableView!
     
@@ -31,16 +36,16 @@ class TableViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if reloadAll {
+        switch reloadData {
+        case ReloadData.all:
             tableView.reloadData()
+            break
+        case ReloadData.row(let index):
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            break
+        default:
+            break
         }
-        else {
-            for row in reloadRows {
-                tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
-            }
-        }
-        
-        reloadRows.removeAll()
     }
 }
 
@@ -90,10 +95,10 @@ extension TableViewController: UITableViewDelegate {
 
 extension TableViewController: TableViewModelDisplayDelegate {
     func tableViewModelDisplayDelegateUpdateNumber(_ viewController: AnyObject, at index: Int) {
-        reloadRows.insert(index)
+        reloadData = ReloadData.row(index: index)
     }
     
     func tableViewModelDisplayDelegateUpdateTable(_ viewController: AnyObject) {
-        reloadAll = true
+        reloadData = ReloadData.all
     }
 }
