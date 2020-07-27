@@ -120,22 +120,20 @@ class EditorViewController: UIViewController {
         numberField.resignFirstResponder()
     }
     
-    @IBAction private func didSlideColor(_ sender: Any) {
-        let slider = sender as! UISlider
+    @IBAction func didChangeRedColorSlider(_ sender: Any) {
+        editorViewModel.userChangedRedColorValue(redColorSlider.value)
         
-        switch slider.tag {
-        case SliderTags.redColor:
-            editorViewModel.userChangedRedColorValue(redColorSlider.value)
-            break
-        case SliderTags.greenColor:
-            editorViewModel.userChangedGreenColorValue(greenColorSlider.value)
-            break
-        case SliderTags.blueColor:
-            editorViewModel.userChangedBlueColorValue(blueColorSlider.value)
-            break
-        default:
-            break
-        }
+        numberField.textColor = UIColor(editorViewModel.textColor)
+    }
+    
+    @IBAction func didChangeGreenColorSlider(_ sender: Any) {
+        editorViewModel.userChangedGreenColorValue(greenColorSlider.value)
+        
+        numberField.textColor = UIColor(editorViewModel.textColor)
+    }
+    
+    @IBAction func didChangeBlueColorSlider(_ sender: Any) {
+        editorViewModel.userChangedBlueColorValue(blueColorSlider.value)
         
         numberField.textColor = UIColor(editorViewModel.textColor)
     }

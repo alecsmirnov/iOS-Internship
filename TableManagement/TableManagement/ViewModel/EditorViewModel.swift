@@ -31,7 +31,7 @@ class EditorViewModel {
         return textColor.blue * 255
     }
     
-    private var delegate: EditorViewModelDelegate!
+    private var delegate: EditorViewModelDelegate
     
     init(mode: EditorMode, number: Number?, delegate: EditorViewModelDelegate) {
         self.mode = mode
@@ -72,7 +72,9 @@ class EditorViewModel {
     }
     
     func isFunnyTextColor() -> Bool {
-        textColor.saturation == 1 && textColor.brightness == 1
+        let hsv = textColor.hsv()
+        
+        return hsv.saturation == 1 && hsv.brightness == 1
     }
     
     func isValidUserInput(text: String, string: String) -> Bool {

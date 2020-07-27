@@ -13,7 +13,9 @@ class TableViewModel {
         return numbersData.count
     }
     
-    private var numbersData: NumbersData!
+    var delegate: TableViewModelDisplayDelegate!
+    
+    private var numbersData: NumbersData
     private var selectedRow: Int?
     
     init(numbersData: NumbersData) {
@@ -38,6 +40,10 @@ class TableViewModel {
 extension TableViewModel: EditorViewModelDelegate {
     func editorViewModelDelegateAddNumber(_ viewModel: AnyObject, number: Number) {
         numbersData.append(number: number)
+        
+        if let delegate = delegate {
+            delegate.tableViewModelDisplayDelegateUpdateTable(self)
+        }
     }
     
     func editorViewModelDelegateChangeSelectedNumber(_ viewModel: AnyObject, newNumber: Number) {
@@ -46,6 +52,10 @@ extension TableViewModel: EditorViewModelDelegate {
         }
         
         numbersData.replace(at: selectedRow, with: newNumber)
+        
+        if let delegate = delegate {
+            delegate.tableViewModelDisplayDelegateUpdateNumber(self, at: selectedRow)
+        }
     }
     
     func editorViewModelDelegateDeleteSelectedNumber(_ viewModel: AnyObject) {
@@ -54,5 +64,9 @@ extension TableViewModel: EditorViewModelDelegate {
         }
         
         numbersData.remove(at: selectedRow)
+        
+        if let delegate = delegate {
+            delegate.tableViewModelDisplayDelegateUpdateTable(self)
+        }
     }
 }

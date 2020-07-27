@@ -23,12 +23,8 @@ class TableViewController: UIViewController {
     
         tableView.delegate = self
         tableView.dataSource = self
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if let tableView = self.tableView {
-            tableView.reloadData()
-        }
+        
+        tableViewModel.delegate = self
     }
 }
 
@@ -72,8 +68,16 @@ extension TableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             tableViewModel.userDeletedNumber(at: indexPath.row)
-            
-            tableView.reloadData()
         }
+    }
+}
+
+extension TableViewController: TableViewModelDisplayDelegate {
+    func tableViewModelDisplayDelegateUpdateNumber(_ viewController: AnyObject, at index: Int) {
+        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+    }
+    
+    func tableViewModelDisplayDelegateUpdateTable(_ viewController: AnyObject) {
+        tableView.reloadData()
     }
 }

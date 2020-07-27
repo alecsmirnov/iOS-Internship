@@ -13,7 +13,7 @@ class StatisticsViewModel {
         return String(numbersData.count)
     }
     
-    private var numbersData: NumbersData!
+    private var numbersData: NumbersData
     
     init(numbersData: NumbersData) {
         self.numbersData = numbersData
