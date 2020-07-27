@@ -16,6 +16,8 @@ private enum StoryboardIds {
 class TableViewController: UIViewController {
     var tableViewModel: TableViewModel!
     
+    private var reloadEvents: [DispatchWorkItem] = []
+    
     @IBOutlet private var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -25,6 +27,18 @@ class TableViewController: UIViewController {
         tableView.dataSource = self
         
         tableViewModel.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !reloadEvents.isEmpty {
+            let reloadEventsQueue = DispatchQueue.main
+            
+            for event in reloadEvents {
+                reloadEventsQueue.async(execute: event)
+            }
+            
+            reloadEvents.removeAll()
+        }
     }
 }
 
@@ -74,10 +88,18 @@ extension TableViewController: UITableViewDelegate {
 
 extension TableViewController: TableViewModelDisplayDelegate {
     func tableViewModelDisplayDelegateUpdateNumber(_ viewController: AnyObject, at index: Int) {
-        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        let reloadEvent = DispatchWorkItem.init {
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
+        
+        reloadEvents.append(reloadEvent)
     }
     
     func tableViewModelDisplayDelegateUpdateTable(_ viewController: AnyObject) {
-        tableView.reloadData()
+        let reloadEvent = DispatchWorkItem.init {
+            self.tableView.reloadData()
+        }
+        
+        reloadEvents.append(reloadEvent)
     }
 }
