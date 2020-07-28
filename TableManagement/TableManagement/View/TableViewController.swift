@@ -35,6 +35,7 @@ class TableViewController: UIViewController {
         tableViewModel.delegate = self
     }
     
+    // Можно сломать
     override func viewDidAppear(_ animated: Bool) {
         switch reloadData {
         case ReloadData.all:
