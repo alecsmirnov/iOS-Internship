@@ -11,7 +11,7 @@ import UIKit
 private enum Sizes {
     static let lineWidth: CGFloat = 1
     
-    static let stepMin: CGFloat = 1
+    static let stepMin: CGFloat = 15
     static let stepMax: CGFloat = 30
 }
 
@@ -22,15 +22,19 @@ private struct GridInfo {
     var yMax: Int
     var yMin: Int
     
+    var xStep: CGFloat
+    var yStep: CGFloat
+    
     var center: CGPoint
 }
 
 @IBDesignable
 class GraphView: UIView {
     
-    //var numbers = DataSource(size: 10, rangeMin: -23, rangeMax: 30)
-    var numbers: [Float] = [-1, 0, 2, 3, 5, 5, 9, -4, -3.2, 6.7, 9.532, -2, -3, -5, 1, 2]
-
+    //var numbers = DataSource(size: 53, rangeMin: -23, rangeMax: 30).arrayData()
+    var numbers: [Float] = [-1, 0, 5, 9, -4, -3.2, 6.7, 9.532, -2, -3, -5, 1, 2, 20, 23, 23, 12, 2, 5, 6, -5, 5, -11]
+    //var numbers: [Float] = [-1, -5, -9, -4, -3.2, -6.7, -9.532, -2, -3, -5, -1, -2, -20, -23, -23, -12, -2, -5, -6, -5, -5, -11]
+    
     override func draw(_ rect: CGRect) {
         let padding: CGFloat = 10
         
@@ -52,14 +56,16 @@ class GraphView: UIView {
             color.setStroke()
             linePath.stroke()
         }
-        
-        let xStep: Float = 0.5
-        let yStep: Float = 0.5
+
         let dashSize: CGFloat = 3
         let graphColor: UIColor = UIColor.black
         let gridColor: UIColor = UIColor.lightGray
         
-        let xPosition = gridInfo.center.x + gridInfo.cellSize.width * CGFloat(gridInfo.xCount)
+        let xStep = gridInfo.xStep
+        let yStep = gridInfo.yStep
+        
+        let xPosition = gridInfo.center.x + rect.width
+        //let xPosition = gridInfo.center.x + gridInfo.cellSize.width * CGFloat(gridInfo.xCount)
         drawLine(CGPoint(x: xPosition, y: rect.minY), CGPoint(x: xPosition, y: rect.maxY), gridColor)
         drawLine(CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY), gridColor)
         drawLine(CGPoint(x: rect.minX, y: rect.maxY), CGPoint(x: rect.maxX, y: rect.maxY), gridColor)
@@ -67,8 +73,8 @@ class GraphView: UIView {
         // X Axis
         drawLine(gridInfo.center, CGPoint(x: rect.maxX, y: gridInfo.center.y), graphColor)
         
-        for i in stride(from: xStep, to: Float(gridInfo.xCount), by: xStep) {
-            let xPosition = gridInfo.center.x + gridInfo.cellSize.width * CGFloat(i)
+        for i in stride(from: xStep, to: CGFloat(gridInfo.xCount), by: xStep) {
+            let xPosition = gridInfo.center.x + gridInfo.cellSize.width * i
             let aPoint = CGPoint(x: xPosition, y: gridInfo.center.y + dashSize / 2)
             let bPoint = CGPoint(x: xPosition, y: gridInfo.center.y - dashSize / 2)
             
@@ -82,8 +88,8 @@ class GraphView: UIView {
         // Y Axis
         drawLine(CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.minX, y: rect.maxY), graphColor)
         
-        for i in stride(from: yStep, to: Float(gridInfo.yMax), by: yStep) {
-            let yPosition = gridInfo.center.y - gridInfo.cellSize.height * CGFloat(i)
+        for i in stride(from: yStep, to: CGFloat(gridInfo.yMax), by: yStep) {
+            let yPosition = gridInfo.center.y - gridInfo.cellSize.height * i
             let aPoint = CGPoint(x: gridInfo.center.x + dashSize / 2, y: yPosition)
             let bPoint = CGPoint(x: gridInfo.center.x - dashSize / 2, y: yPosition)
             
@@ -91,8 +97,8 @@ class GraphView: UIView {
             drawLine(aPoint, bPoint, graphColor)
         }
         
-        for i in stride(from: -yStep, to: Float(gridInfo.yMin), by: -yStep) {
-            let yPosition = gridInfo.center.y - gridInfo.cellSize.height * CGFloat(i)
+        for i in stride(from: -yStep, to: CGFloat(gridInfo.yMin), by: -yStep) {
+            let yPosition = gridInfo.center.y - gridInfo.cellSize.height * i
             let aPoint = CGPoint(x: gridInfo.center.x + dashSize / 2, y: yPosition)
             let bPoint = CGPoint(x: gridInfo.center.x - dashSize / 2, y: yPosition)
             
@@ -100,24 +106,25 @@ class GraphView: UIView {
             drawLine(aPoint, bPoint, graphColor)
         }
         
-        drawLine(CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.minX + dashSize, y: rect.minY + 2 * dashSize), graphColor)
-        drawLine(CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.minX - dashSize, y: rect.minY + 2 * dashSize), graphColor)
+        if 0 < gridInfo.yMax {
+            drawLine(CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.minX + dashSize, y: rect.minY + 2 * dashSize), graphColor)
+            drawLine(CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.minX - dashSize, y: rect.minY + 2 * dashSize), graphColor)
+        }
     }
     
     private func drawNumbers(_ rect: CGRect, gridInfo: GridInfo) {
         let drawPoint: (CGPoint, CGFloat, UIColor) -> () = { (point: CGPoint, size: CGFloat, color: UIColor) -> () in
-            let pointRect = CGRect(x: point.x, y: point.y, width: size, height: size)
+            let pointRect = CGRect(x: point.x - size / 2, y: point.y - size / 2, width: size, height: size)
             let pointPath = UIBezierPath(ovalIn: pointRect)
 
             color.setFill()
             pointPath.fill()
         }
         
-        let pointSize: CGFloat = 3
+        let pointSize: CGFloat = 2
         
         for i in 0..<numbers.count {
             let number = numbers[i]
-            //let number = numbers.get(at: i)
             let point = getNumberPoint(index: i, number: number, gridInfo: gridInfo)
             let pointColor = number < 0 ? UIColor.blue : UIColor.red
             
@@ -133,23 +140,32 @@ class GraphView: UIView {
     }
     
     private func getGridInfo(_ rect: CGRect) -> GridInfo {
-        var yMax: Int = 0
-        var yMin: Int = 0
+        let xStep: CGFloat = 0.1 //0.2721235
+        let yStep: CGFloat = 0.88
+        
+        var yMax = 0
+        var yMin = 0
         
         if let max = numbers.max() {
-            yMax = max == Float(Int(max)) ? Int(max) + 1 : Int(ceilf(max))
+            let yMaxCount = max == Float(Int(max)) ? Int(max) + 1 : Int(ceilf(max))
+            yMax = Int(CGFloat(yMaxCount) + yStep - CGFloat(yMaxCount).remainder(dividingBy: yStep))
         }
         
         if let min = numbers.min() {
-            yMin = min == Float(Int(min)) ? Int(min) - 1 : Int(floorf(min))
+            if min < 0 {
+                let yMinCount = min == Float(Int(min)) ? Int(min) - 1 : Int(floorf(min))
+                yMin = Int(CGFloat(yMinCount) - yStep + CGFloat(yMinCount).remainder(dividingBy: yStep))
+            }
         }
         
-        let xCount = numbers.count
-        let yCount = yMin < 0 ? yMax - yMin: yMax
-        let cellSize = CGSize(width: rect.width / CGFloat(xCount), height: rect.height / CGFloat(yCount))
+        let xWidth = (CGFloat(numbers.count) + xStep - CGFloat(numbers.count).remainder(dividingBy: xStep))
         
+        let xCount = Int(xWidth)
+        let yCount = yMax - yMin
+        
+        let cellSize = CGSize(width: rect.width / xWidth, height: rect.height / CGFloat(yCount))
         let center = CGPoint(x: rect.minX, y: rect.minY + cellSize.height * CGFloat(yMax))
-        
-        return GridInfo(cellSize: cellSize, xCount: xCount, yMax: yMax, yMin: yMin, center: center)
+
+        return GridInfo(cellSize: cellSize, xCount: xCount, yMax: yMax, yMin: yMin, xStep: xStep, yStep: yStep, center: center)
     }
 }
