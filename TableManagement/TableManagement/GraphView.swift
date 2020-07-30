@@ -1,6 +1,6 @@
 //
 //  GraphView.swift
-//  TestProject
+//  TableManagement
 //
 //  Created by Admin on 28.07.2020.
 //  Copyright © 2020 Admin. All rights reserved.
@@ -16,8 +16,9 @@ private enum GridSettings {
     static let dashSize:   CGFloat = 3
     static let centerSize: CGFloat = 4
     
-    static let graphColor = UIColor.black
-    static let gridColor  = UIColor.lightGray
+    static let gridColor       = UIColor.lightGray
+    static let graphColor      = UIColor.black
+    static let backgroundColor = UIColor.white
     
     // Not from here
     static let xLen = -3
@@ -36,17 +37,14 @@ private struct GridInfo {
     var center: CGPoint
 }
 
-@IBDesignable
 class GraphView: UIView {
+    var dataSource: GraphViewDataSource!
     
-    //var numbers: [Float] = []
-    var numbers = DataSource(size: 100, rangeMin: -23, rangeMax: 30).arrayData()
-
-    //var numbers: [Float] = [-1, 0, 5, 9, 13, -4, -3.2, 6.7, 9.532, -2, -3, -5, 1, 2, 20, 23, 23, 12, 2, 5, 6, -5, 5, -11, 7, 6, -30, 18, 27, 40]
-    // Positive
-    //var numbers: [Float] = [1, 5, 9, 4, 3.2, 6.7, 9.532, 2, 3, 5, 1, 2, 20, 23, 23, 12, 2, 5, 6, 5, 5, 11, 49]
-    // Negative
-    //var numbers: [Float] = [-1, -5, -9, -4, -3.2, -6.7, -9.532, -2, -3, -5, -1, -2, -20, -23, -23, -12, -2, -5, -6, -5, -5, -11]
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        backgroundColor = GridSettings.backgroundColor
+    }
     
     override func draw(_ rect: CGRect) {
         let padding = GridSettings.padding
@@ -142,14 +140,17 @@ class GraphView: UIView {
     }
     
     private func drawNumbers(_ rect: CGRect, gridInfo: GridInfo) {
-        let pointSize = GridSettings.pointSize
+        if let dataSource = dataSource {
+            let pointSize = GridSettings.pointSize
+            let numbersCount = dataSource.graphViewDataSourceCount(self)
         
-        for i in 0..<numbers.count {
-            let number = numbers[i]
-            let point = getNumberPoint(index: i, number: number, gridInfo: gridInfo)
-            let color = number < 0 ? UIColor.blue : UIColor.red
-            
-            drawPoint(point: point, size: pointSize, color: color)
+            for i in 0..<numbersCount {
+                let number = dataSource.graphViewDataSourceNumber(self, at: i)
+                let point = getNumberPoint(index: i, number: number, gridInfo: gridInfo)
+                let color = number < 0 ? UIColor.blue : UIColor.red
+
+                drawPoint(point: point, size: pointSize, color: color)
+            }
         }
     }
     
@@ -180,57 +181,58 @@ class GraphView: UIView {
         pointPath.fill()
     }
     
-    
     private func getGridInfo(_ rect: CGRect) -> GridInfo {
         let xLen = GridSettings.xLen
         let yLen = GridSettings.yLen
         
         var gridInfo = GridInfo(cellSize: .zero, xCount: .zero, yCount: .zero, xLen: .zero, yLen: .zero, center: .zero)
         
-        if !numbers.isEmpty {
-            // Calculating the X axis width of the grid
-            var xMax = numbers.count
-            
-            if xLen < -1 {
-                xMax += abs(xLen) - xMax % abs(xLen)
-            }
-            
-            let xCount = xMax
-            let xWidth = CGFloat(xCount * abs(xLen))
-            
-            // Calculating the Y axis width of the grid
-            var yMax = 0
-            var yMin = 0
-            
-            if let max = numbers.max() {
-                yMax = max == Float(Int(max)) ? Int(max) + 1 : Int(ceilf(max))
-            }
-            
-            if let min = numbers.min() {
-                if min < 0 {
-                    yMin = min == Float(Int(min)) ? Int(min) - 1 : Int(floorf(min))
-                }
-            }
-            
-            if yLen < -1 {
-                if 0 < yMax {
-                    yMax += abs(yLen) - yMax % abs(yLen)
-                }
-                
-                if yMin < 0 {
-                    yMin += yLen - yMin % yLen
-                }
-            }
-            
-            let yCount = yMax - yMin
-            let yHeight = CGFloat(yCount * abs(yLen))
-            
-            let cellSize = CGSize(width: rect.width / xWidth, height: rect.height / yHeight)
-            let center = CGPoint(x: rect.minX, y: rect.minY + cellSize.height * CGFloat(yMax * abs(yLen)))
-            
-            gridInfo = GridInfo(cellSize: cellSize, xCount: xCount, yCount: yCount, xLen: xLen, yLen: yLen, center: center)
-        }
+        if let dataSource = dataSource {
+            if !dataSource.graphViewDataSourceIsEmpty(self) {
+                // Calculating the X axis width of the grid
+                var xMax = dataSource.graphViewDataSourceCount(self)
 
+                if xLen < -1 {
+                    xMax += abs(xLen) - xMax % abs(xLen)
+                }
+
+                let xCount = xMax
+                let xWidth = CGFloat(xCount * abs(xLen))
+
+                // Calculating the Y axis width of the grid
+                var yMax = 0
+                var yMin = 0
+
+                if let max = dataSource.graphViewDataSourceMax(self) {
+                    yMax = max == Float(Int(max)) ? Int(max) + 1 : Int(ceilf(max))
+                }
+
+                if let min = dataSource.graphViewDataSourceMin(self) {
+                    if min < 0 {
+                        yMin = min == Float(Int(min)) ? Int(min) - 1 : Int(floorf(min))
+                    }
+                }
+
+                if yLen < -1 {
+                    if 0 < yMax {
+                        yMax += abs(yLen) - yMax % abs(yLen)
+                    }
+
+                    if yMin < 0 {
+                        yMin += yLen - yMin % yLen
+                    }
+                }
+
+                let yCount = yMax - yMin
+                let yHeight = CGFloat(yCount * abs(yLen))
+
+                let cellSize = CGSize(width: rect.width / xWidth, height: rect.height / yHeight)
+                let center = CGPoint(x: rect.minX, y: rect.minY + cellSize.height * CGFloat(yMax * abs(yLen)))
+
+                gridInfo = GridInfo(cellSize: cellSize, xCount: xCount, yCount: yCount, xLen: xLen, yLen: yLen, center: center)
+            }
+        }
+        
         return gridInfo
     }
 }

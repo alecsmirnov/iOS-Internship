@@ -50,6 +50,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         addViewController.editorViewModel = addViewModel
         tableViewController.tableViewModel = tableViewModel
         statisticsViewController.statisticsViewModel = statisticsViewModel
+        
+        // I think it's wrong
+        let graphView = GraphView()
+        graphView.dataSource = numbersData
+        statisticsViewController.graphView = graphView
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
