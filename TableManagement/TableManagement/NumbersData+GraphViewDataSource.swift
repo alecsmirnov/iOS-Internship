@@ -10,11 +10,11 @@ import Foundation
 
 extension NumbersData: GraphViewDataSource {
     func graphViewDataSourceIsEmpty(_ dataSource: AnyObject) -> Bool {
-        isEmpty
+        return isEmpty
     }
     
     func graphViewDataSourceCount(_ dataSource: AnyObject) -> Int {
-        count
+        return count
     }
     
     func graphViewDataSourceMin(_ dataSource: AnyObject) -> Float? {
@@ -34,6 +34,6 @@ extension NumbersData: GraphViewDataSource {
     }
     
     func graphViewDataSourceNumber(_ dataSource: AnyObject, at index: Int) -> Float {
-        get(at: index).value
+        return get(at: index).value
     }
 }

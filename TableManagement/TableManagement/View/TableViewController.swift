@@ -13,7 +13,8 @@ private enum StoryboardIds {
     static let editorViewController = "EditorViewController"
 }
 
-private enum ReloadData {
+// Why Equatable protocol is needed to compare with a binary operator
+private enum ReloadData: Equatable {
     case none
     case all
     case row(index: Int)
@@ -47,6 +48,8 @@ class TableViewController: UIViewController {
         default:
             break
         }
+        
+        reloadData = ReloadData.none
     }
 }
 
@@ -96,7 +99,9 @@ extension TableViewController: UITableViewDelegate {
 
 extension TableViewController: TableViewModelDisplayDelegate {
     func tableViewModelDisplayDelegateUpdateNumber(_ viewController: AnyObject, at index: Int) {
-        reloadData = ReloadData.row(index: index)
+        if reloadData == ReloadData.none {
+            reloadData = ReloadData.row(index: index)
+        }
     }
     
     func tableViewModelDisplayDelegateUpdateTable(_ viewController: AnyObject) {
