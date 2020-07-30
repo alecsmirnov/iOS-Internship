@@ -21,7 +21,6 @@ class StatisticsViewController: UIViewController {
         super.viewDidLoad()
         
         if let graphView = graphView {
-            
             graphView.frame = CGRect(x: 10, y: 10, width: view.frame.width - 10 * 2, height: view.frame.height / 2 - 10 * 2)
             //graphView.backgroundColor = UIColor.white
             

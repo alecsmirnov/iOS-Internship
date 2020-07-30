@@ -82,6 +82,10 @@ class GraphView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
+        drawGraph(rect)
+    }
+    
+    private func drawGraph(_ rect: CGRect) {
         if let dataSource = dataSource {
             let numbersCount = dataSource.graphViewDataSourceCount(self)
             
