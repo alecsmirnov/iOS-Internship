@@ -20,6 +20,7 @@
 		844D83FF24BEFCBA00E77AA9 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */; };
 		844DE7D024CECF1E00F0EA70 /* TableViewModelDisplayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DE7CF24CECF1E00F0EA70 /* TableViewModelDisplayDelegate.swift */; };
 		844E731024C301EC005EE17D /* NumberConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E730F24C301EC005EE17D /* NumberConverter.swift */; };
+		844FCD7324D2D4E3000B3D66 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844FCD7124D2D396000B3D66 /* GraphView.swift */; };
 		84E95B7124AB99150040D11A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E95B7024AB99150040D11A /* AppDelegate.swift */; };
 		84E95B7324AB99150040D11A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E95B7224AB99150040D11A /* SceneDelegate.swift */; };
 		84E95B7524AB99150040D11A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E95B7424AB99150040D11A /* TableViewController.swift */; };
@@ -42,6 +43,7 @@
 		844D83FE24BEFCBA00E77AA9 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		844DE7CF24CECF1E00F0EA70 /* TableViewModelDisplayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModelDisplayDelegate.swift; sourceTree = "<group>"; };
 		844E730F24C301EC005EE17D /* NumberConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberConverter.swift; sourceTree = "<group>"; };
+		844FCD7124D2D396000B3D66 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		84E95B6D24AB99150040D11A /* TableManagement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableManagement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E95B7024AB99150040D11A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84E95B7224AB99150040D11A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				84E95B7424AB99150040D11A /* TableViewController.swift */,
 				8447D74D24AC7C7A00298B00 /* TableViewCell.swift */,
 				8446EF8A24AF45ED000C5805 /* EditorViewController.swift */,
+				844FCD7124D2D396000B3D66 /* GraphView.swift */,
 				8445DE4524ADFF0F00ECB420 /* StatisticsViewController.swift */,
 			);
 			path = View;
@@ -215,6 +218,7 @@
 				84E95B7124AB99150040D11A /* AppDelegate.swift in Sources */,
 				844DE7D024CECF1E00F0EA70 /* TableViewModelDisplayDelegate.swift in Sources */,
 				8447D74C24AC6F7C00298B00 /* NumbersData.swift in Sources */,
+				844FCD7324D2D4E3000B3D66 /* GraphView.swift in Sources */,
 				84E95B7324AB99150040D11A /* SceneDelegate.swift in Sources */,
 				844D83FD24BEFC1A00E77AA9 /* EditorViewModel.swift in Sources */,
 				8445DE4624ADFF0F00ECB420 /* StatisticsViewController.swift in Sources */,

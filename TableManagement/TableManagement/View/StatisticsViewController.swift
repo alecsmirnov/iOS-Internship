@@ -10,6 +10,7 @@ import UIKit
 
 class StatisticsViewController: UIViewController {
     var statisticsViewModel: StatisticsViewModel!
+    var graphView: GraphView!
     
     @IBOutlet private var countLabel: UILabel!
     @IBOutlet private var maxValueLabel: UILabel!
@@ -18,6 +19,13 @@ class StatisticsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let graphView = graphView {
+            
+            graphView.frame = CGRect(x: 10, y: 10, width: view.frame.width - 10 * 2, height: view.frame.height / 2 - 10 * 2)
+            
+            view.addSubview(graphView)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
