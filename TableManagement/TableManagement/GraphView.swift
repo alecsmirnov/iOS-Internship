@@ -19,6 +19,7 @@ private struct GridInfo {
     var cellSize: CGSize
     
     var xCount: Int
+    var yCount: Int
     var yMax: Int
     var yMin: Int
     
@@ -32,7 +33,10 @@ private struct GridInfo {
 class GraphView: UIView {
     
     //var numbers = DataSource(size: 100, rangeMin: -23, rangeMax: 30).arrayData()
-    var numbers: [Float] = [-1, 0, 5, 9, 13, -4, -3.2, 6.7, 9.532, -2, -3, -5, 1, 2, 20, 23, 23, 12, 2, 5, 6, -5, 5, -11]
+    var numbers: [Float] = [-1, 0, 5, 9, 13, -4, -3.2, 6.7, 9.532, -2, -3, -5, 1, 2, 20, 23, 23, 12, 2, 5, 6, -5, 5, -11, 7, 6, -30, 18, 27, 40]
+    // Positive
+    //var numbers: [Float] = [1, 5, 9, 4, 3.2, 6.7, 9.532, 2, 3, 5, 1, 2, 20, 23, 23, 12, 2, 5, 6, 5, 5, 11, 49]
+    // Negative
     //var numbers: [Float] = [-1, -5, -9, -4, -3.2, -6.7, -9.532, -2, -3, -5, -1, -2, -20, -23, -23, -12, -2, -5, -6, -5, -5, -11]
     
     override func draw(_ rect: CGRect) {
@@ -90,15 +94,30 @@ class GraphView: UIView {
         }
         
         // Y Axis
-        // Increasing the grid step
-        for i in 1..<(gridInfo.yMax - gridInfo.yMin) {
-            for j in 0..<gridInfo.yLen {
-                let yPosition = rect.minY + gridInfo.cellSize.height * CGFloat(i * gridInfo.yLen + j)
-                let horizontalDashBegin = CGPoint(x: gridInfo.center.x + dashSize / 2, y: yPosition)
-                let horizontalDashEnd = CGPoint(x: gridInfo.center.x - dashSize / 2, y: yPosition)
-                
-                drawLine(CGPoint(x: rect.minX, y: yPosition), CGPoint(x: rect.maxX, y: yPosition), gridColor)
-                drawLine(horizontalDashBegin, horizontalDashEnd, graphColor)
+        if gridInfo.yLen < 0 {
+            // Increasing the grid step
+            for i in 0..<gridInfo.yCount {
+                if i % abs(gridInfo.yLen) == 0 {
+                    let yPosition = rect.maxY - gridInfo.cellSize.height * CGFloat(i * abs(gridInfo.yLen))
+                    let horizontalDashBegin = CGPoint(x: gridInfo.center.x + dashSize / 2, y: yPosition)
+                    let horizontalDashEnd = CGPoint(x: gridInfo.center.x - dashSize / 2, y: yPosition)
+                    
+                    drawLine(CGPoint(x: rect.minX, y: yPosition), CGPoint(x: rect.maxX, y: yPosition), gridColor)
+                    drawLine(horizontalDashBegin, horizontalDashEnd, graphColor)
+                }
+            }
+        }
+        else {
+            // Decreasing the grid step
+            for i in 0..<gridInfo.yCount {
+                for j in 0..<gridInfo.yLen {
+                    let yPosition = rect.maxY - gridInfo.cellSize.height * CGFloat(i * gridInfo.yLen + j)
+                    let horizontalDashBegin = CGPoint(x: gridInfo.center.x + dashSize / 2, y: yPosition)
+                    let horizontalDashEnd = CGPoint(x: gridInfo.center.x - dashSize / 2, y: yPosition)
+                    
+                    drawLine(CGPoint(x: rect.minX, y: yPosition), CGPoint(x: rect.maxX, y: yPosition), gridColor)
+                    drawLine(horizontalDashBegin, horizontalDashEnd, graphColor)
+                }
             }
         }
         
@@ -148,9 +167,20 @@ class GraphView: UIView {
     }
     
     private func getGridInfo(_ rect: CGRect) -> GridInfo {
-        let xLen = 2
-        let yLen = 1
+        let xLen = -7
+        let yLen = -5
         
+        // Calculating the X axis width of the grid
+        var xMax = numbers.count
+        
+        if xLen < -1 {
+            xMax += abs(xLen) - xMax % abs(xLen)
+        }
+        
+        let xCount = xMax
+        let xWidth = CGFloat(xCount * abs(xLen))
+        
+        // Calculating the Y axis width of the grid
         var yMax = 0
         var yMin = 0
         
@@ -164,31 +194,22 @@ class GraphView: UIView {
             }
         }
         
-        // Calculating the X axis width of the grid
-        var xCount = numbers.count
-        var xWidth = CGFloat(xCount)
-        
-        if xLen < -1 {
-            xCount += 1
-            xWidth += CGFloat(abs(xLen) - Int(xWidth) % abs(xLen))
-        }
-        
-        xWidth *= CGFloat(abs(xLen))
-        
-        // Calculating the Y axis width of the grid
-        var yCount = CGFloat(yMax - yMin)
-        var yHeight = CGFloat(yCount)
-        
         if yLen < -1 {
-            yCount += 1
-            yCount += CGFloat(abs(yLen) - Int(yHeight) % abs(yLen))
+            if 0 < yMax {
+                yMax += abs(yLen) - yMax % abs(yLen)
+            }
+            
+            if yMin < 0 {
+                yMin += yLen - yMin % yLen
+            }
         }
         
-        yHeight *= CGFloat(abs(yLen))
+        let yCount = yMax - yMin
+        let yHeight = CGFloat(yCount * abs(yLen))
         
         let cellSize = CGSize(width: rect.width / xWidth, height: rect.height / yHeight)
-        let center = CGPoint(x: rect.minX, y: rect.minY + cellSize.height * CGFloat(yMax * yLen))
+        let center = CGPoint(x: rect.minX, y: rect.minY + cellSize.height * CGFloat(yMax * abs(yLen)))
 
-        return GridInfo(cellSize: cellSize, xCount: xCount, yMax: yMax, yMin: yMin, xLen: xLen, yLen: yLen, center: center)
+        return GridInfo(cellSize: cellSize, xCount: xCount, yCount: yCount, yMax: yMax, yMin: yMin, xLen: xLen, yLen: yLen, center: center)
     }
 }
