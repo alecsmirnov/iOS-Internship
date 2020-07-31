@@ -9,8 +9,8 @@
 import UIKit
 
 private enum Data {
-    static let size:  Int   = 50
-    static let range: Float = 100
+    static let size:  Int   = 6
+    static let range: Float = 10
 }
 
 private enum TabBarItems {

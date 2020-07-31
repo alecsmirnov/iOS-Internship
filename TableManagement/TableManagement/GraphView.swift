@@ -18,6 +18,8 @@ private enum GraphViewDefaultSettings {
     static let graphCenterSize: CGFloat = 4
     static let fontSize:        CGFloat = 10
     
+    static let captionsPrecision: Int = 2
+    
     static let gridColor       = UIColor.lightGray
     static let graphColor      = UIColor.black
     static let positiveColor   = UIColor.red
@@ -25,8 +27,8 @@ private enum GraphViewDefaultSettings {
     static let backgroundColor = UIColor.white
     
     // Not from here
-    static let xLen = -4
-    static let yLen = -10
+    static let xLen = 2
+    static let yLen = 2
 }
 
 private struct GraphProperties {
@@ -56,10 +58,14 @@ class GraphView: UIView {
     var graphCenterSize: CGFloat
     var fontSize: CGFloat
     
+    var captionsPrecision: Int
+    
     var gridColor: UIColor
     var graphColor: UIColor
     var positiveColor: UIColor
     var negativeColor: UIColor
+    
+    private var yAxisTextPadding: CGFloat!
     
     init() {
         //super.init(frame: .zero)
@@ -72,6 +78,8 @@ class GraphView: UIView {
         dashSize = GraphViewDefaultSettings.dashSize
         graphCenterSize = GraphViewDefaultSettings.graphCenterSize
         fontSize = GraphViewDefaultSettings.fontSize
+        
+        captionsPrecision = GraphViewDefaultSettings.captionsPrecision
 
         gridColor = GraphViewDefaultSettings.gridColor
         graphColor = GraphViewDefaultSettings.graphColor
@@ -116,7 +124,8 @@ class GraphView: UIView {
                     numberMin = min
                 }
                 
-                let yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)), GraphView.digitsCount(value: Int(numberMin))) + 1) * fontPadding
+                yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)), GraphView.digitsCount(value: Int(numberMin))) + captionsPrecision + 1) * fontPadding
+                
                 let gridRect = CGRect(x: padding + yAxisTextPadding, y: padding + fontPadding, width: rect.width - 2 * padding - yAxisTextPadding, height: rect.height - 2 * padding - fontPadding)
                 let graphProperties = GraphView.calculateGraphProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, numbersCount: numbersCount)
                 
@@ -171,14 +180,12 @@ class GraphView: UIView {
                     drawLine(context, begin: verticalDashBegin, end: verticalDashEnd, color: graphColor)
                     
                     if stepIndex != 0 {
-                        drawString(string: String(stepIndex), point: CGPoint(x: xPosition, y: graphCenter.y + fontPadding))
+                        let stepIndexDecrease = Float(stepIndex) / Float(graphProperties.xLen)
+                        drawString(string: String(format: "%.\(captionsPrecision)f", stepIndexDecrease), point: CGPoint(x: xPosition, y: graphCenter.y + fontPadding))
                     }
                 }
             }
         }
-        
-        let yMin = graphProperties.yMin
-        let yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: graphProperties.yCount - yMin), GraphView.digitsCount(value: yMin))) * fontPadding
         
         // Y Axis
         if graphProperties.yLen < 0 {
@@ -194,7 +201,7 @@ class GraphView: UIView {
                     drawLine(context, begin: CGPoint(x: gridRect.minX, y: yPosition), end: CGPoint(x: gridRect.maxX, y: yPosition), color: gridColor)
                     drawLine(context, begin: horizontalDashBegin, end: horizontalDashEnd, color: graphColor)
                     
-                    drawString(string: String(i + yMin), point: CGPoint(x: graphCenter.x - yAxisTextPadding, y: yPosition))
+                    drawString(string: String(i + graphProperties.yMin), point: CGPoint(x: graphCenter.x - yAxisTextPadding, y: yPosition))
                 }
             }
         }
@@ -202,14 +209,16 @@ class GraphView: UIView {
             // Decreasing the grid step
             for i in 0..<graphProperties.yCount {
                 for j in 0..<graphProperties.yLen {
-                    let yPosition = gridRect.maxY - cellSize.height * CGFloat(i * graphProperties.yLen + j)
+                    let stepIndex = i * graphProperties.yLen + j
+                    let yPosition = gridRect.maxY - cellSize.height * CGFloat(stepIndex)
                     let horizontalDashBegin = CGPoint(x: graphCenter.x + dashSize / 2, y: yPosition)
                     let horizontalDashEnd = CGPoint(x: graphCenter.x - dashSize / 2, y: yPosition)
                     
                     drawLine(context, begin: CGPoint(x: gridRect.minX, y: yPosition), end: CGPoint(x: gridRect.maxX, y: yPosition), color: gridColor)
                     drawLine(context, begin: horizontalDashBegin, end: horizontalDashEnd, color: graphColor)
                     
-                    drawString(string: String(i + yMin), point: CGPoint(x: graphCenter.x - yAxisTextPadding, y: yPosition))
+                    let stepIndexDecrease = Float(stepIndex + graphProperties.yMin * graphProperties.xLen) / Float(graphProperties.xLen)
+                    drawString(string: String(format: "%.\(captionsPrecision)f", stepIndexDecrease), point: CGPoint(x: graphCenter.x - yAxisTextPadding, y: yPosition))
                 }
             }
         }
@@ -289,9 +298,9 @@ class GraphView: UIView {
     private func drawString(string: String, point: CGPoint) {
         let font = UIFont.systemFont(ofSize: fontSize)
         let attribute = [NSAttributedString.Key.font: font]
-        let atributedString = NSAttributedString(string: string, attributes: attribute)
+        let attributedString = NSAttributedString(string: string, attributes: attribute)
         
-        atributedString.draw(at: CGPoint(x: point.x - fontSize / 2, y: point.y - fontSize / 2))
+        attributedString.draw(at: CGPoint(x: point.x - fontSize / 2, y: point.y - fontSize / 2))
     }
     
     private static func calculateGraphProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, numbersCount: Int) -> GraphProperties {
