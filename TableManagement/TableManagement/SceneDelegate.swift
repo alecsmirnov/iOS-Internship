@@ -9,7 +9,7 @@
 import UIKit
 
 private enum Data {
-    static let size:  Int   = 50
+    static let size:  Int   = 4
     static let range: Float = 50
 }
 

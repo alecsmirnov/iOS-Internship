@@ -25,10 +25,6 @@ private enum GraphViewDefaultSettings {
     static let positiveColor   = UIColor.red
     static let negativeColor   = UIColor.blue
     static let backgroundColor = UIColor.white
-    
-    // Not from here
-    static let xLen = 2
-    static let yLen = 2
 }
 
 private struct GraphProperties {
@@ -67,7 +63,7 @@ class GraphView: UIView {
     var positiveColor: UIColor
     var negativeColor: UIColor
     
-    private var yAxisTextPadding: CGFloat!
+    private var yAxisTextPadding: CGFloat
     
     init() {
         //super.init(frame: .zero)
@@ -87,9 +83,8 @@ class GraphView: UIView {
         graphColor = GraphViewDefaultSettings.graphColor
         positiveColor = GraphViewDefaultSettings.positiveColor
         negativeColor = GraphViewDefaultSettings.negativeColor
-
-        //xLen = GraphViewDefaultSettings.xLen
-        //yLen = GraphViewDefaultSettings.yLen
+        
+        yAxisTextPadding = 0
 
         super.init(frame: .zero)
         
@@ -338,8 +333,8 @@ class GraphView: UIView {
         
         var graphProperties: GraphProperties?
         
-        let widthMin: CGFloat = 20
-        let widthMax: CGFloat = 30
+        let widthMin: CGFloat = 10
+        let widthMax: CGFloat = 100
 
         let heightMin: CGFloat = 10
         let heightMax: CGFloat = 20
