@@ -35,15 +35,17 @@ private struct GraphProperties {
     var xCount: Int
     var yCount: Int
     
-    var xLen: Int
-    var yLen: Int
+    var xPartition: Int
+    var yPartition: Int
     
     var yMax: Int
     var yMin: Int
     
-    var graphCenter: CGPoint
-
-    var cellSize: CGSize
+    var graphCenterX: CGFloat
+    var graphCenterY: CGFloat
+    
+    var cellWidth: CGFloat
+    var cellHeight: CGFloat
 }
 
 class GraphView: UIView {
@@ -124,45 +126,46 @@ class GraphView: UIView {
                     numberMin = min
                 }
                 
-                yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)), GraphView.digitsCount(value: Int(numberMin))) + captionsPrecision + 1) * fontPadding
-                
+                yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)),
+                                               GraphView.digitsCount(value: Int(numberMin))) + captionsPrecision + 1) * fontPadding
+
                 let gridRect = CGRect(x: padding + yAxisTextPadding, y: padding + fontPadding, width: rect.width - 2 * padding - yAxisTextPadding, height: rect.height - 2 * padding - fontPadding)
                 let graphProperties = GraphView.calculateGraphProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, numbersCount: numbersCount)
                 
-                if let context = UIGraphicsGetCurrentContext() {
-                    // Not needed here because the view context is already current?
-                    UIGraphicsPushContext(context)
-                    
-                    drawGrid(context, gridRect: gridRect, graphProperties: graphProperties)
-                    drawNumbers(context, graphProperties: graphProperties)
-                    
-                    UIGraphicsPopContext()
+                if let graphProperties = graphProperties {
+                    if let context = UIGraphicsGetCurrentContext() {
+                        // Not needed here because the view context is already current?
+                        UIGraphicsPushContext(context)
+                        
+                        drawGrid(context, gridRect: gridRect, graphProperties: graphProperties)
+                        drawNumbers(context, graphProperties: graphProperties)
+                        
+                        UIGraphicsPopContext()
+                    }
                 }
             }
         }
     }
     
     private func drawGrid(_ context: CGContext, gridRect: CGRect, graphProperties: GraphProperties) {
-        let graphCenter = graphProperties.graphCenter
-        let cellSize = graphProperties.cellSize
-    
+        let xPartsCount = abs(graphProperties.xPartition) + 1
+        let yPartsCount = abs(graphProperties.yPartition) + 1
+        
         // X Axis
-        if graphProperties.xLen < 0 {
-            let absXLen = abs(graphProperties.xLen)
-            
+        if graphProperties.xPartition < 0 {
             // Increasing the grid step
             for i in 0..<graphProperties.xCount {
-                if i % absXLen == 0 {
-                    let stepIndex = i * absXLen
-                    let xPosition = gridRect.minX + cellSize.width * CGFloat(i * absXLen)
-                    let verticalDashBegin = CGPoint(x: xPosition, y: graphCenter.y + dashSize / 2)
-                    let verticalDashEnd = CGPoint(x: xPosition, y: graphCenter.y - dashSize / 2)
+                if i % xPartsCount == 0 {
+                    let stepIndex = i * xPartsCount
+                    let xPosition = gridRect.minX + graphProperties.cellWidth * CGFloat(i * xPartsCount)
+                    let verticalDashBegin = CGPoint(x: xPosition, y: graphProperties.graphCenterY + dashSize / 2)
+                    let verticalDashEnd = CGPoint(x: xPosition, y: graphProperties.graphCenterY - dashSize / 2)
                     
                     drawLine(context, begin: CGPoint(x: xPosition, y: gridRect.minY), end: CGPoint(x: xPosition, y: gridRect.maxY), color: gridColor)
                     drawLine(context, begin: verticalDashBegin, end: verticalDashEnd, color: graphColor)
                     
                     if stepIndex != 0 {
-                        drawString(string: String(stepIndex), point: CGPoint(x: xPosition, y: graphCenter.y + fontPadding))
+                        drawString(string: String(stepIndex), point: CGPoint(x: xPosition, y: graphProperties.graphCenterY + fontPadding))
                     }
                 }
             }
@@ -170,55 +173,55 @@ class GraphView: UIView {
         else {
             // Decreasing the grid step
             for i in 0..<graphProperties.xCount {
-                for j in 0..<graphProperties.xLen {
-                    let stepIndex = i * graphProperties.xLen + j
-                    let xPosition = gridRect.minX + cellSize.width * CGFloat(stepIndex)
-                    let verticalDashBegin = CGPoint(x: xPosition, y: graphCenter.y + dashSize / 2)
-                    let verticalDashEnd = CGPoint(x: xPosition, y: graphCenter.y - dashSize / 2)
+                for j in 0..<xPartsCount {
+                    let stepIndex = i * xPartsCount + j
+                    let xPosition = gridRect.minX + graphProperties.cellWidth * CGFloat(stepIndex)
+                    let verticalDashBegin = CGPoint(x: xPosition, y: graphProperties.graphCenterY + dashSize / 2)
+                    let verticalDashEnd = CGPoint(x: xPosition, y: graphProperties.graphCenterY - dashSize / 2)
 
                     drawLine(context, begin: CGPoint(x: xPosition, y: gridRect.minY), end: CGPoint(x: xPosition, y: gridRect.maxY), color: gridColor)
                     drawLine(context, begin: verticalDashBegin, end: verticalDashEnd, color: graphColor)
                     
                     if stepIndex != 0 {
-                        let stepIndexDecrease = Float(stepIndex) / Float(graphProperties.xLen)
-                        drawString(string: String(format: "%.\(captionsPrecision)f", stepIndexDecrease), point: CGPoint(x: xPosition, y: graphCenter.y + fontPadding))
+                        let stepIndexDecrease = Float(stepIndex) / Float(xPartsCount)
+                        drawString(string: String(format: "%.\(captionsPrecision)f", stepIndexDecrease),
+                                   point: CGPoint(x: xPosition, y: graphProperties.graphCenterY + fontPadding))
                     }
                 }
             }
         }
         
         // Y Axis
-        if graphProperties.yLen < 0 {
-            let absYLen = abs(graphProperties.yLen)
-
+        if graphProperties.yPartition < 0 {
             // Increasing the grid step
             for i in 0..<graphProperties.yCount {
-                if i % absYLen == 0 {
-                    let yPosition = gridRect.maxY - cellSize.height * CGFloat(i * absYLen)
-                    let horizontalDashBegin = CGPoint(x: graphCenter.x + dashSize / 2, y: yPosition)
-                    let horizontalDashEnd = CGPoint(x: graphCenter.x - dashSize / 2, y: yPosition)
+                if i % yPartsCount == 0 {
+                    let yPosition = gridRect.maxY - graphProperties.cellHeight * CGFloat(i * yPartsCount)
+                    let horizontalDashBegin = CGPoint(x: graphProperties.graphCenterX + dashSize / 2, y: yPosition)
+                    let horizontalDashEnd = CGPoint(x: graphProperties.graphCenterX - dashSize / 2, y: yPosition)
                     
                     drawLine(context, begin: CGPoint(x: gridRect.minX, y: yPosition), end: CGPoint(x: gridRect.maxX, y: yPosition), color: gridColor)
                     drawLine(context, begin: horizontalDashBegin, end: horizontalDashEnd, color: graphColor)
                     
-                    drawString(string: String(i + graphProperties.yMin), point: CGPoint(x: graphCenter.x - yAxisTextPadding, y: yPosition))
+                    drawString(string: String(i + graphProperties.yMin), point: CGPoint(x: graphProperties.graphCenterX - yAxisTextPadding, y: yPosition))
                 }
             }
         }
         else {
             // Decreasing the grid step
             for i in 0..<graphProperties.yCount {
-                for j in 0..<graphProperties.yLen {
-                    let stepIndex = i * graphProperties.yLen + j
-                    let yPosition = gridRect.maxY - cellSize.height * CGFloat(stepIndex)
-                    let horizontalDashBegin = CGPoint(x: graphCenter.x + dashSize / 2, y: yPosition)
-                    let horizontalDashEnd = CGPoint(x: graphCenter.x - dashSize / 2, y: yPosition)
+                for j in 0..<yPartsCount {
+                    let stepIndex = i * yPartsCount + j
+                    let yPosition = gridRect.maxY - graphProperties.cellHeight * CGFloat(stepIndex)
+                    let horizontalDashBegin = CGPoint(x: graphProperties.graphCenterX + dashSize / 2, y: yPosition)
+                    let horizontalDashEnd = CGPoint(x: graphProperties.graphCenterX - dashSize / 2, y: yPosition)
                     
                     drawLine(context, begin: CGPoint(x: gridRect.minX, y: yPosition), end: CGPoint(x: gridRect.maxX, y: yPosition), color: gridColor)
                     drawLine(context, begin: horizontalDashBegin, end: horizontalDashEnd, color: graphColor)
                     
-                    let stepIndexDecrease = Float(stepIndex + graphProperties.yMin * graphProperties.xLen) / Float(graphProperties.xLen)
-                    drawString(string: String(format: "%.\(captionsPrecision)f", stepIndexDecrease), point: CGPoint(x: graphCenter.x - yAxisTextPadding, y: yPosition))
+                    let stepIndexDecrease = Float(stepIndex + graphProperties.yMin * yPartsCount) / Float(yPartsCount)
+                    drawString(string: String(format: "%.\(captionsPrecision)f", stepIndexDecrease),
+                               point: CGPoint(x: graphProperties.graphCenterX - yAxisTextPadding, y: yPosition))
                 }
             }
         }
@@ -229,19 +232,25 @@ class GraphView: UIView {
         drawLine(context, begin: CGPoint(x: gridRect.minX, y: gridRect.maxY), end: CGPoint(x: gridRect.maxX, y: gridRect.maxY), color: gridColor)
         
         if 0 < graphProperties.xCount {
+            let graphCenter = CGPoint(x: graphProperties.graphCenterX, y: graphProperties.graphCenterY)
+            
             drawPoint(context, point: graphCenter, size: graphCenterSize, color: graphColor)
             drawLine(context, begin: CGPoint(x: gridRect.minX, y: gridRect.minY), end: CGPoint(x: gridRect.minX, y: gridRect.maxY), color: graphColor)
             drawLine(context, begin: graphCenter, end: CGPoint(x: gridRect.maxX, y: graphCenter.y), color: graphColor)
             
             if graphCenter.y != gridRect.minY {
-                drawLine(context, begin: CGPoint(x: gridRect.minX, y: gridRect.minY), end: CGPoint(x: gridRect.minX + dashSize, y: gridRect.minY + 2 * dashSize), color: graphColor)
-                drawLine(context, begin: CGPoint(x: gridRect.minX, y: gridRect.minY), end: CGPoint(x: gridRect.minX - dashSize, y: gridRect.minY + 2 * dashSize), color: graphColor)
+                drawLine(context, begin: CGPoint(x: gridRect.minX, y: gridRect.minY),
+                         end: CGPoint(x: gridRect.minX + dashSize, y: gridRect.minY + 2 * dashSize), color: graphColor)
+                drawLine(context, begin: CGPoint(x: gridRect.minX, y: gridRect.minY),
+                         end: CGPoint(x: gridRect.minX - dashSize, y: gridRect.minY + 2 * dashSize), color: graphColor)
                 
                 drawString(string: "Y", point: CGPoint(x: gridRect.minX, y: gridRect.minY - fontPadding))
             }
             
-            drawLine(context, begin: CGPoint(x: gridRect.maxX, y: graphCenter.y), end: CGPoint(x: gridRect.maxX - 2 * dashSize, y: graphCenter.y - dashSize), color: graphColor)
-            drawLine(context, begin: CGPoint(x: gridRect.maxX, y: graphCenter.y), end: CGPoint(x: gridRect.maxX - 2 * dashSize, y: graphCenter.y + dashSize), color: graphColor)
+            drawLine(context, begin: CGPoint(x: gridRect.maxX, y: graphCenter.y),
+                     end: CGPoint(x: gridRect.maxX - 2 * dashSize, y: graphCenter.y - dashSize), color: graphColor)
+            drawLine(context, begin: CGPoint(x: gridRect.maxX, y: graphCenter.y),
+                     end: CGPoint(x: gridRect.maxX - 2 * dashSize, y: graphCenter.y + dashSize), color: graphColor)
             
             drawString(string: "X", point: CGPoint(x: gridRect.maxX + fontPadding, y: graphCenter.y))
         }
@@ -303,59 +312,125 @@ class GraphView: UIView {
         attributedString.draw(at: CGPoint(x: point.x - fontSize / 2, y: point.y - fontSize / 2))
     }
     
-    private static func calculateGraphProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, numbersCount: Int) -> GraphProperties {
-        let xLen = GraphViewDefaultSettings.xLen
-        let yLen = GraphViewDefaultSettings.yLen
+    private static func calculateGraphProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, numbersCount: Int) -> GraphProperties? {
+        let partitionToPartsCount: (Int, Int) -> Int = { (partition: Int, partitionPrev: Int) -> Int in
+            var partsCount = 0
+            
+            if partition == 0 {
+                switch partitionPrev {
+                case 1:
+                    partsCount = -2
+                    break
+                case -1:
+                    partsCount = 2
+                    break
+                default:
+                    partsCount = 1
+                    break
+                }
+            }
+            else {
+                partsCount = partition < 0 ? partition - 1 : partition + 1
+            }
+            
+            return partsCount
+        }
         
-        var graphProperties = GraphProperties(xCount: 0, yCount: 0, xLen: 0, yLen: 0, yMax: 0, yMin: 0, graphCenter: CGPoint(), cellSize: CGSize())
+        var graphProperties: GraphProperties?
+        
+        let widthMin: CGFloat = 20
+        let widthMax: CGFloat = 30
+
+        let heightMin: CGFloat = 10
+        let heightMax: CGFloat = 20
         
         if 0 < numbersCount {
-            // Calculating the X axis width of the grid
-            var xMax = numbersCount
-
-            if xLen < -1 {
-                xMax += abs(xLen) - xMax % abs(xLen)
-            }
-
-            let xCount = xMax
-            let xWidth = CGFloat(xCount * abs(xLen))
-
-            // Calculating the Y axis width of the grid
-            var yMax = numberMax == Float(Int(numberMax)) ? Int(numberMax) + 1 : Int(ceilf(numberMax))
-            var yMin = 0
-    
-            if numberMin < 0 {
-                yMin = numberMin == Float(Int(numberMin)) ? Int(numberMin) - 1 : Int(floorf(numberMin))
-            }
-
-            if yLen < -1 {
-                if 0 < yMax {
-                    yMax += abs(yLen) - yMax % abs(yLen)
-                }
-
-                if yMin < 0 {
-                    yMin += yLen - yMin % yLen
-                }
-            }
-
-            let yCount = yMax - yMin
-            let yHeight = CGFloat(yCount * abs(yLen))
-
-            let cellSize = CGSize(width: gridRect.width / xWidth, height: gridRect.height / yHeight)
-            let graphCenter = CGPoint(x: gridRect.minX, y: gridRect.minY + cellSize.height * CGFloat(yMax * abs(yLen)))
+            var xCalculation = true
+            var yCalculation = true
             
-            graphProperties = GraphProperties(xCount: xCount, yCount: yCount, xLen: xLen, yLen: yLen, yMax: yMax, yMin: yMin,graphCenter: graphCenter, cellSize: cellSize)
+            var xPartition = 0
+            var yPartition = 0
+            var xPartitionPrev = 0
+            var yPartitionPrev = 0
+            
+            while xCalculation || yCalculation {
+                let xPartsCount = partitionToPartsCount(xPartition, xPartitionPrev)
+                let yPartsCount = partitionToPartsCount(yPartition, yPartitionPrev)
+                
+                // Calculating the X axis width of the grid
+                var xMax = numbersCount
+
+                let absXPartsCount = abs(xPartsCount)
+                if xPartsCount < -1 {
+                    xMax += absXPartsCount - xMax % absXPartsCount
+                }
+
+                let xCount = xMax
+                let xWidth = CGFloat(xCount * absXPartsCount)
+
+                // Calculating the Y axis width of the grid
+                var yMax = numberMax == Float(Int(numberMax)) ? Int(numberMax) + 1 : Int(ceilf(numberMax))
+                var yMin = 0
+        
+                if numberMin < 0 {
+                    yMin = numberMin == Float(Int(numberMin)) ? Int(numberMin) - 1 : Int(floorf(numberMin))
+                }
+                
+                let absYPartsCount = abs(yPartsCount)
+                if yPartsCount < -1 {
+                    if 0 < yMax {
+                        yMax += absYPartsCount - yMax % absYPartsCount
+                    }
+
+                    if yMin < 0 {
+                        yMin += yPartition - yMin % yPartsCount
+                    }
+                }
+
+                let yCount = yMax - yMin
+                let yHeight = CGFloat(yCount * absYPartsCount)
+                
+                let cellWidth = gridRect.width / xWidth
+                let cellHeight = gridRect.height / yHeight
+                
+                let graphCenterX = gridRect.minX
+                let graphCenterY = gridRect.minY + cellHeight * CGFloat(yMax * absYPartsCount)
+                
+                graphProperties = GraphProperties(xCount: xCount, yCount: yCount, xPartition: xPartition, yPartition: yPartition,
+                                                  yMax: yMax, yMin: yMin, graphCenterX: graphCenterX, graphCenterY: graphCenterY,
+                                                  cellWidth: cellWidth, cellHeight: cellHeight)
+                
+                // Finding the number of partitions
+                let partitionCellWidth = xPartsCount < 0 ? cellWidth * CGFloat(xPartsCount * xPartsCount) : cellWidth / CGFloat(xPartsCount * xPartsCount)
+                let partitionCellHeight = yPartsCount < 0 ? cellHeight * CGFloat(yPartsCount * yPartsCount) : cellHeight / CGFloat(yPartsCount * yPartsCount)
+                
+                if  widthMin < partitionCellWidth && partitionCellWidth < widthMax {
+                    xCalculation = false
+                }
+                else {
+                    xPartitionPrev = xPartition
+                    xPartition = widthMax < partitionCellWidth ? xPartition + 1: xPartition - 1
+                }
+
+                if  heightMin < partitionCellHeight && partitionCellHeight < heightMax {
+                    yCalculation = false
+                }
+                else {
+                    yPartitionPrev = yPartition
+                    yPartition = heightMax < partitionCellHeight ? yPartition + 1: yPartition - 1
+                }
+            }
         }
         
         return graphProperties
     }
     
     private static func getGraphPoint(index: Int, number: Float, graphProperties: GraphProperties) -> CGPoint {
-        let graphCenter = graphProperties.graphCenter
-        let cellSize = graphProperties.cellSize
+        let xPartsCount = abs(graphProperties.xPartition) + 1
+        let yPartsCount = abs(graphProperties.yPartition) + 1
         
-        let x = graphCenter.x + cellSize.width * CGFloat(index * abs(graphProperties.xLen))
-        let y = graphCenter.y - cellSize.height * CGFloat(number * Float(abs(graphProperties.yLen)))
+        let x = graphProperties.graphCenterX + graphProperties.cellWidth * CGFloat(index * xPartsCount)
+        let y = graphProperties.graphCenterY - graphProperties.cellHeight * CGFloat(number * Float(yPartsCount))
         
         return CGPoint(x: x, y: y)
     }
