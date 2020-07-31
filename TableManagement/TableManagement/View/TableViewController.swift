@@ -98,13 +98,13 @@ extension TableViewController: UITableViewDelegate {
 }
 
 extension TableViewController: TableViewModelDisplayDelegate {
-    func tableViewModelDisplayDelegateUpdateNumber(_ viewController: AnyObject, at index: Int) {
+    func tableViewModelDisplayDelegateReloadRow(_ viewController: AnyObject, at index: Int) {
         if reloadData == ReloadData.none {
             reloadData = ReloadData.row(index: index)
         }
     }
     
-    func tableViewModelDisplayDelegateUpdateTable(_ viewController: AnyObject) {
+    func tableViewModelDisplayDelegateReloadData(_ viewController: AnyObject) {
         reloadData = ReloadData.all
     }
 }

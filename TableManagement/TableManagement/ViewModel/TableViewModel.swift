@@ -42,7 +42,7 @@ extension TableViewModel: EditorViewModelDelegate {
         numbersData.append(number: number)
         
         if let delegate = delegate {
-            delegate.tableViewModelDisplayDelegateUpdateTable(self)
+            delegate.tableViewModelDisplayDelegateReloadData(self)
         }
     }
     
@@ -54,7 +54,7 @@ extension TableViewModel: EditorViewModelDelegate {
         numbersData.replace(at: selectedRow, with: newNumber)
         
         if let delegate = delegate {
-            delegate.tableViewModelDisplayDelegateUpdateNumber(self, at: selectedRow)
+            delegate.tableViewModelDisplayDelegateReloadRow(self, at: selectedRow)
         }
     }
     
@@ -66,7 +66,7 @@ extension TableViewModel: EditorViewModelDelegate {
         numbersData.remove(at: selectedRow)
         
         if let delegate = delegate {
-            delegate.tableViewModelDisplayDelegateUpdateTable(self)
+            delegate.tableViewModelDisplayDelegateReloadData(self)
         }
     }
 }

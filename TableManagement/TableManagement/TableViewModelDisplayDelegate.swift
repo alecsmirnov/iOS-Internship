@@ -9,11 +9,6 @@
 import Foundation
 
 protocol TableViewModelDisplayDelegate: AnyObject {
-    func tableViewModelDisplayDelegateUpdateNumber(_ viewController: AnyObject, at index: Int)
-    func tableViewModelDisplayDelegateUpdateTable(_ viewController: AnyObject)
+    func tableViewModelDisplayDelegateReloadRow(_ viewController: AnyObject, at index: Int)
+    func tableViewModelDisplayDelegateReloadData(_ viewController: AnyObject)
 }
-
-//protocol TableViewModelDisplayDelegate: AnyObject {
-//    func tableViewModelDisplayDelegateReloadCell(_ viewController: AnyObject, at index: Int)
-//    func tableViewModelDisplayDelegateReloadData(_ viewController: AnyObject)
-//}
