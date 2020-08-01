@@ -18,6 +18,9 @@ private enum GraphViewDefaultSettings {
     static let graphCenterSize: CGFloat = 4
     static let fontSize:        CGFloat = 10
     
+    static let cellWidth:       CGFloat = 30
+    static let cellHeight:      CGFloat = 20
+    
     static let captionsPrecision: Int = 2
     
     static let gridColor       = UIColor.lightGray
@@ -106,6 +109,9 @@ class GraphView: UIView {
     var graphCenterSize: CGFloat
     var fontSize: CGFloat
     
+    var cellWidth: CGFloat
+    var cellHeight: CGFloat
+    
     var captionsPrecision: Int
     
     var gridColor: UIColor
@@ -126,6 +132,9 @@ class GraphView: UIView {
         dashSize = GraphViewDefaultSettings.dashSize
         graphCenterSize = GraphViewDefaultSettings.graphCenterSize
         fontSize = GraphViewDefaultSettings.fontSize
+        
+        cellWidth = GraphViewDefaultSettings.cellWidth
+        cellHeight = GraphViewDefaultSettings.cellHeight
         
         captionsPrecision = GraphViewDefaultSettings.captionsPrecision
 
@@ -178,7 +187,8 @@ class GraphView: UIView {
                                       y: padding + fontPadding,
                                       width: rect.width - 2 * padding - yAxisTextPadding,
                                       height: rect.height - 2 * (padding + fontPadding))
-                let graphProperties = GraphView.calculateGraphProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, numbersCount: numbersCount)
+                let graphProperties = GraphView.calculateGraphProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin,
+                                                                         numbersCount: numbersCount, cellWidth: cellWidth, cellHeight: cellHeight)
                 
                 if let graphProperties = graphProperties {
                     if let context = UIGraphicsGetCurrentContext() {
@@ -360,15 +370,12 @@ class GraphView: UIView {
         attributedString.draw(at: CGPoint(x: point.x - fontSize / 2, y: point.y - fontSize / 2))
     }
     
-    private static func calculateGraphProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, numbersCount: Int) -> GraphProperties? {
+    private static func calculateGraphProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, numbersCount: Int, cellWidth: CGFloat, cellHeight: CGFloat) -> GraphProperties? {
         var graphProperties: GraphProperties?
         
-        let cellWidth: CGFloat = 30
-        let cellHeight: CGFloat = 20
-        
         if 0 < numbersCount {
-            let graphXProperties = calculateGraphXProperties(gridRect: gridRect, numbersCount: numbersCount, cellWidth: cellWidth)
-            let graphYProperties = calculateGraphYProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, cellHeight: cellHeight)
+            let graphXProperties = GraphView.calculateGraphXProperties(gridRect: gridRect, numbersCount: numbersCount, cellWidth: cellWidth)
+            let graphYProperties = GraphView.calculateGraphYProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, cellHeight: cellHeight)
             
             graphProperties = GraphProperties(graphXPropertis: graphXProperties, graphYPropertis: graphYProperties)
         }
