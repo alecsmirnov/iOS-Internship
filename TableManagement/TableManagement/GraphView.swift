@@ -28,20 +28,70 @@ private enum GraphViewDefaultSettings {
 }
 
 private struct GraphProperties {
+    var xCount: Int {
+        return graphXPropertis.xCount
+    }
+    var yCount: Int {
+        return graphYPropertis.yCount
+    }
+    
+    var xPartition: Int {
+        return graphXPropertis.xPartition
+    }
+    var yPartition: Int {
+        return graphYPropertis.yPartition
+    }
+    
+    var yMax: Int {
+        return graphYPropertis.yMax
+    }
+    var yMin: Int {
+        return graphYPropertis.yMin
+    }
+    
+    var graphCenterX: CGFloat {
+        return graphXPropertis.graphCenterX
+    }
+    var graphCenterY: CGFloat {
+        return graphYPropertis.graphCenterY
+    }
+    
+    var partsWidth: CGFloat {
+        return graphXPropertis.partsWidth
+    }
+    var partsHeight: CGFloat {
+        return graphYPropertis.partsHeight
+    }
+    
+    private var graphXPropertis: GraphXProperties
+    private var graphYPropertis: GraphYProperties
+    
+    init(xCount: Int, yCount: Int, xPartition: Int, yPartition: Int, yMax: Int, yMin: Int,
+         graphCenterX: CGFloat, graphCenterY: CGFloat, partsWidth: CGFloat, partsHeight: CGFloat) {
+        graphXPropertis = GraphXProperties(xCount: xCount, xPartition: xPartition, graphCenterX: graphCenterX, partsWidth: partsWidth)
+        graphYPropertis = GraphYProperties(yCount: yCount, yPartition: yPartition, yMax: yMax, yMin: yMin, graphCenterY: graphCenterY, partsHeight: partsHeight)
+    }
+    
+    init(graphXPropertis: GraphXProperties, graphYPropertis: GraphYProperties) {
+        self.graphXPropertis = graphXPropertis
+        self.graphYPropertis = graphYPropertis
+    }
+}
+
+private struct GraphXProperties {
     var xCount: Int
-    var yCount: Int
-    
     var xPartition: Int
+    var graphCenterX: CGFloat
+    var partsWidth: CGFloat
+}
+
+private struct GraphYProperties {
+    var yCount: Int
     var yPartition: Int
-    
     var yMax: Int
     var yMin: Int
-    
-    var graphCenterX: CGFloat
     var graphCenterY: CGFloat
-    
-    var cellWidth: CGFloat
-    var cellHeight: CGFloat
+    var partsHeight: CGFloat
 }
 
 class GraphView: UIView {
@@ -155,7 +205,7 @@ class GraphView: UIView {
             for i in 0..<graphProperties.xCount {
                 if i % xPartsCount == 0 {
                     let stepIndex = i * xPartsCount
-                    let xPosition = gridRect.minX + graphProperties.cellWidth * CGFloat(i * xPartsCount)
+                    let xPosition = gridRect.minX + graphProperties.partsWidth * CGFloat(i * xPartsCount)
                     let verticalDashBegin = CGPoint(x: xPosition, y: graphProperties.graphCenterY + dashSize / 2)
                     let verticalDashEnd = CGPoint(x: xPosition, y: graphProperties.graphCenterY - dashSize / 2)
                     
@@ -173,7 +223,7 @@ class GraphView: UIView {
             for i in 0..<graphProperties.xCount {
                 for j in 0..<xPartsCount {
                     let stepIndex = i * xPartsCount + j
-                    let xPosition = gridRect.minX + graphProperties.cellWidth * CGFloat(stepIndex)
+                    let xPosition = gridRect.minX + graphProperties.partsWidth * CGFloat(stepIndex)
                     let verticalDashBegin = CGPoint(x: xPosition, y: graphProperties.graphCenterY + dashSize / 2)
                     let verticalDashEnd = CGPoint(x: xPosition, y: graphProperties.graphCenterY - dashSize / 2)
 
@@ -194,7 +244,7 @@ class GraphView: UIView {
             // Increasing the grid step
             for i in 0..<graphProperties.yCount {
                 if i % yPartsCount == 0 {
-                    let yPosition = gridRect.maxY - graphProperties.cellHeight * CGFloat(i * yPartsCount)
+                    let yPosition = gridRect.maxY - graphProperties.partsHeight * CGFloat(i * yPartsCount)
                     let horizontalDashBegin = CGPoint(x: graphProperties.graphCenterX + dashSize / 2, y: yPosition)
                     let horizontalDashEnd = CGPoint(x: graphProperties.graphCenterX - dashSize / 2, y: yPosition)
                     
@@ -210,7 +260,7 @@ class GraphView: UIView {
             for i in 0..<graphProperties.yCount {
                 for j in 0..<yPartsCount {
                     let stepIndex = i * yPartsCount + j
-                    let yPosition = gridRect.maxY - graphProperties.cellHeight * CGFloat(stepIndex)
+                    let yPosition = gridRect.maxY - graphProperties.partsHeight * CGFloat(stepIndex)
                     let horizontalDashBegin = CGPoint(x: graphProperties.graphCenterX + dashSize / 2, y: yPosition)
                     let horizontalDashEnd = CGPoint(x: graphProperties.graphCenterX - dashSize / 2, y: yPosition)
                     
@@ -311,128 +361,178 @@ class GraphView: UIView {
     }
     
     private static func calculateGraphProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, numbersCount: Int) -> GraphProperties? {
-        let partitionToPartsCount: (Int, Int) -> Int = { (partition: Int, partitionPrev: Int) -> Int in
-            var partsCount = 0
-            
-            if partition == 0 {
-                switch partitionPrev {
-                case 1:
-                    partsCount = -2
-                    break
-                case -1:
-                    partsCount = 2
-                    break
-                default:
-                    partsCount = 1
-                    break
-                }
-            }
-            else {
-                partsCount = partition < 0 ? partition - 1 : partition + 1
-            }
-            
-            return partsCount
-        }
-        
         var graphProperties: GraphProperties?
         
-        let widthMin: CGFloat = 10
-        let widthMax: CGFloat = 100
-
-        let heightMin: CGFloat = 10
-        let heightMax: CGFloat = 20
+        let cellWidth: CGFloat = 30
+        let cellHeight: CGFloat = 20
         
         if 0 < numbersCount {
-            var xCalculation = true
-            var yCalculation = true
+            let graphXProperties = calculateGraphXProperties(gridRect: gridRect, numbersCount: numbersCount, cellWidth: cellWidth)
+            let graphYProperties = calculateGraphYProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, cellHeight: cellHeight)
             
-            var xPartition = 0
-            var yPartition = 0
-            var xPartitionPrev = 0
-            var yPartitionPrev = 0
-            
-            while xCalculation || yCalculation {
-                let xPartsCount = partitionToPartsCount(xPartition, xPartitionPrev)
-                let yPartsCount = partitionToPartsCount(yPartition, yPartitionPrev)
-                
-                // Calculating the X axis width of the grid
-                var xMax = numbersCount
-
-                let absXPartsCount = abs(xPartsCount)
-                if xPartsCount < -1 {
-                    xMax += absXPartsCount - xMax % absXPartsCount
-                }
-
-                let xCount = xMax
-                let xWidth = CGFloat(xCount * absXPartsCount)
-
-                // Calculating the Y axis width of the grid
-                var yMax = numberMax == Float(Int(numberMax)) ? Int(numberMax) + 1 : Int(ceilf(numberMax))
-                var yMin = 0
-        
-                if numberMin < 0 {
-                    yMin = numberMin == Float(Int(numberMin)) ? Int(numberMin) - 1 : Int(floorf(numberMin))
-                }
-                
-                let absYPartsCount = abs(yPartsCount)
-                if yPartsCount < -1 {
-                    if 0 < yMax {
-                        yMax += absYPartsCount - yMax % absYPartsCount
-                    }
-
-                    if yMin < 0 {
-                        yMin += yPartsCount - yMin % yPartsCount
-                    }
-                }
-
-                let yCount = yMax - yMin
-                let yHeight = CGFloat(yCount * absYPartsCount)
-                
-                let cellWidth = gridRect.width / xWidth
-                let cellHeight = gridRect.height / yHeight
-                
-                let graphCenterX = gridRect.minX
-                let graphCenterY = gridRect.minY + cellHeight * CGFloat(yMax * absYPartsCount)
-                
-                graphProperties = GraphProperties(xCount: xCount, yCount: yCount, xPartition: xPartition, yPartition: yPartition,
-                                                  yMax: yMax, yMin: yMin, graphCenterX: graphCenterX, graphCenterY: graphCenterY,
-                                                  cellWidth: cellWidth, cellHeight: cellHeight)
-                
-                // Finding the number of partitions
-                let partitionCellWidth = xPartsCount < 0 ? cellWidth * CGFloat(xPartsCount * xPartsCount) : cellWidth / CGFloat(xPartsCount * xPartsCount)
-                let partitionCellHeight = yPartsCount < 0 ? cellHeight * CGFloat(yPartsCount * yPartsCount) : cellHeight / CGFloat(yPartsCount * yPartsCount)
-
-                if  widthMin < partitionCellWidth && partitionCellWidth < widthMax {
-                    xCalculation = false
-                }
-                else {
-                    xPartitionPrev = xPartition
-                    xPartition = widthMax < partitionCellWidth ? xPartition + 1: xPartition - 1
-                }
-
-                if  heightMin < partitionCellHeight && partitionCellHeight < heightMax {
-                    yCalculation = false
-                }
-                else {
-                    yPartitionPrev = yPartition
-                    yPartition = heightMax < partitionCellHeight ? yPartition + 1: yPartition - 1
-                }
-
-                print("\(widthMin) < \(partitionCellWidth) < \(widthMax)")
-            }
+            graphProperties = GraphProperties(graphXPropertis: graphXProperties, graphYPropertis: graphYProperties)
         }
         
         return graphProperties
     }
     
+    private static func calculateGraphXProperties(gridRect: CGRect, numbersCount: Int, cellWidth: CGFloat) -> GraphXProperties {
+        var graphXProperties: GraphXProperties!
+        
+        var graphXPropertiesMin: GraphXProperties!
+        var graphXPropertiesMax: GraphXProperties!
+        
+        var xPartition = 0
+        var xPartitionPrev = 0
+        
+        var cellWidthMin: CGFloat = 0
+        var cellWidthMax: CGFloat = 0
+        
+        repeat {
+            let xPartsCount = GraphView.partitionToPartsCount(partition: xPartition, partitionPrev: xPartitionPrev)
+            
+            var xMax = numbersCount
+            let absXPartsCount = abs(xPartsCount)
+            if xPartsCount < -1 {
+                xMax += absXPartsCount - xMax % absXPartsCount
+            }
+
+            let xCount = xMax
+            let xWidth = CGFloat(xCount * absXPartsCount)
+            let partsWidth = gridRect.width / xWidth
+            let graphCenterX = gridRect.minX
+            
+            graphXProperties = GraphXProperties(xCount: xCount, xPartition: xPartition, graphCenterX: graphCenterX, partsWidth: partsWidth)
+            let partitionCellWidth = xPartsCount < 0 ? partsWidth * CGFloat(xPartsCount * xPartsCount) :partsWidth / CGFloat(xPartsCount * xPartsCount)
+            
+            xPartitionPrev = xPartition
+            if cellWidth < partitionCellWidth {
+                graphXPropertiesMin = graphXProperties
+                cellWidthMin = partitionCellWidth
+                xPartition += 1
+            }
+            else {
+                graphXPropertiesMax = graphXProperties
+                cellWidthMax = partitionCellWidth
+                xPartition -= 1
+            }
+            
+            if cellWidthMax != 0 && cellWidthMin != 0 {
+                let widthMin = cellWidth - cellWidthMin
+                let widthMax = cellWidthMax - cellWidth
+                
+                if widthMin < widthMax {
+                    graphXProperties = graphXPropertiesMin
+                }
+                else {
+                    graphXProperties = graphXPropertiesMax
+                }
+            }
+        } while cellWidthMax == 0 || cellWidthMin == 0
+        
+        return graphXProperties
+    }
+    
+    private static func calculateGraphYProperties(gridRect: CGRect, numberMax: Float, numberMin: Float, cellHeight: CGFloat) -> GraphYProperties {
+        var graphYProperties: GraphYProperties!
+        
+        var graphYPropertiesMin: GraphYProperties!
+        var graphYPropertiesMax: GraphYProperties!
+        
+        var yPartition = 0
+        var yPartitionPrev = 0
+        
+        var cellHeightMin: CGFloat = 0
+        var cellHeightMax: CGFloat = 0
+        
+        repeat {
+            let yPartsCount = GraphView.partitionToPartsCount(partition: yPartition, partitionPrev: yPartitionPrev)
+            
+            var yMax = numberMax == Float(Int(numberMax)) ? Int(numberMax) + 1 : Int(ceilf(numberMax))
+            var yMin = 0
+
+            if numberMin < 0 {
+               yMin = numberMin == Float(Int(numberMin)) ? Int(numberMin) - 1 : Int(floorf(numberMin))
+            }
+
+            let absYPartsCount = abs(yPartsCount)
+            if yPartsCount < -1 {
+               if 0 < yMax {
+                   yMax += absYPartsCount - yMax % absYPartsCount
+               }
+
+               if yMin < 0 {
+                   yMin += yPartsCount - yMin % yPartsCount
+               }
+            }
+
+            let yCount = yMax - yMin
+            let yHeight = CGFloat(yCount * absYPartsCount)
+            let partsHeight = gridRect.height / yHeight
+            let graphCenterY = gridRect.minY + partsHeight * CGFloat(yMax * absYPartsCount)
+            
+            graphYProperties = GraphYProperties(yCount: yCount, yPartition: yPartition, yMax: yMax, yMin: yMin, graphCenterY: graphCenterY, partsHeight: partsHeight)
+            let partitionCellHeight = yPartsCount < 0 ? partsHeight * CGFloat(yPartsCount * yPartsCount) : partsHeight / CGFloat(yPartsCount * yPartsCount)
+            
+            yPartitionPrev = yPartition
+            if cellHeight < partitionCellHeight {
+                graphYPropertiesMin = graphYProperties
+                cellHeightMin = partitionCellHeight
+                yPartition += 1
+            }
+            else {
+                graphYPropertiesMax = graphYProperties
+                cellHeightMax = partitionCellHeight
+                yPartition -= 1
+            }
+            
+            if cellHeightMax != 0 && cellHeightMin != 0 {
+                let heightMin = cellHeight - cellHeightMin
+                let heightMax = cellHeightMax - cellHeight
+                
+                if heightMin < heightMax {
+                    graphYProperties = graphYPropertiesMin
+                }
+                else {
+                    graphYProperties = graphYPropertiesMax
+                }
+            }
+        } while cellHeightMax == 0 || cellHeightMin == 0
+        
+        return graphYProperties
+    }
+
     private static func getGraphPoint(index: Int, number: Float, graphProperties: GraphProperties) -> CGPoint {
         let xPartsCount = abs(graphProperties.xPartition) + 1
         let yPartsCount = abs(graphProperties.yPartition) + 1
         
-        let x = graphProperties.graphCenterX + graphProperties.cellWidth * CGFloat(index * xPartsCount)
-        let y = graphProperties.graphCenterY - graphProperties.cellHeight * CGFloat(number * Float(yPartsCount))
+        let x = graphProperties.graphCenterX + graphProperties.partsWidth * CGFloat(index * xPartsCount)
+        let y = graphProperties.graphCenterY - graphProperties.partsHeight * CGFloat(number * Float(yPartsCount))
         
         return CGPoint(x: x, y: y)
+    }
+    
+    private static func partitionToPartsCount(partition: Int, partitionPrev: Int) -> Int {
+        var partsCount = 0
+        
+        if partition == 0 {
+            switch partitionPrev {
+            case 1:
+                partsCount = -2
+                break
+            case -1:
+                partsCount = 2
+                break
+            default:
+                partsCount = 1
+                break
+            }
+        }
+        else {
+            partsCount = partition < 0 ? partition - 1 : partition + 1
+        }
+        
+        return partsCount
     }
     
     private static func digitsCount(value: Int) -> Int {
