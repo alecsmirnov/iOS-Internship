@@ -223,7 +223,7 @@ class GraphView: UIView {
                     drawLine(context, begin: verticalDashBegin, end: verticalDashEnd, color: graphColor)
                     
                     if stepIndex != 0 {
-                        drawString(string: String(stepIndex), point: CGPoint(x: xPosition, y: graphProperties.graphCenterY + fontPadding))
+                        drawString(string: String(stepIndex / xPartsCount), point: CGPoint(x: xPosition, y: graphProperties.graphCenterY + fontPadding))
                     }
                 }
             }
@@ -261,7 +261,7 @@ class GraphView: UIView {
                     drawLine(context, begin: CGPoint(x: gridRect.minX, y: yPosition), end: CGPoint(x: gridRect.maxX, y: yPosition), color: gridColor)
                     drawLine(context, begin: horizontalDashBegin, end: horizontalDashEnd, color: graphColor)
                     
-                    drawString(string: String(i + graphProperties.yMin), point: CGPoint(x: graphProperties.graphCenterX - yAxisTextPadding, y: yPosition))
+                    drawString(string: String((i + graphProperties.yMin) / yPartsCount), point: CGPoint(x: graphProperties.graphCenterX - yAxisTextPadding, y: yPosition))
                 }
             }
         }
