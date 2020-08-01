@@ -124,7 +124,10 @@ class GraphView: UIView {
                 yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)),
                                                GraphView.digitsCount(value: Int(numberMin))) + captionsPrecision + 1) * fontPadding
 
-                let gridRect = CGRect(x: padding + yAxisTextPadding, y: padding + fontPadding, width: rect.width - 2 * padding - yAxisTextPadding, height: rect.height - 2 * padding - fontPadding)
+                let gridRect = CGRect(x: padding + yAxisTextPadding,
+                                      y: padding + fontPadding,
+                                      width: rect.width - 2 * padding - yAxisTextPadding,
+                                      height: rect.height - 2 * (padding + fontPadding))
                 let graphProperties = GraphView.calculateGraphProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, numbersCount: numbersCount)
                 
                 if let graphProperties = graphProperties {
@@ -378,7 +381,7 @@ class GraphView: UIView {
                     }
 
                     if yMin < 0 {
-                        yMin += yPartition - yMin % yPartsCount
+                        yMin += yPartsCount - yMin % yPartsCount
                     }
                 }
 
@@ -398,7 +401,7 @@ class GraphView: UIView {
                 // Finding the number of partitions
                 let partitionCellWidth = xPartsCount < 0 ? cellWidth * CGFloat(xPartsCount * xPartsCount) : cellWidth / CGFloat(xPartsCount * xPartsCount)
                 let partitionCellHeight = yPartsCount < 0 ? cellHeight * CGFloat(yPartsCount * yPartsCount) : cellHeight / CGFloat(yPartsCount * yPartsCount)
-                
+
                 if  widthMin < partitionCellWidth && partitionCellWidth < widthMax {
                     xCalculation = false
                 }
@@ -414,6 +417,8 @@ class GraphView: UIView {
                     yPartitionPrev = yPartition
                     yPartition = heightMax < partitionCellHeight ? yPartition + 1: yPartition - 1
                 }
+
+                print("\(widthMin) < \(partitionCellWidth) < \(widthMax)")
             }
         }
         
