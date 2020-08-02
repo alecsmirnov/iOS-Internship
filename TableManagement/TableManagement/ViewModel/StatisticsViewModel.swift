@@ -19,6 +19,10 @@ class StatisticsViewModel {
         self.numbersData = numbersData
     }
     
+    func graphViewModel() -> GraphViewModel {
+        return GraphViewModel(numbersData: numbersData)
+    }
+    
     func min() -> String {
         var minValue = ""
         
