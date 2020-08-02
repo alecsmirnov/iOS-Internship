@@ -88,9 +88,6 @@ enum GraphProperties {
         if 0 < numbersCount {
             let xProperties = calculateXProperties(gridRect: gridRect, numbersCount: numbersCount, cellWidth: cellWidth)
             let yProperties = calculateYProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin, cellHeight: cellHeight)
-            
-            print(yProperties.min)
-            print(yProperties.max)
              
             properties = Properties(xPropertis: xProperties, yPropertis: yProperties)
         }
@@ -176,7 +173,7 @@ enum GraphProperties {
             if numberMin < 0 {
                 min = numberMin == Float(Int(numberMin)) ? Int(numberMin) - 1 : Int(floorf(numberMin))
             }
-
+            
             let absPartsCount = abs(partsCount)
             if partsCount < -1 {
                 if 0 < max {

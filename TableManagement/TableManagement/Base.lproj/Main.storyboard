@@ -63,11 +63,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZRg-5z-Kh7" customClass="GraphView" customModule="TableManagement" customModuleProvider="target">
-                                <rect key="frame" x="20" y="213" width="374" height="300"/>
+                                <rect key="frame" x="20" y="108" width="374" height="405"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="287" id="77E-BM-Tis"/>
-                                    <constraint firstAttribute="height" constant="300" id="fej-F8-crf"/>
+                                    <constraint firstAttribute="height" constant="405" id="fej-F8-crf"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -77,7 +77,7 @@
                             <constraint firstItem="bTp-we-XHt" firstAttribute="bottom" secondItem="rKB-D7-0IZ" secondAttribute="bottom" constant="119.5" id="1Hf-tv-DMP"/>
                             <constraint firstItem="bTp-we-XHt" firstAttribute="trailing" secondItem="rKB-D7-0IZ" secondAttribute="trailing" constant="67" id="PN7-bX-dkQ"/>
                             <constraint firstItem="bTp-we-XHt" firstAttribute="trailing" secondItem="ZRg-5z-Kh7" secondAttribute="trailing" constant="20" id="YV0-WA-XTY"/>
-                            <constraint firstItem="ZRg-5z-Kh7" firstAttribute="top" secondItem="bTp-we-XHt" secondAttribute="top" constant="169" id="d7s-T5-Y6i"/>
+                            <constraint firstItem="ZRg-5z-Kh7" firstAttribute="top" secondItem="bTp-we-XHt" secondAttribute="top" constant="64" id="d7s-T5-Y6i"/>
                             <constraint firstItem="rKB-D7-0IZ" firstAttribute="leading" secondItem="bTp-we-XHt" secondAttribute="leading" constant="67" id="yqQ-Jx-IP8"/>
                             <constraint firstItem="rKB-D7-0IZ" firstAttribute="top" secondItem="ZRg-5z-Kh7" secondAttribute="bottom" constant="27.5" id="zGS-l5-r0n"/>
                         </constraints>
