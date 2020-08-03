@@ -160,27 +160,64 @@ class GraphView: UIView {
     }
     
     private func drawNumbers(_ context: CGContext, graphProperties: GraphProperties.Properties) {
-        var positivePoints: [CGPoint] = []
-        var negativePoints: [CGPoint] = []
+        let graphPath = UIBezierPath()
         
-        for i in 0..<numbers.count {
-            let point = GraphView.getGraphPoint(index: i, number: numbers[i], graphProperties: graphProperties)
-            var color = UIColor()
+        if !numbers.isEmpty {
+            var point = GraphView.getGraphPoint(index: 0, number: numbers[0], graphProperties: graphProperties)
+            graphPath.move(to: point)
             
-            if numbers[i] < 0 {
-                negativePoints.append(point)
-                color = negativeColor
-            }
-            else {
-                positivePoints.append(point)
-                color = positiveColor
+            for i in 1..<numbers.count {
+                point = GraphView.getGraphPoint(index: i, number: numbers[i], graphProperties: graphProperties)
+                
+                graphPath.addLine(to: point)
             }
             
-            drawPoint(context, point: point, size: pointSize, color: color)
+            graphPath.addLine(to: CGPoint(x: point.x, y: graphProperties.graphCenterY))
+            graphPath.stroke()
+            
+            guard let clippingPath = graphPath.copy() as? UIBezierPath else {
+                return
+            }
+            
+            clippingPath.addLine(to: CGPoint(x: graphProperties.graphCenterX, y: graphProperties.graphCenterY))
+            clippingPath.close()
+            
+            clippingPath.addClip()
+            
+            let positivePartColors = [UIColor(white: 1, alpha: 0).cgColor, positiveColor.cgColor]
+            let negativePartColors = [UIColor(white: 1, alpha: 0).cgColor, negativeColor.cgColor]
+
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let colorLocations: [CGFloat] = [0.0, 1.0]
+
+            guard let positiveGradient = CGGradient(colorsSpace: colorSpace, colors: positivePartColors as CFArray, locations: colorLocations) else {
+                return
+            }
+            
+            guard let negativeGradient = CGGradient(colorsSpace: colorSpace, colors: negativePartColors as CFArray, locations: colorLocations) else {
+                return
+            }
+            
+            guard let max = numbers.max() else {
+                return
+            }
+            
+            guard let min = numbers.min() else {
+                return
+            }
+            
+            let maxY = GraphView.getGraphPoint(index: 0, number: max, graphProperties: graphProperties).y
+            let minY = GraphView.getGraphPoint(index: 0, number: min, graphProperties: graphProperties).y
+            
+            let positiveGradientStartPoint = CGPoint(x: graphProperties.graphCenterX, y: graphProperties.graphCenterY)
+            let positiveGradientEndPoint = CGPoint(x: graphProperties.graphCenterX, y: maxY)
+            
+            let negativeGradientStartPoint = CGPoint(x: graphProperties.graphCenterX, y: graphProperties.graphCenterY)
+            let negativeGradientEndPoint = CGPoint(x: graphProperties.graphCenterX, y: minY)
+            
+            context.drawLinearGradient(positiveGradient, start: positiveGradientStartPoint, end: positiveGradientEndPoint, options: [])
+            context.drawLinearGradient(negativeGradient, start: negativeGradientStartPoint, end: negativeGradientEndPoint, options: [])
         }
-        
-        drawLines(context, points: negativePoints, color: negativeColor)
-        drawLines(context, points: positivePoints, color: positiveColor)
     }
     
     private func drawLines(_ context: CGContext, points: [CGPoint], color: UIColor) {
