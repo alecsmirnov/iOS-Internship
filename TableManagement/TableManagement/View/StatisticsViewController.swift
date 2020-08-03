@@ -8,9 +8,12 @@
 
 import UIKit
 
-private enum GraphSteps {
-    static let x = 10
-    static let y = 10
+private enum GraphSettings {
+    static let xStep = 10
+    static let yStep = 10
+    
+    static let xBorder = 100
+    static let yBorder = 100
 }
 
 class StatisticsViewController: UIViewController {
@@ -25,19 +28,15 @@ class StatisticsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let statisticsViewModel = statisticsViewModel {
-            if let graphView = graphView {                
-                graphView.numbers = statisticsViewModel.numbers()
-                
-                graphView.xStep = GraphSteps.x
-                graphView.yStep = GraphSteps.y
-                
-                graphView.xBorder = 100
-                graphView.yBorder = 100
-                
-                graphView.xPercentageStep = true
-                graphView.yPercentageStep = true
-            }
+        if let graphView = graphView {
+            graphView.xStep = GraphSettings.xStep
+            graphView.yStep = GraphSettings.yStep
+            
+            graphView.xBorder = GraphSettings.xBorder
+            graphView.yBorder = GraphSettings.yBorder
+            
+            graphView.xPercentageStep = true
+            graphView.yPercentageStep = true
         }
     }
     
@@ -47,6 +46,11 @@ class StatisticsViewController: UIViewController {
             maxValueLabel.text = String("Max value: \(statisticsViewModel.max())")
             minValueLabel.text = String("Min value: \(statisticsViewModel.min())")
             averageLabel.text = String("Average: \(statisticsViewModel.average())")
+            
+            if let graphView = graphView {
+                graphView.numbers = statisticsViewModel.numbers()
+                graphView.setNeedsDisplay()
+            }
         }
     }
 }
