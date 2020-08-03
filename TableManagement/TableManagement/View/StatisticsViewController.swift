@@ -8,6 +8,11 @@
 
 import UIKit
 
+private enum GraphSteps {
+    static let x = 10
+    static let y = 10
+}
+
 class StatisticsViewController: UIViewController {
     var statisticsViewModel: StatisticsViewModel!
     
@@ -23,6 +28,11 @@ class StatisticsViewController: UIViewController {
         if let statisticsViewModel = statisticsViewModel {
             if let graphView = graphView {                
                 graphView.numbers = statisticsViewModel.numbers()
+                
+                graphView.xStep = GraphSteps.x
+                graphView.yStep = GraphSteps.y
+                graphView.xPercentageStep = true
+                graphView.yPercentageStep = true
             }
         }
     }
