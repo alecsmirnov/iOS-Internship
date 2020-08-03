@@ -23,6 +23,12 @@ private enum GraphViewDefaultSettings {
     static let positiveColor   = UIColor.red
     static let negativeColor   = UIColor.blue
     static let backgroundColor = UIColor.white
+    
+    static let xStep = 1
+    static let yStep = 1
+    
+    static let xBorder = 100
+    static let yBorder = 100
 }
 
 class GraphView: UIView {
@@ -42,8 +48,11 @@ class GraphView: UIView {
     var positiveColor = GraphViewDefaultSettings.positiveColor
     var negativeColor = GraphViewDefaultSettings.negativeColor
     
-    var xStep = 1
-    var yStep = 1
+    var xStep = GraphViewDefaultSettings.xStep
+    var yStep = GraphViewDefaultSettings.yStep
+    
+    var xBorder = GraphViewDefaultSettings.xBorder
+    var yBorder = GraphViewDefaultSettings.yBorder
     
     var xPercentageStep = false
     var yPercentageStep = false
@@ -81,7 +90,7 @@ class GraphView: UIView {
                                   width: rect.width - 2 * padding - yAxisTextPadding,
                                   height: rect.height - 2 * (padding + fontPadding))
             let graphProperties = GraphProperties.calculateProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin,
-                                                                      numbersCount: numbers.count, xStep: xStep, yStep: yStep,
+                                                                      numbersCount: numbers.count, xStep: xStep, xBorder: xBorder, yStep: yStep, yBorder: yBorder,
                                                                       xPercentageStep: xPercentageStep, yPercentageStep: yPercentageStep)
             
             if let graphProperties = graphProperties {
@@ -92,7 +101,6 @@ class GraphView: UIView {
                     
                     drawGrid(context, gridRect: gridRect, graphProperties: graphProperties)
                     drawNumbers(context, graphProperties: graphProperties)
-                    
                     
                     context.restoreGState()
                     

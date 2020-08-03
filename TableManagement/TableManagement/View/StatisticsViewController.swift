@@ -31,6 +31,10 @@ class StatisticsViewController: UIViewController {
                 
                 graphView.xStep = GraphSteps.x
                 graphView.yStep = GraphSteps.y
+                
+                graphView.xBorder = 100
+                graphView.yBorder = 100
+                
                 graphView.xPercentageStep = true
                 graphView.yPercentageStep = true
             }
