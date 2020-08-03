@@ -104,7 +104,11 @@ enum GraphProperties {
             if step < numbersCount {
                 let partLen = numbersCount / step
                 
-                partsCount = -(partLen + step - partLen % step)
+                partsCount = -partLen
+                
+                if step < partLen {
+                    partsCount = -(partLen + step - partLen % step)
+                }
             }
         }
         else {
@@ -147,7 +151,11 @@ enum GraphProperties {
             if step < count {
                 let partLen = count / step
 
-                partsCount = -(partLen + step - partLen % step)
+                partsCount = -(partLen + 1)
+                
+                if step < partLen {
+                    partsCount = -(partLen + step - partLen % step)
+                }
             }
         }
         else {

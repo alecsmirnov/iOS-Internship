@@ -88,8 +88,13 @@ class GraphView: UIView {
                 if let context = UIGraphicsGetCurrentContext() {
                     UIGraphicsPushContext(context)
                     
+                    context.saveGState()
+                    
                     drawGrid(context, gridRect: gridRect, graphProperties: graphProperties)
                     drawNumbers(context, graphProperties: graphProperties)
+                    
+                    
+                    context.restoreGState()
                     
                     UIGraphicsPopContext()
                 }
