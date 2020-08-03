@@ -98,6 +98,10 @@ class EditorViewController: UIViewController {
             if let textNumber = numberField.text {
                 if editorViewModel.isFunnyTextColor() {
                     editorViewModel.userChangedSelectedNumber(textNumber)
+                    
+                    if let navigationController = navigationController {
+                        navigationController.popViewController(animated: true);
+                    }
                 }
                 else {
                     showAlertMessage()

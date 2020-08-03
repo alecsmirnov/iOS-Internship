@@ -74,7 +74,7 @@ class EditorViewModel {
     func isFunnyTextColor() -> Bool {
         let hsv = textColor.hsv()
         
-        return hsv.saturation == 1 && hsv.brightness == 1
+        return 0.75 < hsv.saturation && hsv.saturation <= 1 && 0.5 < hsv.brightness && hsv.brightness <= 1
     }
     
     func isValidUserInput(text: String, string: String) -> Bool {

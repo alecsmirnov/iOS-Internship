@@ -31,7 +31,7 @@ private enum GraphViewDefaultSettings {
 }
 
 class GraphView: UIView {
-    var graphViewModel: GraphViewModel!
+    var numbers: [Float] = []
     
     var padding: CGFloat = GraphViewDefaultSettings.padding
     var fontPadding: CGFloat = GraphViewDefaultSettings.fontPadding
@@ -65,40 +65,36 @@ class GraphView: UIView {
     }
     
     private func drawGraph(_ rect: CGRect) {
-        if let graphViewModel = graphViewModel {
-            let numbersCount = graphViewModel.count
+        if !numbers.isEmpty {
+            var numberMax: Float = 0
+            var numberMin: Float = 0
             
-            if 0 < numbersCount {
-                var numberMax: Float = 0
-                var numberMin: Float = 0
-                
-                if let max = graphViewModel.max() {
-                    numberMax = max
-                }
-                
-                if let min = graphViewModel.min() {
-                    numberMin = min
-                }
-                
-                yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)),
-                                               GraphView.digitsCount(value: Int(numberMin))) + captionsPrecision + 1) * fontPadding
+            if let max = numbers.max() {
+                numberMax = max
+            }
+            
+            if let min = numbers.min() {
+                numberMin = min
+            }
+            
+            yAxisTextPadding = CGFloat(max(GraphView.digitsCount(value: Int(numberMax)),
+                                           GraphView.digitsCount(value: Int(numberMin))) + captionsPrecision + 1) * fontPadding
 
-                let gridRect = CGRect(x: padding + yAxisTextPadding,
-                                      y: padding + fontPadding,
-                                      width: rect.width - 2 * padding - yAxisTextPadding,
-                                      height: rect.height - 2 * (padding + fontPadding))
-                let graphProperties = GraphProperties.calculateProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin,
-                                                                         numbersCount: numbersCount, cellWidth: cellWidth, cellHeight: cellHeight)
-                
-                if let graphProperties = graphProperties {
-                    if let context = UIGraphicsGetCurrentContext() {
-                        UIGraphicsPushContext(context)
-                        
-                        drawGrid(context, gridRect: gridRect, graphProperties: graphProperties)
-                        drawNumbers(context, graphProperties: graphProperties)
-                        
-                        UIGraphicsPopContext()
-                    }
+            let gridRect = CGRect(x: padding + yAxisTextPadding,
+                                  y: padding + fontPadding,
+                                  width: rect.width - 2 * padding - yAxisTextPadding,
+                                  height: rect.height - 2 * (padding + fontPadding))
+            let graphProperties = GraphProperties.calculateProperties(gridRect: gridRect, numberMax: numberMax, numberMin: numberMin,
+                                                                      numbersCount: numbers.count, cellWidth: cellWidth, cellHeight: cellHeight)
+            
+            if let graphProperties = graphProperties {
+                if let context = UIGraphicsGetCurrentContext() {
+                    UIGraphicsPushContext(context)
+                    
+                    drawGrid(context, gridRect: gridRect, graphProperties: graphProperties)
+                    drawNumbers(context, graphProperties: graphProperties)
+                    
+                    UIGraphicsPopContext()
                 }
             }
         }
@@ -214,32 +210,27 @@ class GraphView: UIView {
     }
     
     private func drawNumbers(_ context: CGContext, graphProperties: GraphProperties.Properties) {
-        if let graphViewModel = graphViewModel {
-            let numbersCount = graphViewModel.count
+        var positivePoints: [CGPoint] = []
+        var negativePoints: [CGPoint] = []
         
-            var positivePoints: [CGPoint] = []
-            var negativePoints: [CGPoint] = []
+        for i in 0..<numbers.count {
+            let point = GraphView.getGraphPoint(index: i, number: numbers[i], graphProperties: graphProperties)
+            var color = UIColor()
             
-            for i in 0..<numbersCount {
-                let number = graphViewModel.number(at: i)
-                let point = GraphView.getGraphPoint(index: i, number: number, graphProperties: graphProperties)
-                var color = UIColor()
-                
-                if number < 0 {
-                    negativePoints.append(point)
-                    color = negativeColor
-                }
-                else {
-                    positivePoints.append(point)
-                    color = positiveColor
-                }
-                
-                drawPoint(context, point: point, size: pointSize, color: color)
+            if numbers[i] < 0 {
+                negativePoints.append(point)
+                color = negativeColor
+            }
+            else {
+                positivePoints.append(point)
+                color = positiveColor
             }
             
-            drawLines(context, points: negativePoints, color: negativeColor)
-            drawLines(context, points: positivePoints, color: positiveColor)
+            drawPoint(context, point: point, size: pointSize, color: color)
         }
+        
+        drawLines(context, points: negativePoints, color: negativeColor)
+        drawLines(context, points: positivePoints, color: positiveColor)
     }
     
     private func drawLines(_ context: CGContext, points: [CGPoint], color: UIColor) {

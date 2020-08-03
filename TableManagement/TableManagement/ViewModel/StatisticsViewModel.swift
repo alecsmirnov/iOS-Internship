@@ -19,10 +19,6 @@ class StatisticsViewModel {
         self.numbersData = numbersData
     }
     
-    func graphViewModel() -> GraphViewModel {
-        return GraphViewModel(numbersData: numbersData)
-    }
-    
     func min() -> String {
         var minValue = ""
         
@@ -57,5 +53,13 @@ class StatisticsViewModel {
         }
         
         return averageValue
+    }
+    
+    func numbers() -> [Float] {
+        let numbers = (0..<numbersData.count).map { (index: Int) -> Float in
+            return numbersData.get(at: index).value
+        }
+        
+        return numbers
     }
 }

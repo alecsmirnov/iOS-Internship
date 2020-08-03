@@ -13,8 +13,7 @@ private enum StoryboardIds {
     static let editorViewController = "EditorViewController"
 }
 
-// Why Equatable protocol is needed to compare with a binary operator
-private enum ReloadData: Equatable {
+private enum ScheduleReloadType: Equatable {
     case none
     case all
     case row(index: Int)
@@ -23,7 +22,7 @@ private enum ReloadData: Equatable {
 class TableViewController: UIViewController {
     var tableViewModel: TableViewModel!
     
-    private var reloadData = ReloadData.none
+    private var reloadType = ScheduleReloadType.none
     
     @IBOutlet private var tableView: UITableView!
     
@@ -36,20 +35,19 @@ class TableViewController: UIViewController {
         tableViewModel.delegate = self
     }
     
-    // Можно сломать
     override func viewDidAppear(_ animated: Bool) {
-        switch reloadData {
-        case ReloadData.all:
+        switch reloadType {
+        case ScheduleReloadType.all:
             tableView.reloadData()
             break
-        case ReloadData.row(let index):
+        case ScheduleReloadType.row(let index):
             tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             break
         default:
             break
         }
         
-        reloadData = ReloadData.none
+        reloadType = ScheduleReloadType.none
     }
 }
 
@@ -99,12 +97,12 @@ extension TableViewController: UITableViewDelegate {
 
 extension TableViewController: TableViewModelDisplayDelegate {
     func tableViewModelDisplayDelegateReloadRow(_ viewController: AnyObject, at index: Int) {
-        if reloadData == ReloadData.none {
-            reloadData = ReloadData.row(index: index)
+        if reloadType == ScheduleReloadType.none {
+            reloadType = ScheduleReloadType.row(index: index)
         }
     }
     
     func tableViewModelDisplayDelegateReloadData(_ viewController: AnyObject) {
-        reloadData = ReloadData.all
+        reloadType = ScheduleReloadType.all
     }
 }

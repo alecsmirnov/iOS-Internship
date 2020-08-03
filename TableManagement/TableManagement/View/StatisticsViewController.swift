@@ -22,7 +22,7 @@ class StatisticsViewController: UIViewController {
         
         if let statisticsViewModel = statisticsViewModel {
             if let graphView = graphView {                
-                graphView.graphViewModel = statisticsViewModel.graphViewModel()
+                graphView.numbers = statisticsViewModel.numbers()
             }
         }
     }
