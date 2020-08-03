@@ -111,6 +111,8 @@ class GraphView: UIView {
     }
     
     private func drawGrid(_ context: CGContext, gridRect: CGRect, graphProperties: GraphProperties.Properties) {
+        context.saveGState()
+        
         // X Axis
         for i in 0..<graphProperties.xCount {
             if i % graphProperties.xPartsCount == 0 {
@@ -170,12 +172,16 @@ class GraphView: UIView {
             
             drawString(string: "X", point: CGPoint(x: gridRect.maxX + fontPadding, y: graphCenter.y))
         }
+        
+        context.restoreGState()
     }
     
     private func drawNumbers(_ context: CGContext, graphProperties: GraphProperties.Properties) {
         let graphPath = UIBezierPath()
         
         if !numbers.isEmpty {
+            context.saveGState()
+            
             var point = GraphView.getGraphPoint(index: 0, number: numbers[0], graphProperties: graphProperties)
             graphPath.move(to: point)
             
@@ -187,6 +193,8 @@ class GraphView: UIView {
             
             graphPath.addLine(to: CGPoint(x: point.x, y: graphProperties.graphCenterY))
             graphPath.stroke()
+            
+            context.saveGState()
             
             guard let clippingPath = graphPath.copy() as? UIBezierPath else {
                 return
@@ -230,6 +238,9 @@ class GraphView: UIView {
             
             context.drawLinearGradient(positiveGradient, start: positiveGradientStartPoint, end: positiveGradientEndPoint, options: [])
             context.drawLinearGradient(negativeGradient, start: negativeGradientStartPoint, end: negativeGradientEndPoint, options: [])
+            
+            context.restoreGState()
+            context.restoreGState()
         }
     }
     
