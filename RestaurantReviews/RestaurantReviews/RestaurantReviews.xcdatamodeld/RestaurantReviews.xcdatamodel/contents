@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Coordinates" representedClassName=".Coordinates" syncable="YES" codeGenerationType="class">
+        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="restaurant" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="location" inverseEntity="Restaurant"/>
+    </entity>
+    <entity name="Image" representedClassName=".Image" syncable="YES" codeGenerationType="class">
+        <attribute name="path" optional="YES" attributeType="String"/>
+        <relationship name="restaurant" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="images" inverseEntity="Restaurant"/>
+    </entity>
+    <entity name="Restaurant" representedClassName=".Restaurant" syncable="YES" codeGenerationType="class">
+        <attribute name="address" attributeType="String"/>
+        <attribute name="descriptions" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="images" toMany="YES" deletionRule="Nullify" destinationEntity="Image" inverseName="restaurant" inverseEntity="Image"/>
+        <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="Coordinates" inverseName="restaurant" inverseEntity="Coordinates"/>
+        <relationship name="reviews" toMany="YES" deletionRule="Nullify" destinationEntity="Review" inverseName="restaurant" inverseEntity="Review"/>
+    </entity>
+    <entity name="Review" representedClassName=".Review" syncable="YES" codeGenerationType="class">
+        <attribute name="author" attributeType="String"/>
+        <attribute name="date" attributeType="String"/>
+        <attribute name="restaurantId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" attributeType="String"/>
+        <relationship name="restaurant" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="reviews" inverseEntity="Restaurant"/>
+    </entity>
+    <elements>
+        <element name="Restaurant" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="Image" positionX="-54" positionY="18" width="128" height="73"/>
+        <element name="Review" positionX="-36" positionY="45" width="128" height="118"/>
+        <element name="Coordinates" positionX="-18" positionY="72" width="128" height="88"/>
+    </elements>
+</model>
