@@ -33,6 +33,10 @@
 		844779F624E2A74D00EDF985 /* RestaurantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779F524E2A74D00EDF985 /* RestaurantViewModel.swift */; };
 		844779F824E2C03B00EDF985 /* RestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779F724E2C03B00EDF985 /* RestaurantViewController.swift */; };
 		844779FA24E2C85500EDF985 /* RestaurantViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779F924E2C85500EDF985 /* RestaurantViewModelDelegate.swift */; };
+		844779FC24E2CF2F00EDF985 /* FavoriteRestaurantIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779FB24E2CF2F00EDF985 /* FavoriteRestaurantIds.swift */; };
+		844779FF24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779FD24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataClass.swift */; };
+		84477A0024E2D39B00EDF985 /* FavoriteRastaurant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779FE24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataProperties.swift */; };
+		84477A0224E2D3D300EDF985 /* FavoriteRestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84477A0124E2D3D300EDF985 /* FavoriteRestaurantService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +68,10 @@
 		844779F524E2A74D00EDF985 /* RestaurantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewModel.swift; sourceTree = "<group>"; };
 		844779F724E2C03B00EDF985 /* RestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewController.swift; sourceTree = "<group>"; };
 		844779F924E2C85500EDF985 /* RestaurantViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewModelDelegate.swift; sourceTree = "<group>"; };
+		844779FB24E2CF2F00EDF985 /* FavoriteRestaurantIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRestaurantIds.swift; sourceTree = "<group>"; };
+		844779FD24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteRastaurant+CoreDataClass.swift"; sourceTree = "<group>"; };
+		844779FE24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteRastaurant+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84477A0124E2D3D300EDF985 /* FavoriteRestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRestaurantService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				844779F124E2A29900EDF985 /* RestaurantsModel.swift */,
+				844779FB24E2CF2F00EDF985 /* FavoriteRestaurantIds.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -146,6 +155,8 @@
 		844779EB24E2A02E00EDF985 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				844779FD24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataClass.swift */,
+				844779FE24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataProperties.swift */,
 				844500AE24E1A11A0051D413 /* Review+CoreDataClass.swift */,
 				844500AF24E1A11A0051D413 /* Review+CoreDataProperties.swift */,
 				844500B024E1A11A0051D413 /* Image+CoreDataClass.swift */,
@@ -162,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				844779E324E2693D00EDF985 /* RestaurantService.swift */,
+				84477A0124E2D3D300EDF985 /* FavoriteRestaurantService.swift */,
 				844779ED24E2A0BF00EDF985 /* NetworkService.swift */,
 			);
 			path = Services;
@@ -252,7 +264,11 @@
 				844779F424E2A6E600EDF985 /* CellViewModel.swift in Sources */,
 				8445002B24E1491E0051D413 /* AppDelegate.swift in Sources */,
 				844500BC24E1A11A0051D413 /* Coordinates+CoreDataClass.swift in Sources */,
+				84477A0024E2D39B00EDF985 /* FavoriteRastaurant+CoreDataProperties.swift in Sources */,
+				844779FF24E2D39B00EDF985 /* FavoriteRastaurant+CoreDataClass.swift in Sources */,
 				844779F624E2A74D00EDF985 /* RestaurantViewModel.swift in Sources */,
+				84477A0224E2D3D300EDF985 /* FavoriteRestaurantService.swift in Sources */,
+				844779FC24E2CF2F00EDF985 /* FavoriteRestaurantIds.swift in Sources */,
 				844500BB24E1A11A0051D413 /* Restaurant+CoreDataProperties.swift in Sources */,
 				8445006B24E15F350051D413 /* MapViewController.swift in Sources */,
 				8445007124E164CB0051D413 /* TableViewCell.swift in Sources */,

@@ -10,6 +10,7 @@ import Foundation
 
 class RestaurantsViewModel {
     private var restaurantsModel: RestaurantsModel
+    private var favoriteRestaurantIds: FavoriteRestaurantIds
     
     var rowsCount: Int {
         return restaurantsModel.count
@@ -17,6 +18,7 @@ class RestaurantsViewModel {
     
     init(restaurantsModel: RestaurantsModel) {
         self.restaurantsModel = restaurantsModel
+        self.favoriteRestaurantIds = FavoriteRestaurantIds()
     }
     
     func cellViewModel(at index: Int) -> CellViewModel {
@@ -25,7 +27,7 @@ class RestaurantsViewModel {
     
     func restaurantViewModel(at index: Int) -> RestaurantViewModel {
         let restaurantInfo = restaurantsModel.get(at: index)
-        let favorite = restaurantsModel.isFavorite(id: restaurantInfo.id)
+        let favorite = favoriteRestaurantIds.isFavorite(id: restaurantInfo.id)
         
         return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, delegate: self)
     }
@@ -37,6 +39,13 @@ class RestaurantsViewModel {
 
 extension RestaurantsViewModel: RestaurantViewModelDelegate {
     func restaurantViewModelDelegate(_ viewModel: AnyObject, toFavorite id: Int) {
-        restaurantsModel.favoriteReverse(id: id)
+        let favorite = favoriteRestaurantIds.isFavorite(id: id)
+        
+        if favorite {
+            favoriteRestaurantIds.remove(id: id)
+        }
+        else {
+            favoriteRestaurantIds.append(id: id)
+        }
     }
 }

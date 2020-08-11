@@ -10,7 +10,7 @@ import Foundation
 
 private enum URLStrings {
     static let restaurants = "https://restaurants-f64d7.firebaseio.com/restaurants.json"
-    static let reviews = "https://restaurants-f64d7.firebaseio.com/reviews.json"
+    static let reviews     = "https://restaurants-f64d7.firebaseio.com/reviews.json"
 }
 
 class RestaurantsModel {
@@ -24,37 +24,14 @@ class RestaurantsModel {
         return restaurants.count
     }
     
-    var favoritesCount: Int {
-        return favoritesId.count
-    }
-    
     private var restaurants: RestaurantsService
-    private var favoritesId: [Int]
     
     init() {
         restaurants = RestaurantsService()
-        favoritesId = []
     }
     
     func get(at index: Int) -> RestaurantInfo {
         return restaurants.get(at: index)
-    }
-    
-    func getFavorite(at index: Int) -> RestaurantInfo {
-        return restaurants.get(at: favoritesId[index])
-    }
-    
-    func isFavorite(id: Int) -> Bool {
-        return favoritesId.contains(id)
-    }
-    
-    func favoriteReverse(id: Int) {
-        if let index = favoritesId.firstIndex(of: id) {
-            favoritesId.remove(at: index)
-        }
-        else {
-            favoritesId.append(id)
-        }
     }
     
     func save(restaurantInfo: RestaurantInfo) {

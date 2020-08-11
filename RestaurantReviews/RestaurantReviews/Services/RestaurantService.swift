@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-enum Entities {
+private enum Entities {
     static let restaurant  = "Restaurant"
     static let coordinates = "Coordinates"
     static let image       = "Image"
@@ -31,8 +31,6 @@ struct RestaurantInfo {
 }
 
 class RestaurantsService {
-    private var restaurants: [Restaurant] = []
-    
     var isEmpty: Bool {
         return restaurants.isEmpty
     }
@@ -40,6 +38,8 @@ class RestaurantsService {
     var count: Int {
         return restaurants.count
     }
+    
+    private var restaurants: [Restaurant] = []
     
     func append(restaurant: Restaurant) {
         restaurants.append(restaurant)
@@ -154,5 +154,9 @@ class RestaurantsService {
                 fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
         }
+    }
+    
+    deinit {
+        restaurants.removeAll()
     }
 }

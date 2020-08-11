@@ -4,6 +4,9 @@
         <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
+    <entity name="FavoriteRastaurant" representedClassName=".FavoriteRastaurant" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="Image" representedClassName=".Image" syncable="YES">
         <attribute name="path" optional="YES" attributeType="String"/>
     </entity>
@@ -28,5 +31,6 @@
         <element name="Image" positionX="-54" positionY="18" width="128" height="58"/>
         <element name="Restaurant" positionX="-63" positionY="-18" width="128" height="163"/>
         <element name="Review" positionX="-36" positionY="45" width="128" height="103"/>
+        <element name="FavoriteRastaurant" positionX="-27" positionY="63" width="128" height="58"/>
     </elements>
 </model>
