@@ -88,6 +88,8 @@ class FavoriteRestaurantService {
                         let object = entities[index] as NSManagedObject
                         
                         managedContext.delete(object)
+                        
+                        try managedContext.save()
                     }
                 } catch let error as NSError {
                     fatalError("Could not fetch. \(error), \(error.userInfo)")
