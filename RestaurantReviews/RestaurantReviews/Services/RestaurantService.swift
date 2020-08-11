@@ -9,6 +9,12 @@
 import UIKit
 import CoreData
 
+enum Entities {
+    static let restaurant  = "Restaurant"
+    static let coordinates = "Coordinates"
+    static let image       = "Image"
+}
+
 struct LocationInfo {
     var lat: Float
     var lon: Float
@@ -59,15 +65,16 @@ class RestaurantsService {
     }
     
     func save(restaurantInfo: RestaurantInfo) {
+        // Why is it not the main thread?
         DispatchQueue.main.async { [unowned self] in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
             }
             
             let managedContext = appDelegate.persistentContainer.viewContext
-            let restaurantEntity = NSEntityDescription.entity(forEntityName: "Restaurant", in: managedContext)!
-            let coordinatesEntity = NSEntityDescription.entity(forEntityName: "Coordinates", in: managedContext)!
-            let imageEntity = NSEntityDescription.entity(forEntityName: "Image", in: managedContext)!
+            let restaurantEntity = NSEntityDescription.entity(forEntityName: Entities.restaurant, in: managedContext)!
+            let coordinatesEntity = NSEntityDescription.entity(forEntityName: Entities.coordinates, in: managedContext)!
+            let imageEntity = NSEntityDescription.entity(forEntityName: Entities.image, in: managedContext)!
             
             let coordinates = Coordinates(entity: coordinatesEntity, insertInto: managedContext)
             
@@ -104,6 +111,7 @@ class RestaurantsService {
     }
     
     func load() {
+        // And this main thread
         //DispatchQueue.main.async { [unowned self] in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -118,5 +126,36 @@ class RestaurantsService {
                 fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
        // }
+    }
+    
+    func clear() {
+        clearEntities(name: Entities.restaurant)
+        clearEntities(name: Entities.coordinates)
+        clearEntities(name: Entities.image)
+        
+        restaurants.removeAll()
+    }
+    
+    private func clearEntities(name: String) {
+        DispatchQueue.main.async {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: name)
+            
+            do {
+                let entities = try managedContext.fetch(fetchRequest)
+                
+                for entity in entities {
+                    let object = entity as! NSManagedObject
+                    
+                    managedContext.delete(object)
+                }
+            } catch let error as NSError {
+                fatalError("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
     }
 }

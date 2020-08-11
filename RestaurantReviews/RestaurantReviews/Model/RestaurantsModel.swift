@@ -45,9 +45,15 @@ class RestaurantsModel {
         restaurants.load()
     }
     
+    func clear() {
+        restaurants.clear()
+    }
+    
     func update() {
         // Temporarily. For tests
         load()
+        
+        //clear()
         
         if isEmpty {
             getRestaurants(urlString: URLStrings.restaurants) { [unowned self] (jsonData) in
