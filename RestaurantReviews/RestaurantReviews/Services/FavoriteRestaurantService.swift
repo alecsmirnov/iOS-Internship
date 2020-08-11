@@ -61,38 +61,50 @@ class FavoriteRestaurantService {
         }
     }
     
+    func remove(id: Int) {
+        if let index = favorites.firstIndex(where: { (favoriteRestaurant) -> Bool in
+            favoriteRestaurant.id == id
+        }) {
+            favorites.remove(at: index)
+            
+            DispatchQueue.main.async {
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+
+                let managedContext = appDelegate.persistentContainer.viewContext
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favoriteRestaurant)
+
+                do {
+                    let entities = try managedContext.fetch(fetchRequest) as! [FavoriteRastaurant]
+
+                    if let index = entities.firstIndex(where: { (favoriteRestaurant) -> Bool in
+                        favoriteRestaurant.id == id
+                    }) {
+                        let object = entities[index] as NSManagedObject
+                        
+                        managedContext.delete(object)
+                    }
+                } catch let error as NSError {
+                    fatalError("Could not fetch. \(error), \(error.userInfo)")
+                }
+            }
+        }
+    }
+    
+    func get(at index: Int) -> Int {
+        return Int(favorites[index].id)
+    }
+    
+    func contains(id: Int) -> Bool {
+        return favorites.contains { (favoriteRestaurant) -> Bool in
+            favoriteRestaurant.id == id
+        }
+    }
+    
     func clear() {
         clearEntities()
         favorites.removeAll()
-    }
-    
-    private func findIndex(id: Int) -> Int? {
-        var index: Int?
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError("")
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favoriteRestaurant)
-        
-        do {
-            let entities = try managedContext.fetch(fetchRequest) as! [FavoriteRastaurant]
-            
-            if let firstIndex = entities.firstIndex(where: { (favoriteRestaurant) -> Bool in
-                favoriteRestaurant.id == id
-            }) {
-                //let object = entities[index] as NSManagedObject
-                
-                //managedContext.delete(object)
-                
-                index = firstIndex
-            }
-        } catch let error as NSError {
-            fatalError("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        return index
     }
     
     private func clearEntities() {
@@ -100,16 +112,16 @@ class FavoriteRestaurantService {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
             }
-            
+
             let managedContext = appDelegate.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favoriteRestaurant)
-            
+
             do {
                 let entities = try managedContext.fetch(fetchRequest)
-                
+
                 for entity in entities {
                     let object = entity as! NSManagedObject
-                    
+
                     managedContext.delete(object)
                 }
             } catch let error as NSError {
