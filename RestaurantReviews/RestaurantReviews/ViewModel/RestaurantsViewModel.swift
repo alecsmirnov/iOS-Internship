@@ -16,9 +16,9 @@ class RestaurantsViewModel {
         return restaurantsModel.count
     }
     
-    init(restaurantsModel: RestaurantsModel) {
+    init(restaurantsModel: RestaurantsModel, favoriteRestaurantIds: FavoriteRestaurantIds) {
         self.restaurantsModel = restaurantsModel
-        self.favoriteRestaurantIds = FavoriteRestaurantIds()
+        self.favoriteRestaurantIds = favoriteRestaurantIds
     }
     
     func cellViewModel(at index: Int) -> CellViewModel {

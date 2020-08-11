@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     private var restaurantsModel: RestaurantsModel!
+    private var favoriteRestaurantIds: FavoriteRestaurantIds!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -24,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         restaurantsModel = RestaurantsModel()
+        favoriteRestaurantIds = FavoriteRestaurantIds()
         
         let tabBarController = window.rootViewController as! UITabBarController
         let navigationController = tabBarController.viewControllers![0] as! UINavigationController
@@ -32,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let mapViewController = tabBarController.viewControllers![1] as! MapViewController
         //let favoritesViewController = tabBarController.viewControllers![2] as! RestaurantsViewController
         
-        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel)
+        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds)
         
         restaurantsViewController.restaurantsViewModel = restaurantsViewModel
         //favoritesViewController.restaurantsViewModel = restaurantsViewModel

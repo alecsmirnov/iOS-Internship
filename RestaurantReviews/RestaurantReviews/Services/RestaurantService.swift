@@ -72,9 +72,18 @@ class RestaurantsService {
             }
             
             let managedContext = appDelegate.persistentContainer.viewContext
-            let restaurantEntity = NSEntityDescription.entity(forEntityName: Entities.restaurant, in: managedContext)!
-            let coordinatesEntity = NSEntityDescription.entity(forEntityName: Entities.coordinates, in: managedContext)!
-            let imageEntity = NSEntityDescription.entity(forEntityName: Entities.image, in: managedContext)!
+            
+            guard let restaurantEntity = NSEntityDescription.entity(forEntityName: Entities.restaurant, in: managedContext) else {
+                fatalError("Incorrect entity name: \(Entities.restaurant)")
+            }
+            
+            guard let coordinatesEntity = NSEntityDescription.entity(forEntityName: Entities.coordinates, in: managedContext) else {
+                fatalError("Incorrect entity name: \(Entities.coordinates)")
+            }
+            
+            guard let imageEntity = NSEntityDescription.entity(forEntityName: Entities.image, in: managedContext) else {
+                fatalError("Incorrect entity name: \(Entities.image)")
+            }
             
             let coordinates = Coordinates(entity: coordinatesEntity, insertInto: managedContext)
             

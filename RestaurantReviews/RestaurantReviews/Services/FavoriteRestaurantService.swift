@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 private enum Entities {
-    static let favoriteRestaurant = "FavoriteRestaurant"
+    static let favoriteRestaurant = "FavoriteRastaurant"
 }
 
 class FavoriteRestaurantService {
@@ -31,7 +31,11 @@ class FavoriteRestaurantService {
             }
             
             let managedContext = appDelegate.persistentContainer.viewContext
-            let favoriteRestaurantEntity = NSEntityDescription.entity(forEntityName: Entities.favoriteRestaurant, in: managedContext)!
+            
+            guard let favoriteRestaurantEntity = NSEntityDescription.entity(forEntityName: Entities.favoriteRestaurant, in: managedContext) else {
+                fatalError("Incorrect entity name: \(Entities.favoriteRestaurant)")
+            }
+            
             let favoriteRestaurant = FavoriteRastaurant(entity: favoriteRestaurantEntity, insertInto: managedContext)
             
             favoriteRestaurant.id = Int32(id)
@@ -128,5 +132,9 @@ class FavoriteRestaurantService {
                 fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
         }
+    }
+    
+    deinit {
+        favorites.removeAll()
     }
 }
