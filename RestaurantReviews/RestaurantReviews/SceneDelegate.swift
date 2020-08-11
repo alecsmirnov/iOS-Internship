@@ -23,17 +23,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Cannot attach window to the scene")
         }
         
-        let tabBarController = window.rootViewController as! UITabBarController
+        restaurantsModel = RestaurantsModel()
         
-        let restaurantsViewController = tabBarController.viewControllers![0] as! RestaurantsViewController
+        let tabBarController = window.rootViewController as! UITabBarController
+        let navigationController = tabBarController.viewControllers![0] as! UINavigationController
+        
+        let restaurantsViewController = navigationController.viewControllers[0] as! RestaurantsViewController
         //let mapViewController = tabBarController.viewControllers![1] as! MapViewController
         //let favoritesViewController = tabBarController.viewControllers![2] as! RestaurantsViewController
-        
-        restaurantsModel = RestaurantsModel()
         
         let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel)
         
         restaurantsViewController.restaurantsViewModel = restaurantsViewModel
+        //favoritesViewController.restaurantsViewModel = restaurantsViewModel
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

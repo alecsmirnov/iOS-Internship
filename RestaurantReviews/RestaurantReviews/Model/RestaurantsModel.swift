@@ -14,12 +14,7 @@ private enum URLStrings {
 }
 
 class RestaurantsModel {
-    private var restaurants: RestaurantsService
-    //private var favorites: Set<RestaurantInfo>
-    
-    init() {
-        restaurants = RestaurantsService()
-    }
+    //var updateInterval: Float = 0
     
     var isEmpty: Bool {
         return restaurants.isEmpty
@@ -29,12 +24,37 @@ class RestaurantsModel {
         return restaurants.count
     }
     
-    init(restaurants: RestaurantsService) {
-        self.restaurants = restaurants
+    var favoritesCount: Int {
+        return favoritesId.count
+    }
+    
+    private var restaurants: RestaurantsService
+    private var favoritesId: [Int]
+    
+    init() {
+        restaurants = RestaurantsService()
+        favoritesId = []
     }
     
     func get(at index: Int) -> RestaurantInfo {
         return restaurants.get(at: index)
+    }
+    
+    func getFavorite(at index: Int) -> RestaurantInfo {
+        return restaurants.get(at: favoritesId[index])
+    }
+    
+    func isFavorite(id: Int) -> Bool {
+        return favoritesId.contains(id)
+    }
+    
+    func favoriteReverse(id: Int) {
+        if let index = favoritesId.firstIndex(of: id) {
+            favoritesId.remove(at: index)
+        }
+        else {
+            favoritesId.append(id)
+        }
     }
     
     func save(restaurantInfo: RestaurantInfo) {

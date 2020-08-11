@@ -10,7 +10,7 @@ import UIKit
 
 private enum StoryboardIds {
     static let tableViewCell            = "TableViewCell"
-    static let restaurantViewController = "restaurantViewController"
+    static let restaurantViewController = "RestaurantViewController"
 }
 
 class RestaurantsViewController: UIViewController {
@@ -22,6 +22,7 @@ class RestaurantsViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         if let restaurantsViewModel = restaurantsViewModel {
             restaurantsViewModel.update()
@@ -49,4 +50,26 @@ extension RestaurantsViewController: UITableViewDataSource {
         
         return tableViewCell;
     }
+}
+
+extension RestaurantsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let storyboard = storyboard {
+            let restaurantViewController = storyboard.instantiateViewController(withIdentifier: StoryboardIds.restaurantViewController) as! RestaurantViewController
+            
+            if let restaurantsViewModel = restaurantsViewModel {
+                restaurantViewController.restaurantViewModel = restaurantsViewModel.restaurantViewModel(at: indexPath.row)
+            }
+            
+            if let navigationController = navigationController {
+                navigationController.pushViewController(restaurantViewController, animated: true)
+            }
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//
+//        }
+//    }
 }

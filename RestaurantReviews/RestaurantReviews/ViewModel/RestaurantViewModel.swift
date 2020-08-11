@@ -8,6 +8,21 @@
 
 import Foundation
 
-struct RestaurantViewModel {
+class RestaurantViewModel {
+    var restaurantInfo: RestaurantInfo
+    var favorite: Bool
     
+    private weak var delegate: RestaurantViewModelDelegate!
+    
+    init(restaurantInfo: RestaurantInfo, favorite: Bool, delegate: RestaurantViewModelDelegate) {
+        self.restaurantInfo = restaurantInfo
+        self.favorite = favorite
+        self.delegate = delegate
+    }
+    
+    func userChangeFavoriteStatus() {
+        favorite = !favorite
+        
+        delegate.restaurantViewModelDelegate(self, toFavorite: restaurantInfo.id)
+    }
 }

@@ -24,10 +24,19 @@ class RestaurantsViewModel {
     }
     
     func restaurantViewModel(at index: Int) -> RestaurantViewModel {
-        return RestaurantViewModel()
+        let restaurantInfo = restaurantsModel.get(at: index)
+        let favorite = restaurantsModel.isFavorite(id: restaurantInfo.id)
+        
+        return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, delegate: self)
     }
     
     func update() {
         restaurantsModel.update()
+    }
+}
+
+extension RestaurantsViewModel: RestaurantViewModelDelegate {
+    func restaurantViewModelDelegate(_ viewModel: AnyObject, toFavorite id: Int) {
+        restaurantsModel.favoriteReverse(id: id)
     }
 }

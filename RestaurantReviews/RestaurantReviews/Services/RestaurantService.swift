@@ -81,15 +81,6 @@ class RestaurantsService {
             coordinates.lat = restaurantInfo.location.lat
             coordinates.lon = restaurantInfo.location.lon
             
-//            let images = NSSet()
-//
-//            for path in restaurantInfo.imagePaths {
-//                let image = Image(entity: imageEntity, insertInto: managedContext)
-//                image.path = path
-//
-//                images.adding(image)
-//            }
-            
             let restaurant = Restaurant(entity: restaurantEntity, insertInto: managedContext)
 
             restaurant.id = Int32(restaurantInfo.id)
@@ -98,7 +89,13 @@ class RestaurantsService {
             restaurant.address = restaurantInfo.address
             restaurant.rating = restaurantInfo.rating
             restaurant.location = coordinates
-            //restaurant.images = images
+
+            for path in restaurantInfo.imagePaths {
+                let image = Image(entity: imageEntity, insertInto: managedContext)
+                image.path = path
+
+                restaurant.addToImages(image)
+            }
             
             do {
                 try managedContext.save()
