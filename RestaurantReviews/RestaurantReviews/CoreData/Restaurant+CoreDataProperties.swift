@@ -2,7 +2,7 @@
 //  Restaurant+CoreDataProperties.swift
 //  RestaurantReviews
 //
-//  Created by Admin on 10.08.2020.
+//  Created by Admin on 11.08.2020.
 //  Copyright © 2020 Admin. All rights reserved.
 //
 //
@@ -10,25 +10,27 @@
 import Foundation
 import CoreData
 
+
 extension Restaurant {
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Restaurant> {
         return NSFetchRequest<Restaurant>(entityName: "Restaurant")
     }
 
+    @NSManaged public var address: String
+    @NSManaged public var descriptions: String
     @NSManaged public var id: Int32
     @NSManaged public var name: String
-    @NSManaged public var descriptions: Float
-    @NSManaged public var address: String
-    @NSManaged public var favorite: Bool
-    
+    @NSManaged public var rating: Float
     @NSManaged public var images: NSSet
     @NSManaged public var location: Coordinates
     @NSManaged public var reviews: NSSet
-
+    
 }
 
 // MARK: Generated accessors for images
 extension Restaurant {
+
     @objc(addImagesObject:)
     @NSManaged public func addToImages(_ value: Image)
 
@@ -40,10 +42,12 @@ extension Restaurant {
 
     @objc(removeImages:)
     @NSManaged public func removeFromImages(_ values: NSSet)
+
 }
 
 // MARK: Generated accessors for reviews
 extension Restaurant {
+
     @objc(addReviewsObject:)
     @NSManaged public func addToReviews(_ value: Review)
 
@@ -55,4 +59,5 @@ extension Restaurant {
 
     @objc(removeReviews:)
     @NSManaged public func removeFromReviews(_ values: NSSet)
+
 }

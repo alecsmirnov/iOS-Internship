@@ -2,7 +2,7 @@
 //  Coordinates+CoreDataProperties.swift
 //  RestaurantReviews
 //
-//  Created by Admin on 10.08.2020.
+//  Created by Admin on 11.08.2020.
 //  Copyright © 2020 Admin. All rights reserved.
 //
 //
@@ -10,13 +10,14 @@
 import Foundation
 import CoreData
 
+
 extension Coordinates {
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Coordinates> {
         return NSFetchRequest<Coordinates>(entityName: "Coordinates")
     }
 
     @NSManaged public var lat: Float
     @NSManaged public var lon: Float
-    
-    @NSManaged public var restaurant: Restaurant
+
 }

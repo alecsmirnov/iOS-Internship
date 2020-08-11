@@ -1,5 +1,5 @@
 //
-//  Coordinates+CoreDataClass.swift
+//  Restaurant+CoreDataClass.swift
 //  RestaurantReviews
 //
 //  Created by Admin on 10.08.2020.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(Coordinates)
-public class Coordinates: NSManagedObject {
+
+public class Restaurant: NSManagedObject {
 
 }

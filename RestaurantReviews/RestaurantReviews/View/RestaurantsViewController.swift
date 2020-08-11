@@ -8,24 +8,45 @@
 
 import UIKit
 
+private enum StoryboardIds {
+    static let tableViewCell            = "TableViewCell"
+    static let restaurantViewController = "restaurantViewController"
+}
+
 class RestaurantsViewController: UIViewController {
+    var restaurantsViewModel: RestaurantsViewModel!
+    
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urlString = "https://restaurants-f64d7.firebaseio.com/restaurants.json"
-        let data: [RestaurantJSON] = []
+        tableView.dataSource = self
         
+        if let restaurantsViewModel = restaurantsViewModel {
+            restaurantsViewModel.update()
+        }
     }
 }
 
-//extension RestaurantsViewModel: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        <#code#>
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        <#code#>
-//    }
-//}
+extension RestaurantsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var rowsCount = 0
+        
+        if let restaurantsViewModel = restaurantsViewModel {
+            rowsCount = restaurantsViewModel.rowsCount
+        }
+        
+        return rowsCount
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let tableViewCell = tableView.dequeueReusableCell(withIdentifier: StoryboardIds.tableViewCell) as! TableViewCell
+                
+        if let restaurantsViewModel = restaurantsViewModel {
+            tableViewCell.cellViewModel = restaurantsViewModel.cellViewModel(at: indexPath.row)
+        }
+        
+        return tableViewCell;
+    }
+}

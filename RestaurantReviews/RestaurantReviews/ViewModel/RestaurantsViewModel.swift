@@ -7,8 +7,27 @@
 //
 
 import Foundation
-import CoreData
 
 class RestaurantsViewModel {
-
+    private var restaurantsModel: RestaurantsModel
+    
+    var rowsCount: Int {
+        return restaurantsModel.count
+    }
+    
+    init(restaurantsModel: RestaurantsModel) {
+        self.restaurantsModel = restaurantsModel
+    }
+    
+    func cellViewModel(at index: Int) -> CellViewModel {
+        return CellViewModel(restaurantInfo: restaurantsModel.get(at: index))
+    }
+    
+    func restaurantViewModel(at index: Int) -> RestaurantViewModel {
+        return RestaurantViewModel()
+    }
+    
+    func update() {
+        restaurantsModel.update()
+    }
 }
