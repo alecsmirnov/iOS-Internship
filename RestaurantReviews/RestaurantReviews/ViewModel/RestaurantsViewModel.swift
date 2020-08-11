@@ -34,6 +34,7 @@ class RestaurantsViewModel {
     
     func update() {
         restaurantsModel.update()
+        favoriteRestaurantIds.load()
     }
 }
 
