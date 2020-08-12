@@ -17,9 +17,9 @@ class TableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet var mainImageView: UIImageView!
-    @IBOutlet var nameTextView: UITextView!
-    @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet private var mainImageView: UIImageView!
+    @IBOutlet private var nameTextView: UITextView!
+    @IBOutlet private var descriptionTextView: UITextView!
     
 //    override func awakeFromNib() {
 //        super.awakeFromNib()

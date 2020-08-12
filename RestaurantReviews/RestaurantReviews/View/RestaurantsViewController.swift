@@ -16,10 +16,13 @@ private enum StoryboardIds {
 class RestaurantsViewController: UIViewController {
     var restaurantsViewModel: RestaurantsViewModel!
     
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet private var searchBar: UISearchBar!
+    @IBOutlet private var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.delegate = self
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -79,7 +82,24 @@ extension RestaurantsViewController: UITableViewDelegate {
         if let restaurantsViewModel = restaurantsViewModel {
             if editingStyle == .delete {
                 restaurantsViewModel.userRemoveRestaurantFromFavorites(at: indexPath.row)
+                
+                tableView.reloadData()
             }
+        }
+    }
+}
+
+extension RestaurantsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let restaurantsViewModel = restaurantsViewModel {
+            if !searchText.isEmpty {
+                restaurantsViewModel.setFilter(text: searchText)
+            }
+            else {
+                restaurantsViewModel.clearFilter()
+            }
+            
+            tableView.reloadData()
         }
     }
 }

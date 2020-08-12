@@ -11,7 +11,7 @@ import UIKit
 class RestaurantViewController: UIViewController {
     var restaurantViewModel: RestaurantViewModel!
 
-    @IBOutlet var favoriteStatusLabel: UILabel!
+    @IBOutlet private var favoriteStatusLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -19,6 +19,8 @@ class RestaurantsViewModel {
     private var restaurantsModel: RestaurantsModel
     private var favoriteRestaurantIds: FavoriteRestaurantIds
     
+    private var filterText: String = ""
+    
     var rowsCount: Int {
         return displayMode == .all ? restaurantsModel.count : favoriteRestaurantIds.count
     }
@@ -28,6 +30,14 @@ class RestaurantsViewModel {
         self.favoriteRestaurantIds = favoriteRestaurantIds
         
         self.displayMode = displayMode
+    }
+    
+    func setFilter(text: String) {
+        filterText = text
+    }
+    
+    func clearFilter() {
+        filterText = ""
     }
     
     func cellViewModel(at index: Int) -> CellViewModel {
@@ -68,9 +78,7 @@ class RestaurantsViewModel {
     }
     
     func userRemoveRestaurantFromFavorites(at index: Int) {
-        let id = restaurantsModel.get(at: index).id
-        
-        favoriteRestaurantIds.remove(id: id)
+        favoriteRestaurantIds.remove(id: favoriteRestaurantIds.get(at: index))
     }
 }
 
