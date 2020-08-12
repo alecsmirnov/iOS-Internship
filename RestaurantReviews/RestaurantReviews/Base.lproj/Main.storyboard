@@ -45,6 +45,7 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mt7-Ii-aJ3">
                                                     <rect key="frame" x="20" y="8" width="75" height="66"/>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="VAv-yR-BUu"/>
                                                         <constraint firstAttribute="width" secondItem="Mt7-Ii-aJ3" secondAttribute="height" multiplier="25:22" id="Z8b-Xk-0Qo"/>
@@ -57,7 +58,6 @@
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="JrH-Dh-wpf"/>
-                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="291" id="uAY-ID-0UP"/>
                                                     </constraints>
                                                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -67,8 +67,9 @@
                                                     <rect key="frame" x="103" y="8" width="291" height="33"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="KON-Jn-vgg"/>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="33" id="KON-Jn-vgg"/>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="291" id="gEC-kQ-RWv"/>
+                                                        <constraint firstAttribute="width" secondItem="jXF-fv-eek" secondAttribute="height" multiplier="97:11" id="qvN-Hr-Ynd"/>
                                                     </constraints>
                                                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -82,9 +83,9 @@
                                                 <constraint firstItem="Mt7-Ii-aJ3" firstAttribute="top" secondItem="Wz7-1p-lAM" secondAttribute="top" constant="8" id="Ajf-Hj-Ivd"/>
                                                 <constraint firstItem="Mt7-Ii-aJ3" firstAttribute="leading" secondItem="Wz7-1p-lAM" secondAttribute="leading" constant="20" id="BX6-p3-Y4J"/>
                                                 <constraint firstAttribute="trailing" secondItem="jXF-fv-eek" secondAttribute="trailing" constant="20" id="NUo-GW-lqZ"/>
-                                                <constraint firstAttribute="bottom" secondItem="SVv-mH-sB4" secondAttribute="bottom" constant="8" id="OBr-PK-STz"/>
                                                 <constraint firstItem="jXF-fv-eek" firstAttribute="top" secondItem="Wz7-1p-lAM" secondAttribute="top" constant="8" id="ZqK-TA-LwI"/>
                                                 <constraint firstAttribute="bottom" secondItem="Mt7-Ii-aJ3" secondAttribute="bottom" constant="8" id="oaj-p9-8P6"/>
+                                                <constraint firstAttribute="bottom" secondItem="SVv-mH-sB4" secondAttribute="bottom" constant="8" id="pq8-mH-NOF"/>
                                                 <constraint firstAttribute="trailing" secondItem="SVv-mH-sB4" secondAttribute="trailing" constant="20" id="yEO-k3-Aw8"/>
                                             </constraints>
                                         </tableViewCellContentView>
