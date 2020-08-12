@@ -21,14 +21,13 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private var nameTextView: UITextView!
     @IBOutlet private var descriptionTextView: UITextView!
     
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
-//
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        nameTextView.textContainer.maximumNumberOfLines = 2
+        nameTextView.textContainer.lineBreakMode = .byWordWrapping
+        
+        descriptionTextView.textContainer.maximumNumberOfLines = 3
+        descriptionTextView.textContainer.lineBreakMode = .byWordWrapping
+    }
 }
