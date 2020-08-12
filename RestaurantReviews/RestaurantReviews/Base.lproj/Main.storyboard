@@ -162,22 +162,6 @@
             </objects>
             <point key="canvasLocation" x="-239" y="823"/>
         </scene>
-        <!--Favorites-->
-        <scene sceneID="jbe-Cd-KgE">
-            <objects>
-                <viewController id="EhE-kb-bQA" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="giq-qy-hwn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="m6k-Yx-qbk"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" selectedImage="star.fill" id="ckS-UH-06X"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1gL-gD-Aan" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="501" y="823"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="XLz-Jl-Q1K">
             <objects>
@@ -190,8 +174,7 @@
                     <connections>
                         <segue destination="DgR-vl-lWh" kind="relationship" relationship="viewControllers" id="hJ9-60-qdn"/>
                         <segue destination="WQa-kG-H0m" kind="relationship" relationship="viewControllers" id="eTb-hx-Ibq"/>
-                        <segue destination="EhE-kb-bQA" kind="relationship" relationship="viewControllers" id="FVF-Ix-kJr"/>
-                        <segue destination="DgR-vl-lWh" kind="relationship" relationship="viewControllers" id="5eC-Kw-ng0"/>
+                        <segue destination="DgR-vl-lWh" kind="relationship" relationship="viewControllers" id="loG-8L-8oM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="93w-fy-GdU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -200,13 +183,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5eC-Kw-ng0"/>
+        <segue reference="loG-8L-8oM"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="map" catalog="system" width="128" height="113"/>
         <image name="map.fill" catalog="system" width="128" height="113"/>
-        <image name="star" catalog="system" width="128" height="116"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
         <image name="table" catalog="system" width="128" height="93"/>
         <image name="table.fill" catalog="system" width="128" height="93"/>
     </resources>

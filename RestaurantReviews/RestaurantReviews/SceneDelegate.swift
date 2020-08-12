@@ -28,16 +28,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         favoriteRestaurantIds = FavoriteRestaurantIds()
         
         let tabBarController = window.rootViewController as! UITabBarController
-        let navigationController = tabBarController.viewControllers![0] as! UINavigationController
+        let restaurantsNavigationController = tabBarController.viewControllers![0] as! UINavigationController
+        let favoritesNavigationController = tabBarController.viewControllers![2] as! UINavigationController
         
-        let restaurantsViewController = navigationController.viewControllers[0] as! RestaurantsViewController
+        tabBarController.tabBar.items![2].title = "Favorites"
+        tabBarController.tabBar.items![2].image = UIImage(systemName: "star")
+        tabBarController.tabBar.items![2].selectedImage = UIImage(systemName: "star.fill")
+        
+        let restaurantsViewController = restaurantsNavigationController.viewControllers[0] as! RestaurantsViewController
         //let mapViewController = tabBarController.viewControllers![1] as! MapViewController
         //let favoritesViewController = tabBarController.viewControllers![2] as! RestaurantsViewController
+        let favoritesViewController = favoritesNavigationController.viewControllers[0] as! RestaurantsViewController
         
-        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds)
+        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds, displayMode: .all)
+        let favoritesViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds, displayMode: .favorites)
         
         restaurantsViewController.restaurantsViewModel = restaurantsViewModel
-        //favoritesViewController.restaurantsViewModel = restaurantsViewModel
+        favoritesViewController.restaurantsViewModel = favoritesViewModel
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

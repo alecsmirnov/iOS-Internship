@@ -28,6 +28,10 @@ class RestaurantsViewController: UIViewController {
             restaurantsViewModel.update()
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
 }
 
 extension RestaurantsViewController: UITableViewDataSource {
@@ -67,9 +71,15 @@ extension RestaurantsViewController: UITableViewDelegate {
         }
     }
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//
-//        }
-//    }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {       
+        return restaurantsViewModel.displayMode == .all ? .none : .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if let restaurantsViewModel = restaurantsViewModel {
+            if editingStyle == .delete {
+                restaurantsViewModel.userRemoveRestaurantFromFavorites(at: indexPath.row)
+            }
+        }
+    }
 }
