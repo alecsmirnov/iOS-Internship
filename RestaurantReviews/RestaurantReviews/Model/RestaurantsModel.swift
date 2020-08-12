@@ -69,4 +69,8 @@ class RestaurantsModel {
             }
         }
     }
+    
+    private func checkNetworkServices() {
+        
+    }
 }

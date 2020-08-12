@@ -8,31 +8,73 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-enum InitialLocation {
-    static let lat: Float = 55.0415
-    static let lon: Float = 82.9346
-    static let radius: CLLocationDistance = 1000
+private enum LocationSettings {
+    static let defaultLat = 55.0415
+    static let defaultLon = 82.9346
+    
+    static let regionMeters: CLLocationDistance = 5000
 }
 
 class MapViewController: UIViewController {
+    private let locationManager = CLLocationManager()
+    
     @IBOutlet private var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationCenter()
+        if CLLocationManager.locationServicesEnabled() {
+            //locationManager.delegate = self
+            
+            //locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            //locationManager.startUpdatingLocation()
+            
+            //centerViewOnUserLocation()
+            centerViewOnDefaultLocation()
+        }
+        else {
+            showAlertMessage()
+        }
     }
+    private func centerViewOnUserLocation() {
+        if let location = locationManager.location {
+            let region = MKCoordinateRegion(center: location.coordinate,
+                                            latitudinalMeters: LocationSettings.regionMeters,
+                                            longitudinalMeters: LocationSettings.regionMeters)
+            
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    private func centerViewOnDefaultLocation() {
+        let location = CLLocation(latitude: LocationSettings.defaultLat, longitude: LocationSettings.defaultLon)
+        let region = MKCoordinateRegion(center: location.coordinate,
+                                        latitudinalMeters: LocationSettings.regionMeters,
+                                        longitudinalMeters: LocationSettings.regionMeters)
+        
+        mapView.setRegion(region, animated: true)
+    }
+    
+    private func showAlertMessage() {
+        let alert = UIAlertController(title: "Location services are disabled!", message: "Turn them on", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
 
-    private func locationCenter() {
-        let location = CLLocation(latitude: CLLocationDegrees(InitialLocation.lat),
-                                  longitude: CLLocationDegrees(InitialLocation.lon))
-        
-        let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
-                                                  latitudinalMeters: InitialLocation.radius,
-                                                  longitudinalMeters: InitialLocation.radius)
-        
-        mapView.setRegion(coordinateRegion, animated: true)
+        self.present(alert, animated: true)
     }
 }
 
+extension MapViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let lastLocation = locations.last {
+            let coorinates = lastLocation.coordinate
+            let center = CLLocationCoordinate2D(latitude: coorinates.latitude, longitude: coorinates.longitude)
+            let region = MKCoordinateRegion(center: center,
+                                            latitudinalMeters: LocationSettings.regionMeters,
+                                            longitudinalMeters: LocationSettings.regionMeters)
+            
+            mapView.setRegion(region, animated: true)
+        }
+    }
+}
