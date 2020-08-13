@@ -25,10 +25,10 @@ class RestaurantsViewController: UIViewController {
         
         searchBar.delegate = self
         
-        tableView.tableFooterView = UIView()
-        
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.tableFooterView = UIView()
         
         if let restaurantsViewModel = restaurantsViewModel {
             restaurantsViewModel.update()

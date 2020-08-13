@@ -16,6 +16,8 @@ enum RestaurantsDisplayMode {
 class RestaurantsViewModel {
     var displayMode : RestaurantsDisplayMode
     
+    private var notificationCenter: NotificationCenter
+    
     private var restaurantsModel: RestaurantsModel
     private var favoriteRestaurantIds: FavoriteRestaurantIds
     
@@ -32,6 +34,8 @@ class RestaurantsViewModel {
         self.favoriteRestaurantIds = favoriteRestaurantIds
         
         self.displayMode = displayMode
+        
+        notificationCenter = NotificationCenter()
     }
     
     func setFilter(text: String) {
@@ -71,7 +75,7 @@ class RestaurantsViewModel {
             break
         }
         
-        return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, delegate: self)
+        return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, delegate: self, notificationCenter: notificationCenter)
     }
     
     func update() {
@@ -94,5 +98,7 @@ extension RestaurantsViewModel: RestaurantViewModelDelegate {
         else {
             favoriteRestaurantIds.append(id: id)
         }
+        
+        notificationCenter.post(name: Notification.Name(""), object: nil)
     }
 }

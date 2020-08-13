@@ -11,18 +11,26 @@ import Foundation
 class RestaurantViewModel {
     var restaurantInfo: RestaurantInfo
     var favorite: Bool
-    
+
     private weak var delegate: RestaurantViewModelDelegate!
     
-    init(restaurantInfo: RestaurantInfo, favorite: Bool, delegate: RestaurantViewModelDelegate) {
+    private var notificationCenter: NotificationCenter
+    
+    init(restaurantInfo: RestaurantInfo, favorite: Bool, delegate: RestaurantViewModelDelegate, notificationCenter: NotificationCenter) {
         self.restaurantInfo = restaurantInfo
         self.favorite = favorite
+        
         self.delegate = delegate
+        
+        self.notificationCenter = notificationCenter
+        notificationCenter.addObserver(self, selector: #selector(onReceiveMessage(_:)), name: nil, object: nil)
     }
     
-    func userChangeFavoriteStatus() {
-        favorite = !favorite
-        
+    func userChangeFavoriteStatus() {        
         delegate.restaurantViewModelDelegate(self, toFavorite: restaurantInfo.id)
+    }
+    
+    @objc private func onReceiveMessage(_ notification: Notification) {
+        favorite = !favorite
     }
 }
