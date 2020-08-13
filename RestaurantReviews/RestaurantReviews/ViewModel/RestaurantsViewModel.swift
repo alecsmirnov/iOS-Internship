@@ -99,6 +99,6 @@ extension RestaurantsViewModel: RestaurantViewModelDelegate {
             favoriteRestaurantIds.append(id: id)
         }
         
-        notificationCenter.post(name: Notification.Name(""), object: nil)
+        //notificationCenter.post(name: NSNotification.Name(""), object: nil)
     }
 }
