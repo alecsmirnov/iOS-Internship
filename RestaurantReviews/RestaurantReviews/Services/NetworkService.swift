@@ -30,23 +30,16 @@ struct ReviewJSON: Decodable {
     var date: String
 }
 
-func getRestaurants(urlString: String, completionHandler: @escaping ([RestaurantJSON]) -> ()) {
-    let url = URL(string: urlString)!
+func getRestaurantsFrom(url string: String, completionHandler: @escaping ([RestaurantJSON]) -> ()) {
+    guard let url = URL(string: string) else { return }
+    
     let session = URLSession.shared
 
     let sessionTask = session.dataTask(with: url) { (data, response, error) in
-        if error != nil || data == nil {
-            return
-        }
-        
-        guard let data = data else {
-            return
-        }
+        if error != nil { return }
+        guard let data = data else { return }
+        guard response != nil else { return }
 
-        guard response != nil else {
-            return
-        }
-        
         do {
             let data = try JSONDecoder().decode([RestaurantJSON].self, from: data)
             
@@ -54,6 +47,22 @@ func getRestaurants(urlString: String, completionHandler: @escaping ([Restaurant
         } catch {
             fatalError("JSON error: \(error.localizedDescription)")
         }
+    }
+
+    sessionTask.resume()
+}
+
+func getImageFrom(url string: String, completionHandler: @escaping (Data) -> ()) {
+    guard let url = URL(string: string) else { return }
+    
+    let session = URLSession.shared
+
+    let sessionTask = session.dataTask(with: url) { (data, response, error) in
+        if error != nil { return }
+        guard let data = data else { return }
+        guard response != nil else { return }
+        
+        completionHandler(data)
     }
 
     sessionTask.resume()

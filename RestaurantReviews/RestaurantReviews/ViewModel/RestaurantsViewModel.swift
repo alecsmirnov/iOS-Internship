@@ -21,6 +21,10 @@ class RestaurantsViewModel {
     
     private var filterText: String = ""
     
+    var isEmpty: Bool {
+        return displayMode == .all ? restaurantsModel.isEmpty : favoriteRestaurantIds.isEmpty
+    }
+    
     var rowsCount: Int {
         return displayMode == .all ? restaurantsModel.count : favoriteRestaurantIds.count
     }

@@ -26,6 +26,7 @@ struct RestaurantInfo {
     var description: String
     var address: String
     var location: LocationInfo
+    var imageIconPath: String  // Temp
     var imagePaths: [String]
     var rating: Float
 }
@@ -47,18 +48,25 @@ class RestaurantsService {
     
     func get(at index: Int) -> RestaurantInfo {
         guard restaurants.indices.contains(index) else {
-            fatalError("index is out of range")
+            fatalError("Index is out of range")
         }
         
         let restaurant = restaurants[index]
         let locationInfo = LocationInfo(lat: restaurant.location.lat, lon: restaurant.location.lon)
-        let imagePaths = restaurant.images.allObjects as! [String]
+        let imagePaths = restaurant.images.map { (image) -> String in
+            guard let image = image as? Image else {
+                fatalError("Image is empty")
+            }
+            
+            return image.path
+        }
         
         let restaurantInfo = RestaurantInfo(id: Int(restaurant.id),
                                             name: restaurant.name,
                                             description: restaurant.descriptions,
                                             address: restaurant.address,
                                             location: locationInfo,
+                                            imageIconPath: restaurant.imageIconPath, // Temp
                                             imagePaths: imagePaths,
                                             rating: restaurant.rating)
         return restaurantInfo
@@ -98,6 +106,7 @@ class RestaurantsService {
             restaurant.address = restaurantInfo.address
             restaurant.rating = restaurantInfo.rating
             restaurant.location = coordinates
+            restaurant.imageIconPath = restaurantInfo.imageIconPath  // Temp
 
             for path in restaurantInfo.imagePaths {
                 let image = Image(entity: imageEntity, insertInto: managedContext)

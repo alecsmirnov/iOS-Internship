@@ -52,16 +52,24 @@ class RestaurantsModel {
         
         //clear()
         
-        if isEmpty {
-            getRestaurants(urlString: URLStrings.restaurants) { [unowned self] (jsonData) in
+        if isEmpty {            
+            getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
                 for elem in jsonData {
                     let locationInfo = LocationInfo(lat: elem.location.lat, lon: elem.location.lon)
+                    
+                    var imageIconPath = ""
+                    if let firstImage = elem.imagePaths.first {
+                        imageIconPath = firstImage
+                    }
+                    
                     let restaurantInfo = RestaurantInfo(id: elem.id,
                                                         name: elem.name,
                                                         description: elem.description,
                                                         address: elem.address,
                                                         location: locationInfo,
-                                                        imagePaths: elem.imagePaths,
+                                                        imageIconPath: imageIconPath,
+                                                        imagePaths: Array(elem.imagePaths.dropFirst()),
+                                                        //imagePaths: elem.imagePaths,
                                                         rating: elem.rating)
                     
                     self.save(restaurantInfo: restaurantInfo)

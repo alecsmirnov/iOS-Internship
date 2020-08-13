@@ -10,8 +10,6 @@ import UIKit
 
 class RestaurantViewController: UIViewController {
     var restaurantViewModel: RestaurantViewModel!
-
-    @IBOutlet private var favoriteStatusLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

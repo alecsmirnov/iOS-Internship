@@ -14,6 +14,7 @@
         <attribute name="address" attributeType="String"/>
         <attribute name="descriptions" attributeType="String"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="imageIconPath" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String"/>
         <attribute name="rating" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="images" toMany="YES" deletionRule="Nullify" destinationEntity="Image"/>
@@ -28,9 +29,9 @@
     </entity>
     <elements>
         <element name="Coordinates" positionX="-18" positionY="72" width="128" height="73"/>
-        <element name="Image" positionX="-54" positionY="18" width="128" height="58"/>
-        <element name="Restaurant" positionX="-63" positionY="-18" width="128" height="163"/>
-        <element name="Review" positionX="-36" positionY="45" width="128" height="103"/>
         <element name="FavoriteRastaurant" positionX="-27" positionY="63" width="128" height="58"/>
+        <element name="Image" positionX="-54" positionY="18" width="128" height="58"/>
+        <element name="Restaurant" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="Review" positionX="-36" positionY="45" width="128" height="103"/>
     </elements>
 </model>

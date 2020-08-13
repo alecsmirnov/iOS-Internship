@@ -16,6 +16,7 @@ private enum StoryboardIds {
 class RestaurantsViewController: UIViewController {
     var restaurantsViewModel: RestaurantsViewModel!
     
+    @IBOutlet private var empyTableLabel: UILabel!
     @IBOutlet private var searchBar: UISearchBar!
     @IBOutlet private var tableView: UITableView!
     
@@ -23,6 +24,8 @@ class RestaurantsViewController: UIViewController {
         super.viewDidLoad()
         
         searchBar.delegate = self
+        
+        tableView.tableFooterView = UIView()
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -42,7 +45,21 @@ extension RestaurantsViewController: UITableViewDataSource {
         var rowsCount = 0
         
         if let restaurantsViewModel = restaurantsViewModel {
-            rowsCount = restaurantsViewModel.rowsCount
+            if restaurantsViewModel.isEmpty {
+                empyTableLabel.text = "You do not have any favorite restaurants"
+                empyTableLabel.isHidden = false
+                
+                searchBar.isHidden = true
+                tableView.separatorStyle = .none
+            }
+            else {
+                empyTableLabel.isHidden = true
+                
+                searchBar.isHidden = false
+                tableView.separatorStyle = .singleLine
+                
+                rowsCount = restaurantsViewModel.rowsCount
+            }
         }
         
         return rowsCount

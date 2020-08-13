@@ -14,7 +14,18 @@ struct CellViewModel {
     var descriptionText: String
     
     init(restaurantInfo: RestaurantInfo) {
-        imagePath = ""
+        /*
+        let imagePaths = restaurantInfo.imagePaths
+         
+        if let image = imagePaths.first {
+            imagePath = image
+        }
+        else {
+            imagePath = ""
+        }
+        */
+        
+        imagePath = restaurantInfo.imageIconPath
         nameText = restaurantInfo.name
         descriptionText = restaurantInfo.description
     }

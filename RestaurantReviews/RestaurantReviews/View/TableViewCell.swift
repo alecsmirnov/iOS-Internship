@@ -8,33 +8,31 @@
 
 import UIKit
 
-private enum TextViewRowsCount {
-    static let name        = 2
-    static let description = 3
-}
-
 class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
-            // Setup Image
-            nameTextView.text = cellViewModel.nameText
-            descriptionTextView.text = cellViewModel.descriptionText
+            setupImageFrom(url: cellViewModel.imagePath)
+            
+            nameLabel.text = cellViewModel.nameText
+            descriptionLabel.text = cellViewModel.descriptionText
         }
     }
     
-    @IBOutlet private var mainImageView: UIImageView!
-    @IBOutlet private var nameTextView: UITextView!
-    @IBOutlet private var descriptionTextView: UITextView!
-    
+    @IBOutlet var imageIconView: UIImageView!
+    @IBOutlet private var nameLabel: UILabel!
+    @IBOutlet private var descriptionLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        adjustTextViewHeight(textView: nameTextView, rowsCountMax: TextViewRowsCount.name)
-        adjustTextViewHeight(textView: descriptionTextView, rowsCountMax: TextViewRowsCount.description)
     }
     
-    private func adjustTextViewHeight(textView: UITextView, rowsCountMax: Int) {
-        textView.textContainer.maximumNumberOfLines = rowsCountMax
-        textView.textContainer.lineBreakMode = .byWordWrapping
+    private func setupImageFrom(url string: String) {
+        if !string.isEmpty {
+            getImageFrom(url: string) { [unowned self] (data) in
+                DispatchQueue.main.async {
+                    self.imageIconView.image = UIImage(data: data)
+                }
+            }
+        }
     }
 }
