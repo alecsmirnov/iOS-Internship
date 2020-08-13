@@ -2,7 +2,7 @@
 //  Image+CoreDataProperties.swift
 //  RestaurantReviews
 //
-//  Created by Admin on 11.08.2020.
+//  Created by Admin on 13.08.2020.
 //  Copyright © 2020 Admin. All rights reserved.
 //
 //
@@ -17,6 +17,6 @@ extension Image {
         return NSFetchRequest<Image>(entityName: "Image")
     }
 
-    @NSManaged public var path: String
+    @NSManaged public var data: String
 
 }

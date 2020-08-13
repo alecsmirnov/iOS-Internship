@@ -44,4 +44,8 @@ class FavoriteRestaurantIds {
     func load() {
         favorites.load()
     }
+    
+    func clear() {
+        favorites.clear()
+    }
 }

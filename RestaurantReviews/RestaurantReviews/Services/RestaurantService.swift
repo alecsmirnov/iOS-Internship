@@ -26,8 +26,8 @@ struct RestaurantInfo {
     var description: String
     var address: String
     var location: LocationInfo
-    var imageIconPath: String  // Temp
-    var imagePaths: [String]
+    var iconData: String  // Temp
+    var imagesData: [String]
     var rating: Float
 }
 
@@ -53,12 +53,12 @@ class RestaurantsService {
         
         let restaurant = restaurants[index]
         let locationInfo = LocationInfo(lat: restaurant.location.lat, lon: restaurant.location.lon)
-        let imagePaths = restaurant.images.map { (image) -> String in
+        let imagesData = restaurant.images.map { (image) -> String in
             guard let image = image as? Image else {
                 fatalError("Image is empty")
             }
             
-            return image.path
+            return image.data
         }
         
         let restaurantInfo = RestaurantInfo(id: Int(restaurant.id),
@@ -66,8 +66,8 @@ class RestaurantsService {
                                             description: restaurant.descriptions,
                                             address: restaurant.address,
                                             location: locationInfo,
-                                            imageIconPath: restaurant.imageIconPath, // Temp
-                                            imagePaths: imagePaths,
+                                            iconData: restaurant.iconData, // Temp
+                                            imagesData: imagesData,
                                             rating: restaurant.rating)
         return restaurantInfo
     }
@@ -106,11 +106,11 @@ class RestaurantsService {
             restaurant.address = restaurantInfo.address
             restaurant.rating = restaurantInfo.rating
             restaurant.location = coordinates
-            restaurant.imageIconPath = restaurantInfo.imageIconPath  // Temp
+            restaurant.iconData = restaurantInfo.iconData  // Temp
 
-            for path in restaurantInfo.imagePaths {
+            for data in restaurantInfo.imagesData {
                 let image = Image(entity: imageEntity, insertInto: managedContext)
-                image.path = path
+                image.data = data
 
                 restaurant.addToImages(image)
             }

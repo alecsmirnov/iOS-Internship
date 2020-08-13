@@ -11,8 +11,7 @@ import UIKit
 class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
-            setupImageFrom(url: cellViewModel.imagePath)
-            
+            imageIconView.image = UIImage(data: cellViewModel.imageIconData)
             nameLabel.text = cellViewModel.nameText
             descriptionLabel.text = cellViewModel.descriptionText
         }
@@ -24,15 +23,5 @@ class TableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-    }
-    
-    private func setupImageFrom(url string: String) {
-        if !string.isEmpty {
-            getImageFrom(url: string) { [unowned self] (data) in
-                DispatchQueue.main.async {
-                    self.imageIconView.image = UIImage(data: data)
-                }
-            }
-        }
     }
 }

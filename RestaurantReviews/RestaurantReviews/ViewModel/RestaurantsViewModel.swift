@@ -81,6 +81,8 @@ class RestaurantsViewModel {
     func update() {
         restaurantsModel.update()
         favoriteRestaurantIds.load()
+        
+        //favoriteRestaurantIds.clear()
     }
     
     func userRemoveRestaurantFromFavorites(at index: Int) {

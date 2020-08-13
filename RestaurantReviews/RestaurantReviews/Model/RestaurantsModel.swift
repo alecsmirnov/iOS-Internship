@@ -26,6 +26,8 @@ class RestaurantsModel {
     
     private var restaurants: RestaurantsService
     
+    private var images: [String] = []
+    
     init() {
         restaurants = RestaurantsService()
     }
@@ -52,27 +54,36 @@ class RestaurantsModel {
         
         //restaurants.clear()
         
-        if restaurants.isEmpty {            
+        // What a mess?!
+        if restaurants.isEmpty {
             getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
                 for elem in jsonData {
                     let locationInfo = LocationInfo(lat: elem.location.lat, lon: elem.location.lon)
                     
-                    var imageIconPath = ""
-                    if let firstImage = elem.imagePaths.first {
-                        imageIconPath = firstImage
-                    }
-                    
-                    let restaurantInfo = RestaurantInfo(id: elem.id,
-                                                        name: elem.name,
-                                                        description: elem.description,
-                                                        address: elem.address,
-                                                        location: locationInfo,
-                                                        imageIconPath: imageIconPath,
-                                                        imagePaths: Array(elem.imagePaths.dropFirst()),
-                                                        //imagePaths: elem.imagePaths,
-                                                        rating: elem.rating)
-                    
-                    self.save(restaurantInfo: restaurantInfo)
+                    var iconData = ""
+//                    if let iconPath = elem.imagePaths.first {
+//                        getImageFrom(url: iconPath) { (data) in
+//                            iconData = String(decoding: data, as: UTF8.self)
+                            
+                            var imagesData: [String] = []
+//                            for path in elem.imagePaths.dropFirst() {
+//                                getImageFrom(url: path) { (data) in
+//                                    imagesData.append(String(decoding: data, as: UTF8.self))
+                                    
+                                    let restaurantInfo = RestaurantInfo(id: elem.id,
+                                                                        name: elem.name,
+                                                                        description: elem.description,
+                                                                        address: elem.address,
+                                                                        location: locationInfo,
+                                                                        iconData: iconData,
+                                                                        imagesData: imagesData,
+                                                                        rating: elem.rating)
+                                    
+                                    self.save(restaurantInfo: restaurantInfo)
+                                //}
+                            //}
+                        //}
+                    //}
                 }
             }
         }

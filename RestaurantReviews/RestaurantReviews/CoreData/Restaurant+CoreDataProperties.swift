@@ -22,11 +22,11 @@ extension Restaurant {
     @NSManaged public var id: Int32
     @NSManaged public var name: String
     @NSManaged public var rating: Float
-    @NSManaged public var imageIconPath: String  // Temp
+    @NSManaged public var iconData: String
     @NSManaged public var images: NSSet
     @NSManaged public var location: Coordinates
     @NSManaged public var reviews: NSSet
-    
+
 }
 
 // MARK: Generated accessors for images

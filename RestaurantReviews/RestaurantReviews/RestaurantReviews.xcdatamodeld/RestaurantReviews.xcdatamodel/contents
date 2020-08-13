@@ -8,13 +8,13 @@
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="Image" representedClassName=".Image" syncable="YES">
-        <attribute name="path" optional="YES" attributeType="String"/>
+        <attribute name="data" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Restaurant" representedClassName=".Restaurant" syncable="YES">
         <attribute name="address" attributeType="String"/>
         <attribute name="descriptions" attributeType="String"/>
+        <attribute name="iconData" attributeType="String" defaultValueString=""/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="imageIconPath" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String"/>
         <attribute name="rating" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="images" toMany="YES" deletionRule="Nullify" destinationEntity="Image"/>

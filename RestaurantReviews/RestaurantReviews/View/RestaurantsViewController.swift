@@ -52,6 +52,9 @@ extension RestaurantsViewController: UITableViewDataSource {
                     
                     searchBar.isHidden = true
                 }
+                else {
+                    empyTableLabel.text = "No restaurant data"
+                }
                 
                 tableView.separatorStyle = .none
             }
