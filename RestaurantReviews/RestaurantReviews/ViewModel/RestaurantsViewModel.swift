@@ -19,8 +19,6 @@ class RestaurantsViewModel {
     private var restaurantsModel: RestaurantsModel
     private var favoriteRestaurantIds: FavoriteRestaurantIds
     
-    private var filterText: String = ""
-    
     var isEmpty: Bool {
         return displayMode == .all ? restaurantsModel.isEmpty : favoriteRestaurantIds.isEmpty
     }
@@ -37,11 +35,11 @@ class RestaurantsViewModel {
     }
     
     func setFilter(text: String) {
-        filterText = text
+        restaurantsModel.setFilter(text: text)
     }
     
     func clearFilter() {
-        filterText = ""
+        restaurantsModel.clearFilter()
     }
     
     func cellViewModel(at index: Int) -> CellViewModel {

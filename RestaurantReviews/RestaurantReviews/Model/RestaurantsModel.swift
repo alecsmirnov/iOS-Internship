@@ -30,6 +30,14 @@ class RestaurantsModel {
         restaurants = RestaurantsService()
     }
     
+    func setFilter(text: String) {
+        restaurants.setFilter(text: text)
+    }
+    
+    func clearFilter() {
+        restaurants.clearFilter()
+    }
+    
     func get(at index: Int) -> RestaurantInfo {
         return restaurants.get(at: index)
     }

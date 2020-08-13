@@ -46,10 +46,13 @@ extension RestaurantsViewController: UITableViewDataSource {
         
         if let restaurantsViewModel = restaurantsViewModel {
             if restaurantsViewModel.isEmpty {
-                empyTableLabel.text = "You do not have any favorite restaurants"
-                empyTableLabel.isHidden = false
+                if restaurantsViewModel.displayMode == .favorites {
+                    empyTableLabel.text = "You do not have any favorite restaurants"
+                    empyTableLabel.isHidden = false
+                    
+                    searchBar.isHidden = true
+                }
                 
-                searchBar.isHidden = true
                 tableView.separatorStyle = .none
             }
             else {

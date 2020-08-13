@@ -40,7 +40,20 @@ class RestaurantsService {
         return restaurants.count
     }
     
+    private var filterText = ""
     private var restaurants: [Restaurant] = []
+    
+    func setFilter(text: String) {
+        filterText = text
+        
+        load()
+    }
+    
+    func clearFilter() {
+        filterText = ""
+        
+        load()
+    }
     
     func append(restaurant: Restaurant) {
         restaurants.append(restaurant)
@@ -137,6 +150,15 @@ class RestaurantsService {
 
             do {
                 self.restaurants = try managedContext.fetch(fetchRequest)
+                
+                if !filterText.isEmpty {
+                    self.restaurants = self.restaurants.filter({ (restaurant) -> Bool in
+                        let name = restaurant.name
+                        let description = restaurant.description
+                        
+                        return name.contains(filterText) || description.contains(filterText)
+                    })
+                }
             } catch let error as NSError {
                 fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
