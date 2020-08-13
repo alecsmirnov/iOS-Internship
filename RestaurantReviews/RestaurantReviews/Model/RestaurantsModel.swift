@@ -30,14 +30,6 @@ class RestaurantsModel {
         restaurants = RestaurantsService()
     }
     
-    func setFilter(text: String) {
-        restaurants.setFilter(text: text)
-    }
-    
-    func clearFilter() {
-        restaurants.clearFilter()
-    }
-    
     func get(at index: Int) -> RestaurantInfo {
         return restaurants.get(at: index)
     }
@@ -46,8 +38,8 @@ class RestaurantsModel {
         restaurants.save(restaurantInfo: restaurantInfo)
     }
     
-    func load() {
-        restaurants.load()
+    func load(filterText: String = "") {
+        restaurants.load(filterText: filterText)
     }
     
     func clear() {
@@ -56,11 +48,11 @@ class RestaurantsModel {
     
     func update() {
         // Temporarily. For tests
-        load()
+        restaurants.load()
         
-        //clear()
+        //restaurants.clear()
         
-        if isEmpty {            
+        if restaurants.isEmpty {            
             getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
                 for elem in jsonData {
                     let locationInfo = LocationInfo(lat: elem.location.lat, lon: elem.location.lon)

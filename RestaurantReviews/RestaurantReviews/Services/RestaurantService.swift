@@ -40,20 +40,7 @@ class RestaurantsService {
         return restaurants.count
     }
     
-    private var filterText = ""
     private var restaurants: [Restaurant] = []
-    
-    func setFilter(text: String) {
-        filterText = text
-        
-        load()
-    }
-    
-    func clearFilter() {
-        filterText = ""
-        
-        load()
-    }
     
     func append(restaurant: Restaurant) {
         restaurants.append(restaurant)
@@ -138,7 +125,7 @@ class RestaurantsService {
         }
     }
     
-    func load() {
+    func load(filterText: String = "") {
         // And this main thread
         //DispatchQueue.main.async { [unowned self] in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {

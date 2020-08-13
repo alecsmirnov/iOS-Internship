@@ -35,11 +35,11 @@ class RestaurantsViewModel {
     }
     
     func setFilter(text: String) {
-        restaurantsModel.setFilter(text: text)
+        restaurantsModel.load(filterText: text)
     }
     
     func clearFilter() {
-        restaurantsModel.clearFilter()
+        restaurantsModel.load()
     }
     
     func cellViewModel(at index: Int) -> CellViewModel {
