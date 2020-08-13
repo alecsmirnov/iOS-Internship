@@ -17,15 +17,30 @@ class RestaurantViewController: UIViewController {
         super.viewDidLoad()
 
         if let restaurantViewModel = restaurantViewModel {
-            favoriteStatusLabel.text = String(restaurantViewModel.favorite)
+            changeFavoriteStatus(restaurantViewModel.favorite)
         }
     }
     
-    @IBAction func didTapFavorite(_ sender: UIButton) {
+    @IBAction func didTapFavorite(_ sender: UIBarButtonItem) {
         if let restaurantViewModel = restaurantViewModel {
             restaurantViewModel.userChangeFavoriteStatus()
             
-            favoriteStatusLabel.text = String(restaurantViewModel.favorite)
+            changeFavoriteStatus(restaurantViewModel.favorite)
+        }
+    }
+    
+    private func changeFavoriteStatus(_ status: Bool) {
+        if status {
+            changeFavoriteItemImage(systemName: "star.fill")
+        }
+        else {
+            changeFavoriteItemImage(systemName: "star")
+        }
+    }
+    
+    private func changeFavoriteItemImage(systemName: String) {
+        if let buttonItem = navigationItem.rightBarButtonItem {
+            buttonItem.image = UIImage(systemName: systemName)
         }
     }
 }

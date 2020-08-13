@@ -8,10 +8,15 @@
 
 import UIKit
 
+private enum TextViewRowsCount {
+    static let name        = 2
+    static let description = 3
+}
+
 class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
-            //mainImageView
+            // Setup Image
             nameTextView.text = cellViewModel.nameText
             descriptionTextView.text = cellViewModel.descriptionText
         }
@@ -24,10 +29,12 @@ class TableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        nameTextView.textContainer.maximumNumberOfLines = 2
-        nameTextView.textContainer.lineBreakMode = .byWordWrapping
-        
-        descriptionTextView.textContainer.maximumNumberOfLines = 3
-        descriptionTextView.textContainer.lineBreakMode = .byWordWrapping
+        adjustTextViewHeight(textView: nameTextView, rowsCountMax: TextViewRowsCount.name)
+        adjustTextViewHeight(textView: descriptionTextView, rowsCountMax: TextViewRowsCount.description)
+    }
+    
+    private func adjustTextViewHeight(textView: UITextView, rowsCountMax: Int) {
+        textView.textContainer.maximumNumberOfLines = rowsCountMax
+        textView.textContainer.lineBreakMode = .byWordWrapping
     }
 }
