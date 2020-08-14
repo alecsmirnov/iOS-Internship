@@ -14,8 +14,6 @@ private enum URLStrings {
 }
 
 class RestaurantsModel {
-    //var updateInterval: Float = 0
-    
     var isEmpty: Bool {
         return restaurants.isEmpty
     }
@@ -25,8 +23,6 @@ class RestaurantsModel {
     }
     
     private var restaurants: RestaurantsService
-    
-    private var images: [String] = []
     
     init() {
         restaurants = RestaurantsService()
@@ -48,12 +44,7 @@ class RestaurantsModel {
         restaurants.clear()
     }
     
-    func update() {
-        // Temporarily. For tests
-        restaurants.load()
-        
-        restaurants.clear()
-        
+    func download() {
         // What a mess
         if restaurants.isEmpty {
             getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
@@ -76,7 +67,8 @@ class RestaurantsModel {
                             self.restaurants.setIconData(data.base64EncodedString(), toRestaurant: restaurantInfo.id)
                         }
                     }
-
+                    
+                    // "Mutating a managed object after it has been removed from its context" on get() after clear()
                     for path in elem.imagePaths.dropFirst() {
                         getImageFrom(url: path) { [unowned self] (data) in
                             self.restaurants.addImageData(data.base64EncodedString(), toRestaurant: restaurantInfo.id)
@@ -87,8 +79,6 @@ class RestaurantsModel {
                 //self.restaurants.load()
             }
         }
-        
-        restaurants.load()
     }
     
     private func checkNetworkServices() {

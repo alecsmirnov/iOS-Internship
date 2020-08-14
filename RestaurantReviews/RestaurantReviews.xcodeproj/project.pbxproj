@@ -26,6 +26,7 @@
 		844500BB24E1A11A0051D413 /* Restaurant+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844500B324E1A11A0051D413 /* Restaurant+CoreDataProperties.swift */; };
 		844500BC24E1A11A0051D413 /* Coordinates+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844500B424E1A11A0051D413 /* Coordinates+CoreDataClass.swift */; };
 		844500BD24E1A11A0051D413 /* Coordinates+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844500B524E1A11A0051D413 /* Coordinates+CoreDataProperties.swift */; };
+		84466BAA24E6E6BB00019780 /* TimeCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84466BA924E6E6BB00019780 /* TimeCheck.swift */; };
 		8446C8F624E3D1D300B3307E /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446C8F524E3D1D300B3307E /* MapViewModel.swift */; };
 		844779E424E2693D00EDF985 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779E324E2693D00EDF985 /* RestaurantService.swift */; };
 		844779EE24E2A0BF00EDF985 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844779ED24E2A0BF00EDF985 /* NetworkService.swift */; };
@@ -62,6 +63,7 @@
 		844500B324E1A11A0051D413 /* Restaurant+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Restaurant+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		844500B424E1A11A0051D413 /* Coordinates+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinates+CoreDataClass.swift"; sourceTree = "<group>"; };
 		844500B524E1A11A0051D413 /* Coordinates+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinates+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84466BA924E6E6BB00019780 /* TimeCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCheck.swift; sourceTree = "<group>"; };
 		8446C8F524E3D1D300B3307E /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		844779E324E2693D00EDF985 /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		844779ED24E2A0BF00EDF985 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				8445002C24E1491E0051D413 /* SceneDelegate.swift */,
 				8445007424E194680051D413 /* DataManager.swift */,
 				844779F924E2C85500EDF985 /* RestaurantViewModelDelegate.swift */,
+				84466BA924E6E6BB00019780 /* TimeCheck.swift */,
 				8445003024E1491E0051D413 /* Main.storyboard */,
 				8445003624E149200051D413 /* Assets.xcassets */,
 				8445003824E149200051D413 /* LaunchScreen.storyboard */,
@@ -266,6 +269,7 @@
 				8445006924E15EF10051D413 /* RestaurantsViewController.swift in Sources */,
 				8446C8F624E3D1D300B3307E /* MapViewModel.swift in Sources */,
 				844779F424E2A6E600EDF985 /* CellViewModel.swift in Sources */,
+				84466BAA24E6E6BB00019780 /* TimeCheck.swift in Sources */,
 				8445002B24E1491E0051D413 /* AppDelegate.swift in Sources */,
 				844500BC24E1A11A0051D413 /* Coordinates+CoreDataClass.swift in Sources */,
 				84477A0024E2D39B00EDF985 /* FavoriteRastaurant+CoreDataProperties.swift in Sources */,
