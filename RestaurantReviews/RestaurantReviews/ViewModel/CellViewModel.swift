@@ -14,7 +14,12 @@ struct CellViewModel {
     var descriptionText: String
     
     init(restaurantInfo: RestaurantInfo) {
-        imageIconData = Data(restaurantInfo.iconData.utf8)
+        imageIconData = Data()
+        
+        if let data = Data(base64Encoded: restaurantInfo.iconData) {
+            imageIconData = data
+        }
+
         nameText = restaurantInfo.name
         descriptionText = restaurantInfo.description
     }

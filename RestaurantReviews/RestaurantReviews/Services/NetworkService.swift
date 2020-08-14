@@ -56,7 +56,7 @@ func getImageFrom(url string: String, completionHandler: @escaping (Data) -> ())
     guard let url = URL(string: string) else { return }
     
     let session = URLSession.shared
-
+    
     let sessionTask = session.dataTask(with: url) { (data, response, error) in
         if error != nil { return }
         guard let data = data else { return }

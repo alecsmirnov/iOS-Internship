@@ -52,41 +52,43 @@ class RestaurantsModel {
         // Temporarily. For tests
         restaurants.load()
         
-        //restaurants.clear()
+        restaurants.clear()
         
-        // What a mess?!
+        // What a mess
         if restaurants.isEmpty {
             getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
                 for elem in jsonData {
                     let locationInfo = LocationInfo(lat: elem.location.lat, lon: elem.location.lon)
+
+                    let restaurantInfo = RestaurantInfo(id: elem.id,
+                                                        name: elem.name,
+                                                        description: elem.description,
+                                                        address: elem.address,
+                                                        location: locationInfo,
+                                                        iconData: "",
+                                                        imagesData: [],
+                                                        rating: elem.rating)
+
+                    self.save(restaurantInfo: restaurantInfo)
                     
-                    var iconData = ""
-//                    if let iconPath = elem.imagePaths.first {
-//                        getImageFrom(url: iconPath) { (data) in
-//                            iconData = String(decoding: data, as: UTF8.self)
-                            
-                            var imagesData: [String] = []
-//                            for path in elem.imagePaths.dropFirst() {
-//                                getImageFrom(url: path) { (data) in
-//                                    imagesData.append(String(decoding: data, as: UTF8.self))
-                                    
-                                    let restaurantInfo = RestaurantInfo(id: elem.id,
-                                                                        name: elem.name,
-                                                                        description: elem.description,
-                                                                        address: elem.address,
-                                                                        location: locationInfo,
-                                                                        iconData: iconData,
-                                                                        imagesData: imagesData,
-                                                                        rating: elem.rating)
-                                    
-                                    self.save(restaurantInfo: restaurantInfo)
-                                //}
-                            //}
-                        //}
-                    //}
+                    if let iconPath = elem.imagePaths.first {
+                        getImageFrom(url: iconPath) { [unowned self] (data) in
+                            self.restaurants.setIconData(data.base64EncodedString(), toRestaurant: restaurantInfo.id)
+                        }
+                    }
+
+                    for path in elem.imagePaths.dropFirst() {
+                        getImageFrom(url: path) { [unowned self] (data) in
+                            self.restaurants.addImageData(data.base64EncodedString(), toRestaurant: restaurantInfo.id)
+                        }
+                    }
                 }
+                
+                //self.restaurants.load()
             }
         }
+        
+        restaurants.load()
     }
     
     private func checkNetworkServices() {

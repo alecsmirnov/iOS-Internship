@@ -149,7 +149,76 @@ class RestaurantsService {
             } catch let error as NSError {
                 fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
-       // }
+        //}
+    }
+    
+    func setIconData(_ iconData: String, toRestaurant id: Int) {
+        DispatchQueue.main.async { [unowned self] in
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
+            
+            do {
+                if let firstIndex = self.restaurants.firstIndex(where: { (restaurant) -> Bool in
+                    return restaurant.id == id
+                }) {
+                    self.restaurants[firstIndex].iconData = iconData
+                    
+                    let entities = try managedContext.fetch(fetchRequest)
+                    if let firstIndex = entities.firstIndex(where: { (restaurant) -> Bool in
+                        return restaurant.id == id
+                    }) {
+                        entities[firstIndex].iconData = iconData
+                    }
+                    
+                    try managedContext.save()
+                }
+            }
+            catch let error as NSError {
+                fatalError("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    func addImageData(_ imageData: String, toRestaurant id: Int) {
+        DispatchQueue.main.async { [unowned self] in
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
+            
+            guard let imageEntity = NSEntityDescription.entity(forEntityName: Entities.image, in: managedContext) else {
+                fatalError("Incorrect entity name: \(Entities.image)")
+            }
+            
+            let image = Image(entity: imageEntity, insertInto: managedContext)
+            image.data = imageData
+            
+            do {
+                if let firstIndex = self.restaurants.firstIndex(where: { (restaurant) -> Bool in
+                    return restaurant.id == id
+                }) {
+                    self.restaurants[firstIndex].addToImages(image)
+                    
+                    let entities = try managedContext.fetch(fetchRequest)
+                    if let firstIndex = entities.firstIndex(where: { (restaurant) -> Bool in
+                        return restaurant.id == id
+                    }) {
+                        entities[firstIndex].addToImages(image)
+                    }
+                    
+                    try managedContext.save()
+                }
+            }
+            catch let error as NSError {
+                fatalError("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
     }
     
     func clear() {
