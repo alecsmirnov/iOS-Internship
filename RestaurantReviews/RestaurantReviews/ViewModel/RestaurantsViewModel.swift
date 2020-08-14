@@ -24,8 +24,6 @@ class RestaurantsViewModel {
     
     var displayMode : RestaurantsDisplayMode
     
-    private var timeCheck: TimeCheck
-    
     private var notificationCenter: NotificationCenter
     
     private var restaurantsModel: RestaurantsModel
@@ -38,8 +36,6 @@ class RestaurantsViewModel {
         self.displayMode = displayMode
         
         notificationCenter = NotificationCenter()
-        
-        timeCheck = TimeCheck()
     }
     
     func setFilter(text: String) {
@@ -82,19 +78,11 @@ class RestaurantsViewModel {
         return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, delegate: self, notificationCenter: notificationCenter)
     }
     
-    func setUpdateTime(second: TimeInterval, minute: TimeInterval, hour: TimeInterval, day: TimeInterval) {
-        timeCheck.set(second: second, minute: minute, hour: hour, day: day)
-    }
-    
     func update() {
-        if timeCheck.isUp() {
-            //restaurantsModel.clear()
-            restaurantsModel.download()
-            restaurantsModel.load()
-            
-            favoriteRestaurantIds.clear()
-            favoriteRestaurantIds.load()
-        }
+        restaurantsModel.update()
+        
+        favoriteRestaurantIds.clear()
+        favoriteRestaurantIds.load()
     }
     
     func userRemoveRestaurantFromFavorites(at index: Int) {

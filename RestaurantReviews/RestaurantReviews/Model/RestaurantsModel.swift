@@ -22,10 +22,12 @@ class RestaurantsModel {
         return restaurants.count
     }
     
+    private var timeCheck: TimeCheck
     private var restaurants: RestaurantsService
     
     init() {
         restaurants = RestaurantsService()
+        timeCheck = TimeCheck()
     }
     
     func get(at index: Int) -> RestaurantInfo {
@@ -42,6 +44,10 @@ class RestaurantsModel {
     
     func clear() {
         restaurants.clear()
+    }
+    
+    func setUpdateTime(second: TimeInterval, minute: TimeInterval, hour: TimeInterval, day: TimeInterval) {
+        timeCheck.set(second: second, minute: minute, hour: hour, day: day)
     }
     
     func download() {
@@ -78,6 +84,14 @@ class RestaurantsModel {
                 
                 //self.restaurants.load()
             }
+        }
+    }
+    
+    func update() {
+        if timeCheck.isUp() {
+            clear()
+            download()
+            load()
         }
     }
     

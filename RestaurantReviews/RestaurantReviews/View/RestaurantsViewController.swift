@@ -29,13 +29,13 @@ class RestaurantsViewController: UIViewController {
         tableView.delegate = self
         
         tableView.tableFooterView = UIView()
-        
-        if let restaurantsViewModel = restaurantsViewModel {
-            restaurantsViewModel.update()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if let restaurantsViewModel = restaurantsViewModel {
+            restaurantsViewModel.update()
+        }
+        
         tableView.reloadData()
     }
 }
