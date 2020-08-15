@@ -133,18 +133,66 @@
             <objects>
                 <viewController storyboardIdentifier="RestaurantViewController" id="xiM-a7-qba" customClass="RestaurantViewController" customModule="RestaurantReviews" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yR4-LJ-UN1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x29-Xl-2iL">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x29-Xl-2iL">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="1600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmF-Di-7Qy">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1294.6666666666667"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Name Text View" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RiY-Gt-B0A">
+                                                <rect key="frame" x="70" y="157" width="275" height="34"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Description Text View" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Hl0-7V-rfm">
+                                                <rect key="frame" x="70" y="222" width="275" height="34"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jsC-yK-sbq">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="149"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rating Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7t-Id-Ydd">
+                                                <rect key="frame" x="70" y="196" width="275" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="kmF-Di-7Qy" secondAttribute="trailing" id="RyA-22-hkr"/>
+                                    <constraint firstAttribute="bottom" secondItem="kmF-Di-7Qy" secondAttribute="bottom" id="YTv-m0-zZ3"/>
+                                    <constraint firstItem="kmF-Di-7Qy" firstAttribute="leading" secondItem="x29-Xl-2iL" secondAttribute="leading" id="rRD-sd-xN3"/>
+                                    <constraint firstItem="C4K-Vr-q5F" firstAttribute="width" secondItem="kmF-Di-7Qy" secondAttribute="width" id="sDn-ii-N6N"/>
+                                    <constraint firstItem="kmF-Di-7Qy" firstAttribute="height" secondItem="C4K-Vr-q5F" secondAttribute="height" multiplier="0.809152" priority="250" id="udU-0P-J01"/>
+                                    <constraint firstItem="kmF-Di-7Qy" firstAttribute="top" secondItem="x29-Xl-2iL" secondAttribute="top" id="wOT-Ln-FS7"/>
+                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Fk6-gB-zcc"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="C4K-Vr-q5F"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="T24-Vg-uJT"/>
+                        <constraints>
+                            <constraint firstItem="x29-Xl-2iL" firstAttribute="top" secondItem="yR4-LJ-UN1" secondAttribute="top" id="IWv-BY-PFx"/>
+                            <constraint firstItem="x29-Xl-2iL" firstAttribute="leading" secondItem="yR4-LJ-UN1" secondAttribute="leading" id="Mnu-Ga-aa7"/>
+                            <constraint firstItem="x29-Xl-2iL" firstAttribute="bottom" secondItem="yR4-LJ-UN1" secondAttribute="bottom" id="QeZ-Ju-2h5"/>
+                            <constraint firstItem="x29-Xl-2iL" firstAttribute="trailing" secondItem="yR4-LJ-UN1" secondAttribute="trailing" id="Xc0-QF-lKK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dbe-yN-mEg"/>
                     </view>
                     <navigationItem key="navigationItem" id="vnj-Ao-S3X">
                         <barButtonItem key="rightBarButtonItem" title="Favorite Item" image="star" catalog="system" id="YOQ-Nh-rSv">
@@ -153,10 +201,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <size key="freeformSize" width="414" height="1600"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y58-C4-1fU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-971.01449275362324" y="2181.6964285714284"/>
+            <point key="canvasLocation" x="-971.01449275362324" y="2414.7321428571427"/>
         </scene>
         <!--Map-->
         <scene sceneID="84q-bJ-YOa">
@@ -215,7 +264,7 @@
         <image name="map" catalog="system" width="128" height="113"/>
         <image name="map.fill" catalog="system" width="128" height="113"/>
         <image name="star" catalog="system" width="128" height="116"/>
-        <image name="table" catalog="system" width="32" height="32"/>
+        <image name="table" catalog="system" width="128" height="93"/>
         <image name="table.fill" catalog="system" width="128" height="93"/>
     </resources>
 </document>
