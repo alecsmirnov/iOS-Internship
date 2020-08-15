@@ -73,7 +73,7 @@ class RestaurantsService {
     }
     
     func save(restaurantInfo: RestaurantInfo) {
-        // Why is it not the main thread?
+        // Why is it the main thread?
         DispatchQueue.main.async { [unowned self] in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -116,9 +116,9 @@ class RestaurantsService {
             }
             
             do {
-                try managedContext.save()
-
                 self.restaurants.append(restaurant)
+                
+                try managedContext.save()
             } catch let error as NSError {
                 fatalError("Could not save. \(error), \(error.userInfo)")
             }
@@ -127,7 +127,7 @@ class RestaurantsService {
     
     func load(filterText: String = "") {
         // And this main thread
-        //DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned self] in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
             }
@@ -149,7 +149,7 @@ class RestaurantsService {
             } catch let error as NSError {
                 fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
-        //}
+        }
     }
     
     func setIconData(_ iconData: String, toRestaurant id: Int) {

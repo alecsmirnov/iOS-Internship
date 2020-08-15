@@ -54,6 +54,8 @@ class RestaurantsModel {
         // What a mess
         if restaurants.isEmpty {
             getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
+                self.restaurants.clear()
+                
                 for elem in jsonData {
                     let locationInfo = LocationInfo(lat: elem.location.lat, lon: elem.location.lon)
 
@@ -82,16 +84,17 @@ class RestaurantsModel {
                     }
                 }
                 
-                //self.restaurants.load()
+                self.restaurants.load()
             }
         }
     }
     
     func update() {
         if timeCheck.isUp() {
-            clear()
+            timeCheck.reset()
+            
+            print("Update")
             download()
-            load()
         }
     }
     
