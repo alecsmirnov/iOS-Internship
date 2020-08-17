@@ -19,45 +19,44 @@ class FavoriteRestaurantService {
     }
     
     private var favorites: [Favorite] = []
+    private var managedContext: NSManagedObjectContext?
+    
+    init() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        managedContext = appDelegate.persistentContainer.viewContext
+    }
     
     func append(_ id: Int) {
         DispatchQueue.main.async { [unowned self] in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            
-            let managedContext = appDelegate.persistentContainer.viewContext
-            
-            guard let favoriteRestaurantEntity = NSEntityDescription.entity(forEntityName: Entities.favorite, in: managedContext) else {
-                fatalError("Incorrect entity name: \(Entities.favorite)")
-            }
-            
-            let favoriteRestaurant = Favorite(entity: favoriteRestaurantEntity, insertInto: managedContext)
-            
-            favoriteRestaurant.restaurantId = Int32(id)
-            
-            do {
-                try managedContext.save()
+            if let managedContext = self.managedContext {
+                guard let favoriteRestaurantEntity = NSEntityDescription.entity(forEntityName: Entities.favorite, in: managedContext) else {
+                    fatalError("Incorrect entity name: \(Entities.favorite)")
+                }
+                
+                let favoriteRestaurant = Favorite(entity: favoriteRestaurantEntity, insertInto: managedContext)
+                
+                favoriteRestaurant.restaurantId = Int32(id)
+                
+                do {
+                    try managedContext.save()
 
-                self.favorites.append(favoriteRestaurant)
-            } catch let error as NSError {
-                fatalError("Could not save. \(error), \(error.userInfo)")
+                    self.favorites.append(favoriteRestaurant)
+                } catch let error as NSError {
+                    fatalError("Could not save. \(error), \(error.userInfo)")
+                }
             }
         }
     }
     
     func load() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+        if let managedContext = self.managedContext {
+            let fetchRequest: NSFetchRequest<Favorite> = Favorite.fetchRequest()
 
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<Favorite> = Favorite.fetchRequest()
-
-        do {
-            self.favorites = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            fatalError("Could not fetch. \(error), \(error.userInfo)")
+            do {
+                self.favorites = try managedContext.fetch(fetchRequest)
+            } catch let error as NSError {
+                fatalError("Could not fetch. \(error), \(error.userInfo)")
+            }
         }
     }
     
@@ -68,27 +67,24 @@ class FavoriteRestaurantService {
             favorites.remove(at: index)
             
             DispatchQueue.main.async {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
+                if let managedContext = self.managedContext {
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favorite)
 
-                let managedContext = appDelegate.persistentContainer.viewContext
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favorite)
+                    do {
+                        let entities = try managedContext.fetch(fetchRequest) as! [Favorite]
 
-                do {
-                    let entities = try managedContext.fetch(fetchRequest) as! [Favorite]
-
-                    if let index = entities.firstIndex(where: { (favoriteRestaurant) -> Bool in
-                        favoriteRestaurant.restaurantId == id
-                    }) {
-                        let object = entities[index] as NSManagedObject
-                        
-                        managedContext.delete(object)
-                        
-                        try managedContext.save()
+                        if let index = entities.firstIndex(where: { (favoriteRestaurant) -> Bool in
+                            favoriteRestaurant.restaurantId == id
+                        }) {
+                            let object = entities[index] as NSManagedObject
+                            
+                            managedContext.delete(object)
+                            
+                            try managedContext.save()
+                        }
+                    } catch let error as NSError {
+                        fatalError("Could not fetch. \(error), \(error.userInfo)")
                     }
-                } catch let error as NSError {
-                    fatalError("Could not fetch. \(error), \(error.userInfo)")
                 }
             }
         }
@@ -111,23 +107,20 @@ class FavoriteRestaurantService {
     
     private func clearEntities() {
         DispatchQueue.main.async {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
+            if let managedContext = self.managedContext {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favorite)
 
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Entities.favorite)
+                do {
+                    let entities = try managedContext.fetch(fetchRequest)
 
-            do {
-                let entities = try managedContext.fetch(fetchRequest)
+                    for entity in entities {
+                        let object = entity as! NSManagedObject
 
-                for entity in entities {
-                    let object = entity as! NSManagedObject
-
-                    managedContext.delete(object)
+                        managedContext.delete(object)
+                    }
+                } catch let error as NSError {
+                    fatalError("Could not fetch. \(error), \(error.userInfo)")
                 }
-            } catch let error as NSError {
-                fatalError("Could not fetch. \(error), \(error.userInfo)")
             }
         }
     }
