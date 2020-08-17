@@ -2,7 +2,7 @@
 //  Restaurant+CoreDataProperties.swift
 //  RestaurantReviews
 //
-//  Created by Admin on 13.08.2020.
+//  Created by Admin on 17.08.2020.
 //  Copyright © 2020 Admin. All rights reserved.
 //
 //
@@ -22,7 +22,6 @@ extension Restaurant {
     @NSManaged public var id: Int32
     @NSManaged public var name: String
     @NSManaged public var rating: Float
-    @NSManaged public var iconData: String
     @NSManaged public var images: NSSet
     @NSManaged public var location: Coordinates
     @NSManaged public var reviews: NSSet

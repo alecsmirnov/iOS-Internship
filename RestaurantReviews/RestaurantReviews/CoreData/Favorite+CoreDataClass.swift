@@ -1,5 +1,5 @@
 //
-//  Review+CoreDataClass.swift
+//  Favorite+CoreDataClass.swift
 //  RestaurantReviews
 //
 //  Created by Admin on 17.08.2020.
@@ -11,6 +11,6 @@ import Foundation
 import CoreData
 
 
-public class Review: NSManagedObject {
+public class Favorite: NSManagedObject {
 
 }

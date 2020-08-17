@@ -1,5 +1,5 @@
 //
-//  Review+CoreDataClass.swift
+//  RestaurantImages+CoreDataClass.swift
 //  RestaurantReviews
 //
 //  Created by Admin on 17.08.2020.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-
-public class Review: NSManagedObject {
+@objc(RestaurantImages)
+public class RestaurantImages: NSManagedObject {
 
 }

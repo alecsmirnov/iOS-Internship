@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 private enum URLStrings {
     static let restaurants = "https://restaurants-f64d7.firebaseio.com/restaurants.json"
@@ -34,16 +35,16 @@ class RestaurantsModel {
         return restaurants.get(at: index)
     }
     
-    func save(restaurantInfo: RestaurantInfo) {
-        restaurants.save(restaurantInfo: restaurantInfo)
+    func append(restaurantInfo: RestaurantInfo) {
+        restaurants.append(restaurantInfo)
     }
     
     func load(filterText: String = "") {
         restaurants.load(filterText: filterText)
     }
     
-    func clear() {
-        restaurants.clear()
+    func removeAll() {
+        restaurants.removeAll()
     }
     
     func setUpdateTime(second: TimeInterval, minute: TimeInterval, hour: TimeInterval, day: TimeInterval) {
@@ -51,40 +52,33 @@ class RestaurantsModel {
     }
     
     func download() {
-        // What a mess
-        if restaurants.isEmpty {
-            getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
-                self.restaurants.clear()
+        getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
+            var restaurants: [RestaurantInfo] = []
+            
+            for elem in jsonData {
+                let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(elem.location.lat),
+                                                      longitude: CLLocationDegrees(elem.location.lon))
+
+                let restaurantInfo = RestaurantInfo(id: elem.id,
+                                                    name: elem.name,
+                                                    description: elem.description,
+                                                    address: elem.address,
+                                                    location: location,
+                                                    imagesData: [],
+                                                    rating: elem.rating)
                 
-                for elem in jsonData {
-                    let locationInfo = LocationInfo(lat: elem.location.lat, lon: elem.location.lon)
-
-                    let restaurantInfo = RestaurantInfo(id: elem.id,
-                                                        name: elem.name,
-                                                        description: elem.description,
-                                                        address: elem.address,
-                                                        location: locationInfo,
-                                                        iconData: "",
-                                                        imagesData: [],
-                                                        rating: elem.rating)
-
-                    self.save(restaurantInfo: restaurantInfo)
-                    
-                    if let iconPath = elem.imagePaths.first {
-                        getImageFrom(url: iconPath) { [unowned self] (data) in
-                            self.restaurants.setIconData(data.base64EncodedString(), toRestaurant: restaurantInfo.id)
-                        }
-                    }
-                    
-                    // "Mutating a managed object after it has been removed from its context" on get() after clear()
-                    for path in elem.imagePaths.dropFirst() {
-                        getImageFrom(url: path) { [unowned self] (data) in
-                            self.restaurants.addImageData(data.base64EncodedString(), toRestaurant: restaurantInfo.id)
-                        }
+                restaurants.append(restaurantInfo)
+            }
+            
+            self.restaurants.removeAll()
+            self.restaurants.replace(restaurants)
+            
+            for elem in jsonData {
+                for path in elem.imagePaths {
+                    getImageFrom(url: path) { [unowned self] (data) in
+                        self.restaurants.addImageData(data.base64EncodedString(), toRestaurant: elem.id)
                     }
                 }
-                
-                self.restaurants.load()
             }
         }
     }

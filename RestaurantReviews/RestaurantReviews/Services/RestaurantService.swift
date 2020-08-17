@@ -8,25 +8,14 @@
 
 import UIKit
 import CoreData
-
-private enum Entities {
-    static let restaurant  = "Restaurant"
-    static let coordinates = "Coordinates"
-    static let image       = "Image"
-}
-
-struct LocationInfo {
-    var lat: Float
-    var lon: Float
-}
+import CoreLocation
 
 struct RestaurantInfo {
     var id: Int
     var name: String
     var description: String
     var address: String
-    var location: LocationInfo
-    var iconData: String  // Temp
+    var location: CLLocationCoordinate2D
     var imagesData: [String]
     var rating: Float
 }
@@ -42,17 +31,16 @@ class RestaurantsService {
     
     private var restaurants: [Restaurant] = []
     
-    func append(restaurant: Restaurant) {
-        restaurants.append(restaurant)
-    }
-    
     func get(at index: Int) -> RestaurantInfo {
         guard restaurants.indices.contains(index) else {
             fatalError("Index is out of range")
         }
         
         let restaurant = restaurants[index]
-        let locationInfo = LocationInfo(lat: restaurant.location.lat, lon: restaurant.location.lon)
+        
+        let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(restaurant.location.lat),
+                                              longitude: CLLocationDegrees(restaurant.location.lon))
+        
         let imagesData = restaurant.images.map { (image) -> String in
             guard let image = image as? Image else {
                 fatalError("Image is empty")
@@ -65,15 +53,13 @@ class RestaurantsService {
                                             name: restaurant.name,
                                             description: restaurant.descriptions,
                                             address: restaurant.address,
-                                            location: locationInfo,
-                                            iconData: restaurant.iconData, // Temp
+                                            location: location,
                                             imagesData: imagesData,
                                             rating: restaurant.rating)
         return restaurantInfo
     }
     
-    func save(restaurantInfo: RestaurantInfo) {
-        // Why is it the main thread?
+    func append(_ restaurantInfo: RestaurantInfo) {
         DispatchQueue.main.async { [unowned self] in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -95,8 +81,8 @@ class RestaurantsService {
             
             let coordinates = Coordinates(entity: coordinatesEntity, insertInto: managedContext)
             
-            coordinates.lat = restaurantInfo.location.lat
-            coordinates.lon = restaurantInfo.location.lon
+            coordinates.lat = Float(restaurantInfo.location.latitude)
+            coordinates.lon = Float(restaurantInfo.location.longitude)
             
             let restaurant = Restaurant(entity: restaurantEntity, insertInto: managedContext)
 
@@ -106,7 +92,6 @@ class RestaurantsService {
             restaurant.address = restaurantInfo.address
             restaurant.rating = restaurantInfo.rating
             restaurant.location = coordinates
-            restaurant.iconData = restaurantInfo.iconData  // Temp
 
             for data in restaurantInfo.imagesData {
                 let image = Image(entity: imageEntity, insertInto: managedContext)
@@ -125,61 +110,35 @@ class RestaurantsService {
         }
     }
     
-    func load(filterText: String = "") {
-        // And this main thread
-        DispatchQueue.main.async { [unowned self] in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
-
-            do {
-                self.restaurants = try managedContext.fetch(fetchRequest)
-                
-                if !filterText.isEmpty {
-                    self.restaurants = self.restaurants.filter({ (restaurant) -> Bool in
-                        let name = restaurant.name
-                        let description = restaurant.description
-                        
-                        return name.contains(filterText) || description.contains(filterText)
-                    })
-                }
-            } catch let error as NSError {
-                fatalError("Could not fetch. \(error), \(error.userInfo)")
-            }
+    func replace(_ restaurants: [RestaurantInfo]) {
+        removeAll()
+        
+        for restaurantInfo in restaurants {
+            append(restaurantInfo)
         }
     }
     
-    func setIconData(_ iconData: String, toRestaurant id: Int) {
-        DispatchQueue.main.async { [unowned self] in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
+    func load(filterText: String = "") {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
 
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
+
+        do {
+            self.restaurants = try managedContext.fetch(fetchRequest)
             
-            do {
-                if let firstIndex = self.restaurants.firstIndex(where: { (restaurant) -> Bool in
-                    return restaurant.id == id
-                }) {
-                    self.restaurants[firstIndex].iconData = iconData
+            if !filterText.isEmpty {
+                self.restaurants = self.restaurants.filter({ (restaurant) -> Bool in
+                    let name = restaurant.name
+                    let description = restaurant.description
                     
-                    let entities = try managedContext.fetch(fetchRequest)
-                    if let firstIndex = entities.firstIndex(where: { (restaurant) -> Bool in
-                        return restaurant.id == id
-                    }) {
-                        entities[firstIndex].iconData = iconData
-                    }
-                    
-                    try managedContext.save()
-                }
+                    return name.contains(filterText) || description.contains(filterText)
+                })
             }
-            catch let error as NSError {
-                fatalError("Could not fetch. \(error), \(error.userInfo)")
-            }
+        } catch let error as NSError {
+            fatalError("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     
@@ -221,7 +180,7 @@ class RestaurantsService {
         }
     }
     
-    func clear() {
+    func removeAll() {
         clearEntities(name: Entities.restaurant)
         clearEntities(name: Entities.coordinates)
         clearEntities(name: Entities.image)

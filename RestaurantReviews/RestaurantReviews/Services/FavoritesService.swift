@@ -1,5 +1,5 @@
 //
-//  FavoriteRestaurantService.swift
+//  FavoritesService.swift
 //  RestaurantReviews
 //
 //  Created by Admin on 11.08.2020.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class FavoriteRestaurantService {
+class FavoritesService {
     var isEmpty: Bool {
         return favorites.isEmpty
     }
@@ -20,29 +20,27 @@ class FavoriteRestaurantService {
     
     private var favorites: [Favorite] = []
     
-    func append(_ id: Int) {
-        DispatchQueue.main.async { [unowned self] in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            
-            let managedContext = appDelegate.persistentContainer.viewContext
-            
-            guard let favoriteRestaurantEntity = NSEntityDescription.entity(forEntityName: Entities.favorite, in: managedContext) else {
-                fatalError("Incorrect entity name: \(Entities.favorite)")
-            }
-            
-            let favoriteRestaurant = Favorite(entity: favoriteRestaurantEntity, insertInto: managedContext)
-            
-            favoriteRestaurant.restaurantId = Int32(id)
-            
-            do {
-                try managedContext.save()
+    func append(id: Int) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        guard let favoriteEntity = NSEntityDescription.entity(forEntityName: Entities.favorite, in: managedContext) else {
+            fatalError("Incorrect entity name: \(Entities.favorite)")
+        }
+        
+        let favorite = Favorite(entity: favoriteEntity, insertInto: managedContext)
+        
+        favorite.restaurantId = Int32(id)
+        
+        do {
+            try managedContext.save()
 
-                self.favorites.append(favoriteRestaurant)
-            } catch let error as NSError {
-                fatalError("Could not save. \(error), \(error.userInfo)")
-            }
+            favorites.append(favorite)
+        } catch let error as NSError {
+            fatalError("Could not save. \(error), \(error.userInfo)")
         }
     }
     
@@ -55,15 +53,15 @@ class FavoriteRestaurantService {
         let fetchRequest: NSFetchRequest<Favorite> = Favorite.fetchRequest()
 
         do {
-            self.favorites = try managedContext.fetch(fetchRequest)
+            favorites = try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             fatalError("Could not fetch. \(error), \(error.userInfo)")
         }
     }
     
     func remove(id: Int) {
-        if let index = favorites.firstIndex(where: { (favoriteRestaurant) -> Bool in
-            favoriteRestaurant.restaurantId == id
+        if let index = favorites.firstIndex(where: { (favorite) -> Bool in
+            favorite.restaurantId == id
         }) {
             favorites.remove(at: index)
             
@@ -78,8 +76,8 @@ class FavoriteRestaurantService {
                 do {
                     let entities = try managedContext.fetch(fetchRequest) as! [Favorite]
 
-                    if let index = entities.firstIndex(where: { (favoriteRestaurant) -> Bool in
-                        favoriteRestaurant.restaurantId == id
+                    if let index = entities.firstIndex(where: { (favorite) -> Bool in
+                        favorite.restaurantId == id
                     }) {
                         let object = entities[index] as NSManagedObject
                         
@@ -99,8 +97,8 @@ class FavoriteRestaurantService {
     }
     
     func contains(id: Int) -> Bool {
-        return favorites.contains { (favoriteRestaurant) -> Bool in
-            favoriteRestaurant.restaurantId == id
+        return favorites.contains { (favorite) -> Bool in
+            favorite.restaurantId == id
         }
     }
     

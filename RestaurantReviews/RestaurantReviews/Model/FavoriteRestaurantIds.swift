@@ -25,7 +25,7 @@ class FavoriteRestaurantIds {
     
     func append(id: Int) {
         if !favorites.contains(id: id) {
-            favorites.save(id: id)
+            favorites.append(id)
         }
     }
     
@@ -45,7 +45,7 @@ class FavoriteRestaurantIds {
         favorites.load()
     }
     
-    func clear() {
-        favorites.clear()
+    func removeAll() {
+        favorites.removeAll()
     }
 }
