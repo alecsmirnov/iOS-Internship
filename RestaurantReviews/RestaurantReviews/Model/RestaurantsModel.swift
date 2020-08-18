@@ -23,19 +23,21 @@ class RestaurantsModel {
         return restaurants.count
     }
     
-    private var timeCheck: TimeCheck
+    weak var delegate: RestaurantsModelDelegate?
+    
     private var restaurants: RestaurantsService
+    private var timeCheck: TimeCheck
     
     init() {
         restaurants = RestaurantsService()
         timeCheck = TimeCheck()
     }
     
-    func get(at index: Int) -> RestaurantInfo {
+    func get(at index: Int) -> RestaurantData {
         return restaurants.get(at: index)
     }
     
-    func append(restaurantInfo: RestaurantInfo) {
+    func append(restaurantInfo: RestaurantData) {
         restaurants.append(restaurantInfo)
     }
     
@@ -51,33 +53,36 @@ class RestaurantsModel {
         timeCheck.set(second: second, minute: minute, hour: hour, day: day)
     }
     
-    func download() {
-        getRestaurantsFrom(url: URLStrings.restaurants) { [unowned self] (jsonData) in
-            var restaurants: [RestaurantInfo] = []
-            
-            for elem in jsonData {
-                let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(elem.location.lat),
-                                                      longitude: CLLocationDegrees(elem.location.lon))
+    func getRestaurants() {
+        if Networking.isConnectedToNetwork() {
+            Networking.getData(url: URLStrings.restaurants) { [unowned self] (data) in
+                do {
+                    let restaurantsData = try JSONDecoder().decode([Networking.Restaurant].self, from: data)
+                    var restaurants: [RestaurantData] = []
+                    
+                    for elem in restaurantsData {
+                        let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(elem.location.lat),
+                                                              longitude: CLLocationDegrees(elem.location.lon))
 
-                let restaurantInfo = RestaurantInfo(id: elem.id,
-                                                    name: elem.name,
-                                                    description: elem.description,
-                                                    address: elem.address,
-                                                    location: location,
-                                                    imagesData: [],
-                                                    rating: elem.rating)
-                
-                restaurants.append(restaurantInfo)
-            }
-            
-            self.restaurants.removeAll()
-            self.restaurants.replace(restaurants)
-            
-            for elem in jsonData {
-                for path in elem.imagePaths {
-                    getImageFrom(url: path) { [unowned self] (data) in
-                        self.restaurants.addImageData(data.base64EncodedString(), toRestaurant: elem.id)
+                        let restaurantData = RestaurantData(id: elem.id,
+                                                            name: elem.name,
+                                                            description: elem.description,
+                                                            address: elem.address,
+                                                            location: location,
+                                                            imagePaths: elem.imagePaths,
+                                                            rating: elem.rating)
+                        
+                        restaurants.append(restaurantData)
                     }
+                    
+                    self.restaurants.removeAll()
+                    self.restaurants.replace(restaurants)
+                    
+                    if let delegate = self.delegate {
+                        delegate.restaurantsModelDelegateReloadData(self)
+                    }
+                } catch {
+                    fatalError("JSON error: \(error.localizedDescription)")
                 }
             }
         }
@@ -85,14 +90,9 @@ class RestaurantsModel {
     
     func update() {
         if timeCheck.isUp() {
-            timeCheck.reset()
+            getRestaurants()
             
-            print("Update")
-            download()
+            timeCheck.reset()
         }
-    }
-    
-    private func checkNetworkServices() {
-        
     }
 }

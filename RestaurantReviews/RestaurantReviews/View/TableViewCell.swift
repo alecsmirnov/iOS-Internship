@@ -11,7 +11,10 @@ import UIKit
 class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
-            imageIconView.image = UIImage(data: cellViewModel.imageIconData)
+            //imageIconView.image = UIImage(data: cellViewModel.imageData)
+            
+            imageIconView.getImage(url: cellViewModel.imagePath)
+            
             nameLabel.text = cellViewModel.nameText
             descriptionLabel.text = cellViewModel.descriptionText
         }

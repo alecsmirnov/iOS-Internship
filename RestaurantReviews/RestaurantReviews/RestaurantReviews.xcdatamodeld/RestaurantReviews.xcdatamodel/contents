@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Coordinates" representedClassName=".Coordinates" syncable="YES">
-        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-    </entity>
     <entity name="Favorite" representedClassName=".Favorite" syncable="YES">
         <attribute name="restaurantId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="Image" representedClassName=".Image" syncable="YES">
-        <attribute name="data" optional="YES" attributeType="String"/>
+        <attribute name="path" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Location" representedClassName=".Location" syncable="YES">
+        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
     <entity name="Restaurant" representedClassName=".Restaurant" syncable="YES">
         <attribute name="address" attributeType="String"/>
-        <attribute name="descriptions" attributeType="String"/>
+        <attribute name="descriptionText" attributeType="String"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="rating" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="images" toMany="YES" deletionRule="Nullify" destinationEntity="Image"/>
-        <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="Coordinates"/>
+        <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="Location"/>
         <relationship name="reviews" toMany="YES" deletionRule="Nullify" destinationEntity="Review"/>
     </entity>
     <entity name="Review" representedClassName=".Review" syncable="YES">
@@ -27,7 +27,7 @@
         <attribute name="reviewText" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Coordinates" positionX="-18" positionY="72" width="128" height="73"/>
+        <element name="Location" positionX="-18" positionY="72" width="128" height="73"/>
         <element name="Favorite" positionX="-27" positionY="63" width="128" height="58"/>
         <element name="Image" positionX="-54" positionY="18" width="128" height="58"/>
         <element name="Restaurant" positionX="-63" positionY="-18" width="128" height="163"/>

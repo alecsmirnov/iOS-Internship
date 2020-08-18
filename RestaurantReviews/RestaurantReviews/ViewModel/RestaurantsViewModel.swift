@@ -22,6 +22,8 @@ class RestaurantsViewModel {
         return displayMode == .all ? restaurantsModel.count : favoriteRestaurantIds.count
     }
     
+    weak var delegate: RestaurantsViewModelDelegate?
+    
     var displayMode : RestaurantsDisplayMode
     
     private var notificationCenter: NotificationCenter
@@ -32,7 +34,6 @@ class RestaurantsViewModel {
     init(restaurantsModel: RestaurantsModel, favoriteRestaurantIds: FavoriteRestaurantIds, displayMode: RestaurantsDisplayMode) {
         self.restaurantsModel = restaurantsModel
         self.favoriteRestaurantIds = favoriteRestaurantIds
-        
         self.displayMode = displayMode
         
         notificationCenter = NotificationCenter()
@@ -47,7 +48,7 @@ class RestaurantsViewModel {
     }
     
     func cellViewModel(at index: Int) -> CellViewModel {
-        var restaurantInfo: RestaurantInfo!
+        var restaurantInfo: RestaurantData!
         
         switch displayMode {
         case .all:
@@ -62,7 +63,7 @@ class RestaurantsViewModel {
     }
     
     func restaurantViewModel(at index: Int) -> RestaurantViewModel {
-        var restaurantInfo: RestaurantInfo!
+        var restaurantInfo: RestaurantData!
         var favorite = true
         
         switch displayMode {
@@ -75,7 +76,7 @@ class RestaurantsViewModel {
             break
         }
         
-        return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, delegate: self, notificationCenter: notificationCenter)
+        return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, notificationCenter: notificationCenter)
     }
     
     func update() {
@@ -91,17 +92,10 @@ class RestaurantsViewModel {
     }
 }
 
-extension RestaurantsViewModel: RestaurantViewModelDelegate {
-    func restaurantViewModelDelegate(_ viewModel: AnyObject, toFavorite id: Int) {
-        let favorite = favoriteRestaurantIds.isFavorite(id: id)
-        
-        if favorite {
-            favoriteRestaurantIds.remove(id: id)
+extension RestaurantsViewModel: RestaurantsModelDelegate {   
+    func restaurantsModelDelegateReloadData(_ viewController: AnyObject) {
+        if let delegate = delegate {
+            delegate.restaurantsViewModelDelegateReloadData(viewController)
         }
-        else {
-            favoriteRestaurantIds.append(id: id)
-        }
-        
-        //notificationCenter.post(name: NSNotification.Name(""), object: nil)
     }
 }

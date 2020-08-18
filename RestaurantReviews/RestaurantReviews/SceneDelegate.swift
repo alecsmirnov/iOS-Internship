@@ -28,6 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         favoriteRestaurantIds = FavoriteRestaurantIds()
         
         restaurantsModel.load()
+        favoriteRestaurantIds.load()
+        
         restaurantsModel.setUpdateTime(second: 5, minute: 0, hour: 0, day: 0)
         
         let tabBarController = window.rootViewController as! UITabBarController
@@ -45,6 +47,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds, displayMode: .all)
         let favoritesViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds, displayMode: .favorites)
+        
+        restaurantsModel.delegate = restaurantsViewModel
         
         restaurantsViewController.restaurantsViewModel = restaurantsViewModel
         favoritesViewController.restaurantsViewModel = favoritesViewModel

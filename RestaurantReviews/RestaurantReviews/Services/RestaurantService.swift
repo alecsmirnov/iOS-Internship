@@ -10,13 +10,13 @@ import UIKit
 import CoreData
 import CoreLocation
 
-struct RestaurantInfo {
+struct RestaurantData {
     var id: Int
     var name: String
     var description: String
     var address: String
     var location: CLLocationCoordinate2D
-    var imagesData: [String]
+    var imagePaths: [String]
     var rating: Float
 }
 
@@ -37,7 +37,7 @@ class RestaurantsService {
         managedContext = appDelegate.persistentContainer.viewContext
     }
     
-    func get(at index: Int) -> RestaurantInfo {
+    func get(at index: Int) -> RestaurantData {
         guard restaurants.indices.contains(index) else {
             fatalError("Index is out of range")
         }
@@ -47,56 +47,56 @@ class RestaurantsService {
         let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(restaurant.location.lat),
                                               longitude: CLLocationDegrees(restaurant.location.lon))
         
-        let imagesData = restaurant.images.map { (image) -> String in
+        let imagePaths = restaurant.images.map { (image) -> String in
             guard let image = image as? Image else {
                 fatalError("Image is empty")
             }
             
-            return image.data
+            return image.path
         }
         
-        let restaurantInfo = RestaurantInfo(id: Int(restaurant.id),
+        let restaurantData = RestaurantData(id: Int(restaurant.id),
                                             name: restaurant.name,
-                                            description: restaurant.descriptions,
+                                            description: restaurant.descriptionText,
                                             address: restaurant.address,
                                             location: location,
-                                            imagesData: imagesData,
+                                            imagePaths: imagePaths,
                                             rating: restaurant.rating)
-        return restaurantInfo
+        return restaurantData
     }
     
-    func append(_ restaurantInfo: RestaurantInfo) {
+    func append(_ restaurantData: RestaurantData) {
         DispatchQueue.main.async { [unowned self] in
             if let managedContext = self.managedContext {
                 guard let restaurantEntity = NSEntityDescription.entity(forEntityName: Entities.restaurant, in: managedContext) else {
                     fatalError("Incorrect entity name: \(Entities.restaurant)")
                 }
                 
-                guard let coordinatesEntity = NSEntityDescription.entity(forEntityName: Entities.coordinates, in: managedContext) else {
-                    fatalError("Incorrect entity name: \(Entities.coordinates)")
+                guard let locationEntity = NSEntityDescription.entity(forEntityName: Entities.location, in: managedContext) else {
+                    fatalError("Incorrect entity name: \(Entities.location)")
                 }
                 
                 guard let imageEntity = NSEntityDescription.entity(forEntityName: Entities.image, in: managedContext) else {
                     fatalError("Incorrect entity name: \(Entities.image)")
                 }
                 
-                let coordinates = Coordinates(entity: coordinatesEntity, insertInto: managedContext)
+                let location = Location(entity: locationEntity, insertInto: managedContext)
                 
-                coordinates.lat = Float(restaurantInfo.location.latitude)
-                coordinates.lon = Float(restaurantInfo.location.longitude)
+                location.lat = Float(restaurantData.location.latitude)
+                location.lon = Float(restaurantData.location.longitude)
                 
                 let restaurant = Restaurant(entity: restaurantEntity, insertInto: managedContext)
 
-                restaurant.id = Int32(restaurantInfo.id)
-                restaurant.name = restaurantInfo.name
-                restaurant.descriptions = restaurantInfo.description
-                restaurant.address = restaurantInfo.address
-                restaurant.rating = restaurantInfo.rating
-                restaurant.location = coordinates
+                restaurant.id = Int32(restaurantData.id)
+                restaurant.name = restaurantData.name
+                restaurant.descriptionText = restaurantData.description
+                restaurant.address = restaurantData.address
+                restaurant.rating = restaurantData.rating
+                restaurant.location = location
 
-                for data in restaurantInfo.imagesData {
+                for path in restaurantData.imagePaths {
                     let image = Image(entity: imageEntity, insertInto: managedContext)
-                    image.data = data
+                    image.path = path
 
                     restaurant.addToImages(image)
                 }
@@ -112,11 +112,11 @@ class RestaurantsService {
         }
     }
     
-    func replace(_ restaurants: [RestaurantInfo]) {
+    func replace(_ restaurants: [RestaurantData]) {
         removeAll()
         
-        for restaurantInfo in restaurants {
-            append(restaurantInfo)
+        for restaurantData in restaurants {
+            append(restaurantData)
         }
     }
     
@@ -141,44 +141,9 @@ class RestaurantsService {
         }
     }
     
-    func addImageData(_ imageData: String, toRestaurant id: Int) {
-        DispatchQueue.main.async { [unowned self] in
-            if let managedContext = self.managedContext {
-                let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
-                
-                guard let imageEntity = NSEntityDescription.entity(forEntityName: Entities.image, in: managedContext) else {
-                    fatalError("Incorrect entity name: \(Entities.image)")
-                }
-                
-                let image = Image(entity: imageEntity, insertInto: managedContext)
-                image.data = imageData
-                
-                do {
-                    if let firstIndex = self.restaurants.firstIndex(where: { (restaurant) -> Bool in
-                        return restaurant.id == id
-                    }) {
-                        self.restaurants[firstIndex].addToImages(image)
-                        
-                        let entities = try managedContext.fetch(fetchRequest)
-                        if let firstIndex = entities.firstIndex(where: { (restaurant) -> Bool in
-                            return restaurant.id == id
-                        }) {
-                            entities[firstIndex].addToImages(image)
-                        }
-                        
-                        try managedContext.save()
-                    }
-                }
-                catch let error as NSError {
-                    fatalError("Could not fetch. \(error), \(error.userInfo)")
-                }
-            }
-        }
-    }
-    
     func removeAll() {
         clearEntities(name: Entities.restaurant)
-        clearEntities(name: Entities.coordinates)
+        clearEntities(name: Entities.location)
         clearEntities(name: Entities.image)
         
         restaurants.removeAll()

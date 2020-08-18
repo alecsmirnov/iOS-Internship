@@ -9,8 +9,8 @@
 import Foundation
 
 enum Entities {   
-    static let restaurant  = "Restaurant"
-    static let coordinates = "Coordinates"
-    static let image       = "Image"
-    static let favorite    = "Favorite"
+    static let restaurant = "Restaurant"
+    static let location   = "Location"
+    static let image      = "Image"
+    static let favorite   = "Favorite"
 }
