@@ -9,21 +9,17 @@
 import Foundation
 
 struct CellViewModel {
-    var imageData: Data
-    var imagePath: String
+    var mainImagePath: String?
     var nameText: String
     var descriptionText: String
     
-    init(restaurantInfo: RestaurantData) {
-        imageData = Data()
-        imagePath = ""
-        
+    init(restaurantInfo: RestaurantData) {       
         nameText = restaurantInfo.name
         descriptionText = restaurantInfo.description
         
         let imagePaths = restaurantInfo.imagePaths
         if let firstImagePath = imagePaths.first {
-            imagePath = firstImagePath
+            mainImagePath = firstImagePath
         }
     }
 }

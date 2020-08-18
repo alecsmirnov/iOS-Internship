@@ -11,6 +11,11 @@ import UIKit
 class RestaurantViewController: UIViewController {
     var restaurantViewModel: RestaurantViewModel!
     
+    @IBOutlet private var mainImageView: UIImageView!
+    @IBOutlet private var nameTextView: UITextView!
+    @IBOutlet private var descriptionTextView: UITextView!
+    @IBOutlet private var ratingLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -19,6 +24,14 @@ class RestaurantViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if let restaurantViewModel = restaurantViewModel {
+            if let imagePath = restaurantViewModel.mainImagePath {
+                mainImageView.getImage(url: imagePath)
+            }
+            
+            nameTextView.text = restaurantViewModel.name
+            descriptionTextView.text = restaurantViewModel.description
+            ratingLabel.text = restaurantViewModel.rating
+            
             changeFavoriteStatus(restaurantViewModel.favorite)
         }
     }

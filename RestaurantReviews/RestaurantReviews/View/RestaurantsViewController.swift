@@ -43,14 +43,16 @@ class RestaurantsViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if reloadType == .all {
+            tableView.reloadData()
+            
+            reloadType = .none
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
         if let restaurantsViewModel = restaurantsViewModel {
             restaurantsViewModel.update()
-            
-            if reloadType == .all {
-                tableView.reloadData()
-                
-                reloadType = .none
-            }
         }
     }
 }
@@ -144,8 +146,6 @@ extension RestaurantsViewController: UISearchBarDelegate {
 
 extension RestaurantsViewController: RestaurantsViewModelDelegate {
     func restaurantsViewModelDelegateReloadData(_ viewController: AnyObject) {
-        func tableViewModelDisplayDelegateReloadData(_ viewController: AnyObject) {
-            reloadType = ScheduleReloadType.all
-        }
+        reloadType = ScheduleReloadType.all
     }
 }

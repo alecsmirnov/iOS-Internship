@@ -7,15 +7,53 @@
 //
 
 import Foundation
+import CoreLocation
 
 class RestaurantViewModel {
-    var restaurantInfo: RestaurantData
+    var id: Int {
+        return restaurantData.id
+    }
+    
+    var name: String {
+        return restaurantData.name
+    }
+    
+    var description: String {
+        return restaurantData.description
+    }
+    
+    var address: String {
+        return restaurantData.address
+    }
+    
+    var location: CLLocationCoordinate2D {
+        return restaurantData.location
+    }
+    
+    var mainImagePath: String? {
+        if let firstImage = restaurantData.imagePaths.first {
+            return firstImage
+        }
+        
+        return nil
+    }
+    
+    var imagePaths: [String] {
+        return Array(restaurantData.imagePaths.dropFirst())
+    }
+    
+    var rating: String {
+        return String(restaurantData.rating)
+    }
+    
     var favorite: Bool
     
     var notificationCenter: NotificationCenter
     
-    init(restaurantInfo: RestaurantData, favorite: Bool, notificationCenter: NotificationCenter) {
-        self.restaurantInfo = restaurantInfo
+    private var restaurantData: RestaurantData
+    
+    init(restaurantData: RestaurantData, favorite: Bool, notificationCenter: NotificationCenter) {
+        self.restaurantData = restaurantData
         self.favorite = favorite
         
         self.notificationCenter = notificationCenter

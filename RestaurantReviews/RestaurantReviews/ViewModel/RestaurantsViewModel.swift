@@ -63,20 +63,20 @@ class RestaurantsViewModel {
     }
     
     func restaurantViewModel(at index: Int) -> RestaurantViewModel {
-        var restaurantInfo: RestaurantData!
+        var restaurantData: RestaurantData!
         var favorite = true
         
         switch displayMode {
         case .all:
-            restaurantInfo = restaurantsModel.get(at: index)
-            favorite = favoriteIds.isFavorite(id: restaurantInfo.id)
+            restaurantData = restaurantsModel.get(at: index)
+            favorite = favoriteIds.isFavorite(id: restaurantData.id)
             break
         case .favorites:
-            restaurantInfo = restaurantsModel.get(at: favoriteIds.get(at: index))
+            restaurantData = restaurantsModel.get(at: favoriteIds.get(at: index))
             break
         }
         
-        return RestaurantViewModel(restaurantInfo: restaurantInfo, favorite: favorite, notificationCenter: notificationCenter)
+        return RestaurantViewModel(restaurantData: restaurantData, favorite: favorite, notificationCenter: notificationCenter)
     }
     
     func update() {

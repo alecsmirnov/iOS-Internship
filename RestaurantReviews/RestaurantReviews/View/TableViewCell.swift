@@ -11,16 +11,16 @@ import UIKit
 class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
-            //imageIconView.image = UIImage(data: cellViewModel.imageData)
-            
-            imageIconView.getImage(url: cellViewModel.imagePath)
-            
+            if let mainImagePath = cellViewModel.mainImagePath {
+                mainImageView.getImage(url: mainImagePath)
+            }
+
             nameLabel.text = cellViewModel.nameText
             descriptionLabel.text = cellViewModel.descriptionText
         }
     }
     
-    @IBOutlet var imageIconView: UIImageView!
+    @IBOutlet var mainImageView: UIImageView!
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var descriptionLabel: UILabel!
 
