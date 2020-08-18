@@ -11,8 +11,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
-    private var restaurantsModel: RestaurantsModel!
-    private var favoriteRestaurantIds: FavoriteRestaurantIds!
+    private var restaurantsModel = RestaurantsModel()
+    private var favoriteIds = FavoriteIds()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -24,11 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Cannot attach window to the scene")
         }
         
-        restaurantsModel = RestaurantsModel()
-        favoriteRestaurantIds = FavoriteRestaurantIds()
-        
         restaurantsModel.load()
-        favoriteRestaurantIds.load()
+        favoriteIds.load()
         
         restaurantsModel.setUpdateTime(second: 5, minute: 0, hour: 0, day: 0)
         
@@ -45,8 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let favoritesViewController = tabBarController.viewControllers![2] as! RestaurantsViewController
         let favoritesViewController = favoritesNavigationController.viewControllers[0] as! RestaurantsViewController
         
-        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds, displayMode: .all)
-        let favoritesViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteRestaurantIds: favoriteRestaurantIds, displayMode: .favorites)
+        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds, displayMode: .all)
+        let favoritesViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds, displayMode: .favorites)
         
         restaurantsModel.delegate = restaurantsViewModel
         

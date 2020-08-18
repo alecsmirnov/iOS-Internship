@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FavoriteRestaurantIds {
+class FavoriteIds {
     var isEmpty: Bool {
         return favorites.isEmpty
     }
@@ -17,11 +17,7 @@ class FavoriteRestaurantIds {
         return favorites.count
     }
     
-    private var favorites: FavoriteRestaurantService
-    
-    init() {
-        favorites = FavoriteRestaurantService()
-    }
+    private var favorites = FavoritesService()
     
     func append(id: Int) {
         if !favorites.contains(id: id) {

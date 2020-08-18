@@ -10,16 +10,13 @@
 import Foundation
 import CoreData
 
-
 extension Review {
-
+    @NSManaged public var restaurantId: Int32
+    @NSManaged public var author: String
+    @NSManaged public var date: String
+    @NSManaged public var reviewText: String
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Review> {
         return NSFetchRequest<Review>(entityName: "Review")
     }
-
-    @NSManaged public var author: String
-    @NSManaged public var date: String
-    @NSManaged public var restaurantId: Int32
-    @NSManaged public var reviewText: String
-
 }

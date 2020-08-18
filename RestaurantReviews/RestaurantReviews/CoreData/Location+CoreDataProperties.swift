@@ -10,14 +10,11 @@
 import Foundation
 import CoreData
 
-
 extension Location {
-
+    @NSManaged public var lat: Float
+    @NSManaged public var lon: Float
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Location> {
         return NSFetchRequest<Location>(entityName: "Location")
     }
-
-    @NSManaged public var lat: Float
-    @NSManaged public var lon: Float
-
 }

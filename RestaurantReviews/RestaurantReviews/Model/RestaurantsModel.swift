@@ -25,13 +25,8 @@ class RestaurantsModel {
     
     weak var delegate: RestaurantsModelDelegate?
     
-    private var restaurants: RestaurantsService
-    private var timeCheck: TimeCheck
-    
-    init() {
-        restaurants = RestaurantsService()
-        timeCheck = TimeCheck()
-    }
+    private var restaurants = RestaurantsService()
+    private var timeCheck = TimeCheck()
     
     func get(at index: Int) -> RestaurantData {
         return restaurants.get(at: index)

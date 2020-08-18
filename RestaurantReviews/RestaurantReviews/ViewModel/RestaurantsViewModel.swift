@@ -15,11 +15,11 @@ enum RestaurantsDisplayMode {
 
 class RestaurantsViewModel {
     var isEmpty: Bool {
-        return displayMode == .all ? restaurantsModel.isEmpty : favoriteRestaurantIds.isEmpty
+        return displayMode == .all ? restaurantsModel.isEmpty : favoriteIds.isEmpty
     }
     
     var rowsCount: Int {
-        return displayMode == .all ? restaurantsModel.count : favoriteRestaurantIds.count
+        return displayMode == .all ? restaurantsModel.count : favoriteIds.count
     }
     
     weak var delegate: RestaurantsViewModelDelegate?
@@ -29,11 +29,11 @@ class RestaurantsViewModel {
     private var notificationCenter: NotificationCenter
     
     private var restaurantsModel: RestaurantsModel
-    private var favoriteRestaurantIds: FavoriteRestaurantIds
+    private var favoriteIds: FavoriteIds
     
-    init(restaurantsModel: RestaurantsModel, favoriteRestaurantIds: FavoriteRestaurantIds, displayMode: RestaurantsDisplayMode) {
+    init(restaurantsModel: RestaurantsModel, favoriteIds: FavoriteIds, displayMode: RestaurantsDisplayMode) {
         self.restaurantsModel = restaurantsModel
-        self.favoriteRestaurantIds = favoriteRestaurantIds
+        self.favoriteIds = favoriteIds
         self.displayMode = displayMode
         
         notificationCenter = NotificationCenter()
@@ -55,7 +55,7 @@ class RestaurantsViewModel {
             restaurantInfo = restaurantsModel.get(at: index)
             break
         case .favorites:
-            restaurantInfo = restaurantsModel.get(at: favoriteRestaurantIds.get(at: index))
+            restaurantInfo = restaurantsModel.get(at: favoriteIds.get(at: index))
             break
         }
         
@@ -69,10 +69,10 @@ class RestaurantsViewModel {
         switch displayMode {
         case .all:
             restaurantInfo = restaurantsModel.get(at: index)
-            favorite = favoriteRestaurantIds.isFavorite(id: restaurantInfo.id)
+            favorite = favoriteIds.isFavorite(id: restaurantInfo.id)
             break
         case .favorites:
-            restaurantInfo = restaurantsModel.get(at: favoriteRestaurantIds.get(at: index))
+            restaurantInfo = restaurantsModel.get(at: favoriteIds.get(at: index))
             break
         }
         
@@ -84,11 +84,11 @@ class RestaurantsViewModel {
     }
     
     func removeAll() {
-        favoriteRestaurantIds.removeAll()
+        favoriteIds.removeAll()
     }
     
     func userRemoveRestaurantFromFavorites(at index: Int) {
-        favoriteRestaurantIds.remove(id: favoriteRestaurantIds.get(at: index))
+        favoriteIds.remove(id: favoriteIds.get(at: index))
     }
 }
 

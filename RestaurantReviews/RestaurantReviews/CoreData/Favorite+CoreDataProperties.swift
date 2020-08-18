@@ -10,13 +10,10 @@
 import Foundation
 import CoreData
 
-
 extension Favorite {
-
+    @NSManaged public var restaurantId: Int32
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Favorite> {
         return NSFetchRequest<Favorite>(entityName: "Favorite")
     }
-
-    @NSManaged public var restaurantId: Int32
-
 }

@@ -12,17 +12,21 @@ private let imageCache = NSCache<NSString, AnyObject>()
 
 extension UIImageView {
     func getImage(url string: String) {
+        image = nil
+        
         if let imageFromCache = imageCache.object(forKey: string as NSString) {
             image = imageFromCache as? UIImage
         }
         else {
-            Networking.getData(url: string) { [unowned self] (data) in
-                guard let imageToCache = UIImage(data: data) else { return }
-                
-                imageCache.setObject(imageToCache, forKey: string as NSString)
-                
-                DispatchQueue.main.async() {
-                    self.image = UIImage(data: data)
+            if Networking.isConnectedToNetwork() {
+                Networking.getData(url: string) { [unowned self] (data) in
+                    guard let imageToCache = UIImage(data: data) else { return }
+                    
+                    imageCache.setObject(imageToCache, forKey: string as NSString)
+                    
+                    DispatchQueue.main.async() {
+                        self.image = UIImage(data: data)
+                    }
                 }
             }
         }
