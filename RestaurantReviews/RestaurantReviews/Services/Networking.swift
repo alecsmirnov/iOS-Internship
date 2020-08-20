@@ -10,8 +10,8 @@ import Foundation
 import SystemConfiguration
 
 enum Networking {
-    static func getData(url string: String, completionHandler: @escaping (Data) -> ()) {
-        guard let url = URL(string: string) else { return }
+    static func getData(url string: String, completionHandler: @escaping (Data) -> ()) -> URLSessionTask? {
+        guard let url = URL(string: string) else { return nil }
         
         let session = URLSession.shared
         
@@ -24,6 +24,8 @@ enum Networking {
         }
 
         sessionTask.resume()
+        
+        return sessionTask
     }
     
     static func isConnectedToNetwork() -> Bool {

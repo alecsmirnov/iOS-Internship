@@ -45,8 +45,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds, displayMode: .all)
         let favoritesViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds, displayMode: .favorites)
         
-        restaurantsModel.delegate = restaurantsViewModel
-        
         restaurantsViewController.restaurantsViewModel = restaurantsViewModel
         favoritesViewController.restaurantsViewModel = favoritesViewModel
     }

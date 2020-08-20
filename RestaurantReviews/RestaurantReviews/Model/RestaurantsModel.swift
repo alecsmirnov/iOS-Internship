@@ -48,9 +48,9 @@ class RestaurantsModel {
         timeCheck.set(second: second, minute: minute, hour: hour, day: day)
     }
     
-    func getRestaurants() {
+    func getRestaurants(completionHandler: @escaping () -> ()) {
         if Networking.isConnectedToNetwork() {
-            Networking.getData(url: URLStrings.restaurants) { [unowned self] (data) in
+            _ = Networking.getData(url: URLStrings.restaurants) { [unowned self] (data) in
                 do {
                     let restaurantsData = try JSONDecoder().decode([Networking.Restaurant].self, from: data)
                     var restaurants: [RestaurantData] = []
@@ -73,9 +73,7 @@ class RestaurantsModel {
                     self.restaurants.removeAll()
                     self.restaurants.replace(restaurants)
                     
-                    if let delegate = self.delegate {
-                        delegate.restaurantsModelDelegateReloadData(self)
-                    }
+                    completionHandler()
                 } catch {
                     fatalError("JSON error: \(error.localizedDescription)")
                 }
@@ -83,9 +81,9 @@ class RestaurantsModel {
         }
     }
     
-    func update() {
+    func update(completionHandler: @escaping () -> ()) {
         if timeCheck.isUp() {
-            getRestaurants()
+            getRestaurants(completionHandler: completionHandler)
             
             timeCheck.reset()
         }

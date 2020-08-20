@@ -22,11 +22,7 @@ class RestaurantsViewModel {
         return displayMode == .all ? restaurantsModel.count : favoriteIds.count
     }
     
-    weak var delegate: RestaurantsViewModelDelegate?
-    
     var displayMode : RestaurantsDisplayMode
-    
-    private var notificationCenter: NotificationCenter
     
     private var restaurantsModel: RestaurantsModel
     private var favoriteIds: FavoriteIds
@@ -35,8 +31,6 @@ class RestaurantsViewModel {
         self.restaurantsModel = restaurantsModel
         self.favoriteIds = favoriteIds
         self.displayMode = displayMode
-        
-        notificationCenter = NotificationCenter()
     }
     
     func setFilter(text: String) {
@@ -76,11 +70,11 @@ class RestaurantsViewModel {
             break
         }
         
-        return RestaurantViewModel(restaurantData: restaurantData, favorite: favorite, notificationCenter: notificationCenter)
+        return RestaurantViewModel(restaurantData: restaurantData, favorite: favorite, delegate: self)
     }
     
-    func update() {
-        restaurantsModel.update()
+    func update(completionHandler: @escaping () -> ()) {
+        restaurantsModel.update(completionHandler: completionHandler)
     }
     
     func removeAll() {
@@ -92,10 +86,15 @@ class RestaurantsViewModel {
     }
 }
 
-extension RestaurantsViewModel: RestaurantsModelDelegate {   
-    func restaurantsModelDelegateReloadData(_ viewController: AnyObject) {
-        if let delegate = delegate {
-            delegate.restaurantsViewModelDelegateReloadData(viewController)
+extension RestaurantsViewModel: RestaurantViewModelDelegate {
+    func restaurantViewModelDelegate(_ viewController: AnyObject, changeFavoriteStatus restaurantId: Int) {
+        let favorite = favoriteIds.isFavorite(id: restaurantId)
+        
+        if favorite {
+            favoriteIds.remove(id: restaurantId)
+        }
+        else {
+            favoriteIds.append(id: restaurantId)
         }
     }
 }

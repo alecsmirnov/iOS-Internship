@@ -46,25 +46,41 @@ class RestaurantViewModel {
         return String(restaurantData.rating)
     }
     
-    var favorite: Bool
-    
-    var notificationCenter: NotificationCenter
+    private(set) var favorite: Bool
     
     private var restaurantData: RestaurantData
     
-    init(restaurantData: RestaurantData, favorite: Bool, notificationCenter: NotificationCenter) {
+    private weak var delegate: RestaurantViewModelDelegate?
+    
+    private let notificationCenter = NotificationCenter.default
+    
+    init(restaurantData: RestaurantData, favorite: Bool, delegate: RestaurantViewModelDelegate) {
         self.restaurantData = restaurantData
         self.favorite = favorite
-        
-        self.notificationCenter = notificationCenter
-        //notificationCenter.addObserver(self, selector: #selector(onReceiveMessage(_:)), name: NSNotification.Name(""), object: nil)
+        self.delegate = delegate
     }
     
-    func userChangeFavoriteStatus() {                
+    func switchFavoriteStatus() {
         favorite = !favorite
     }
     
-//    @objc private func onReceiveMessage(_ notification: Notification) {
-//        favorite = !favorite
-//    }
+    func userChangeFavoriteStatus() {
+        switchFavoriteStatus()
+        
+        if let delegate = delegate {
+            delegate.restaurantViewModelDelegate(self, changeFavoriteStatus: id)
+        }
+    }
+    
+    func addObserver(_ observer: Any, selector: Selector, name: NSNotification.Name?) {
+        notificationCenter.addObserver(observer, selector: selector, name: name, object: nil)
+    }
+    
+    func removeObserver(_ observer: Any) {
+        notificationCenter.removeObserver(observer)
+    }
+    
+    func post(name: NSNotification.Name) {
+        notificationCenter.post(name: name, object: nil)
+    }
 }

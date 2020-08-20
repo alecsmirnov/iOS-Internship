@@ -13,15 +13,8 @@ private enum StoryboardIds {
     static let restaurantViewController = "RestaurantViewController"
 }
 
-private enum ScheduleReloadType: Equatable {
-    case none
-    case all
-}
-
 class RestaurantsViewController: UIViewController {
     var restaurantsViewModel: RestaurantsViewModel!
-    
-    private var reloadType = ScheduleReloadType.none
     
     @IBOutlet private var empyTableLabel: UILabel!
     @IBOutlet private var searchBar: UISearchBar!
@@ -36,23 +29,15 @@ class RestaurantsViewController: UIViewController {
         tableView.delegate = self
         
         tableView.tableFooterView = UIView()
-        
-        if let restaurantsViewModel = restaurantsViewModel {
-            restaurantsViewModel.delegate = self
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if reloadType == .all {
-            tableView.reloadData()
-            
-            reloadType = .none
-        }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
         if let restaurantsViewModel = restaurantsViewModel {
-            restaurantsViewModel.update()
+            restaurantsViewModel.update() { [unowned self] in
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
         }
     }
 }
@@ -141,11 +126,5 @@ extension RestaurantsViewController: UISearchBarDelegate {
             
             tableView.reloadData()
         }
-    }
-}
-
-extension RestaurantsViewController: RestaurantsViewModelDelegate {
-    func restaurantsViewModelDelegateReloadData(_ viewController: AnyObject) {
-        reloadType = ScheduleReloadType.all
     }
 }

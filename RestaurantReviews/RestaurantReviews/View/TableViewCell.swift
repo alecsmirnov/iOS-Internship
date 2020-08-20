@@ -12,7 +12,7 @@ class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
             if let mainImagePath = cellViewModel.mainImagePath {
-                mainImageView.getImage(url: mainImagePath)
+                mainImageView.loadImage(url: mainImagePath)
             }
 
             nameLabel.text = cellViewModel.nameText

@@ -9,9 +9,15 @@
 import UIKit
 
 private let imageCache = NSCache<NSString, AnyObject>()
+private var sessionTasks: [ObjectIdentifier: URLSessionTask] = [:]
 
 extension UIImageView {
-    func getImage(url string: String) {
+    private var sessionTask: URLSessionTask? {
+        get { return sessionTasks[ObjectIdentifier(self)] }
+        set { sessionTasks[ObjectIdentifier(self)] = newValue }
+    }
+    
+    func loadImage(url string: String) {
         image = nil
         
         if let imageFromCache = imageCache.object(forKey: string as NSString) {
@@ -19,7 +25,7 @@ extension UIImageView {
         }
         else {
             if Networking.isConnectedToNetwork() {
-                Networking.getData(url: string) { [unowned self] (data) in
+                sessionTask = Networking.getData(url: string) { [unowned self] (data) in
                     guard let imageToCache = UIImage(data: data) else { return }
                     
                     imageCache.setObject(imageToCache, forKey: string as NSString)
@@ -29,6 +35,12 @@ extension UIImageView {
                     }
                 }
             }
+        }
+    }
+    
+    func stopLoading() {
+        if let sessionTask = sessionTask {
+            sessionTask.cancel()
         }
     }
 }
