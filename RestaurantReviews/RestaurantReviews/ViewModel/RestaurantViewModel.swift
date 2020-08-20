@@ -50,9 +50,9 @@ class RestaurantViewModel {
     
     private var restaurantData: RestaurantData
     
-    private weak var delegate: RestaurantViewModelDelegate?
-    
     private let notificationCenter = NotificationCenter.default
+    
+    private weak var delegate: RestaurantViewModelDelegate?
     
     init(restaurantData: RestaurantData, favorite: Bool, delegate: RestaurantViewModelDelegate) {
         self.restaurantData = restaurantData

@@ -13,11 +13,11 @@ struct CellViewModel {
     var nameText: String
     var descriptionText: String
     
-    init(restaurantInfo: RestaurantData) {       
-        nameText = restaurantInfo.name
-        descriptionText = restaurantInfo.description
+    init(restaurantData: RestaurantData) {       
+        nameText = restaurantData.name
+        descriptionText = restaurantData.description
         
-        let imagePaths = restaurantInfo.imagePaths
+        let imagePaths = restaurantData.imagePaths
         if let firstImagePath = imagePaths.first {
             mainImagePath = firstImagePath
         }

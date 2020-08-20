@@ -23,14 +23,17 @@ class RestaurantsModel {
         return restaurants.count
     }
     
-    weak var delegate: RestaurantsModelDelegate?
-    
     private var restaurants = RestaurantsService()
     private var timeCheck = TimeCheck()
     
     func get(at index: Int) -> RestaurantData {
         return restaurants.get(at: index)
     }
+    
+    func search(by restaurantId: Int) -> RestaurantData? {
+        return restaurants.search(by: restaurantId)
+    }
+    
     
     func append(restaurantInfo: RestaurantData) {
         restaurants.append(restaurantInfo)

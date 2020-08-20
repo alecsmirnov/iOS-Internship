@@ -41,28 +41,24 @@ class RestaurantsService {
         guard restaurants.indices.contains(index) else {
             fatalError("Index is out of range")
         }
-        
-        let restaurant = restaurants[index]
-        
-        let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(restaurant.location.lat),
-                                              longitude: CLLocationDegrees(restaurant.location.lon))
-        
-        let imagePaths = restaurant.images.map { (image) -> String in
-            guard let image = image as? Image else {
-                fatalError("Image is empty")
-            }
-            
-            return image.path
+
+        return restaurantToRestaurantData(restaurant: restaurants[index])
+    }
+    
+    func search(by restaurantId: Int) -> RestaurantData? {
+        if let firstIndex = restaurants.firstIndex(where: { (restaurant) -> Bool in
+            return restaurantId == Int(restaurant.id)
+        }) {
+            return restaurantToRestaurantData(restaurant: restaurants[firstIndex])
         }
         
-        let restaurantData = RestaurantData(id: Int(restaurant.id),
-                                            name: restaurant.name,
-                                            description: restaurant.descriptionText,
-                                            address: restaurant.address,
-                                            location: location,
-                                            imagePaths: imagePaths,
-                                            rating: restaurant.rating)
-        return restaurantData
+        return nil
+    }
+    
+    func getData() -> [RestaurantData] {
+        return restaurants.map { (restaurant) -> RestaurantData in
+            return restaurantToRestaurantData(restaurant: restaurant)
+        }
     }
     
     func append(_ restaurantData: RestaurantData) {
@@ -169,6 +165,28 @@ class RestaurantsService {
                 }
             }
         }
+    }
+    
+    private func restaurantToRestaurantData(restaurant: Restaurant) -> RestaurantData {
+        let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(restaurant.location.lat),
+                                              longitude: CLLocationDegrees(restaurant.location.lon))
+        
+        let imagePaths = restaurant.images.map { (image) -> String in
+            guard let image = image as? Image else {
+                fatalError("Image is empty")
+            }
+            
+            return image.path
+        }
+        
+        let restaurantData = RestaurantData(id: Int(restaurant.id),
+                                            name: restaurant.name,
+                                            description: restaurant.descriptionText,
+                                            address: restaurant.address,
+                                            location: location,
+                                            imagePaths: imagePaths,
+                                            rating: restaurant.rating)
+        return restaurantData
     }
     
     deinit {

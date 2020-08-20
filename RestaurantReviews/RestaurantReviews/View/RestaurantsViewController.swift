@@ -48,7 +48,7 @@ extension RestaurantsViewController: UITableViewDataSource {
         
         if let restaurantsViewModel = restaurantsViewModel {
             if restaurantsViewModel.isEmpty {
-                if restaurantsViewModel.displayMode == .favorites {
+                if restaurantsViewModel.self is FavoriteRestaurantsViewModel {
                     empyTableLabel.text = "You do not have any favorite restaurants"
                     empyTableLabel.isHidden = false
                     
@@ -100,7 +100,7 @@ extension RestaurantsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {       
-        return restaurantsViewModel.displayMode == .all ? .none : .delete
+        return restaurantsViewModel.self is FavoriteRestaurantsViewModel ? .delete : .none
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

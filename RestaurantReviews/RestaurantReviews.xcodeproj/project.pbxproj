@@ -18,8 +18,9 @@
 		8445006F24E163E10051D413 /* RestaurantsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445006E24E163E10051D413 /* RestaurantsViewModel.swift */; };
 		8445007124E164CB0051D413 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445007024E164CB0051D413 /* TableViewCell.swift */; };
 		84466BAA24E6E6BB00019780 /* TimeCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84466BA924E6E6BB00019780 /* TimeCheck.swift */; };
+		8446934D24EE9040006BBCBE /* AllRestaurantsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446934C24EE9040006BBCBE /* AllRestaurantsViewModel.swift */; };
+		8446934F24EE9056006BBCBE /* FavoriteRestaurantsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446934E24EE9056006BBCBE /* FavoriteRestaurantsViewModel.swift */; };
 		8446C8F624E3D1D300B3307E /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446C8F524E3D1D300B3307E /* MapViewModel.swift */; };
-		8446CD9424EBAD9D0065B841 /* RestaurantModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446CD9324EBAD9D0065B841 /* RestaurantModelDelegate.swift */; };
 		8446CD9F24EBC0F10065B841 /* Image+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446CD9524EBC0F10065B841 /* Image+CoreDataClass.swift */; };
 		8446CDA024EBC0F10065B841 /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446CD9624EBC0F10065B841 /* Image+CoreDataProperties.swift */; };
 		8446CDA124EBC0F10065B841 /* Favorite+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446CD9724EBC0F10065B841 /* Favorite+CoreDataClass.swift */; };
@@ -57,8 +58,9 @@
 		8445006E24E163E10051D413 /* RestaurantsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantsViewModel.swift; sourceTree = "<group>"; };
 		8445007024E164CB0051D413 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		84466BA924E6E6BB00019780 /* TimeCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCheck.swift; sourceTree = "<group>"; };
+		8446934C24EE9040006BBCBE /* AllRestaurantsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRestaurantsViewModel.swift; sourceTree = "<group>"; };
+		8446934E24EE9056006BBCBE /* FavoriteRestaurantsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRestaurantsViewModel.swift; sourceTree = "<group>"; };
 		8446C8F524E3D1D300B3307E /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		8446CD9324EBAD9D0065B841 /* RestaurantModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantModelDelegate.swift; sourceTree = "<group>"; };
 		8446CD9524EBC0F10065B841 /* Image+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8446CD9624EBC0F10065B841 /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8446CD9724EBC0F10065B841 /* Favorite+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favorite+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -121,7 +123,6 @@
 				8445002A24E1491E0051D413 /* AppDelegate.swift */,
 				8445002C24E1491E0051D413 /* SceneDelegate.swift */,
 				8446CDAC24EC08EE0065B841 /* RestaurantViewModelDelegate.swift */,
-				8446CD9324EBAD9D0065B841 /* RestaurantModelDelegate.swift */,
 				84466BA924E6E6BB00019780 /* TimeCheck.swift */,
 				8445003024E1491E0051D413 /* Main.storyboard */,
 				8445003624E149200051D413 /* Assets.xcassets */,
@@ -156,6 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				8445006E24E163E10051D413 /* RestaurantsViewModel.swift */,
+				8446934C24EE9040006BBCBE /* AllRestaurantsViewModel.swift */,
+				8446934E24EE9056006BBCBE /* FavoriteRestaurantsViewModel.swift */,
 				8446C8F524E3D1D300B3307E /* MapViewModel.swift */,
 				844779F324E2A6E600EDF985 /* CellViewModel.swift */,
 				844779F524E2A74D00EDF985 /* RestaurantViewModel.swift */,
@@ -283,8 +286,8 @@
 				8446C8F624E3D1D300B3307E /* MapViewModel.swift in Sources */,
 				844779F424E2A6E600EDF985 /* CellViewModel.swift in Sources */,
 				8446CDA024EBC0F10065B841 /* Image+CoreDataProperties.swift in Sources */,
-				8446CD9424EBAD9D0065B841 /* RestaurantModelDelegate.swift in Sources */,
 				8446CDA224EBC0F10065B841 /* Favorite+CoreDataProperties.swift in Sources */,
+				8446934D24EE9040006BBCBE /* AllRestaurantsViewModel.swift in Sources */,
 				84466BAA24E6E6BB00019780 /* TimeCheck.swift in Sources */,
 				8445002B24E1491E0051D413 /* AppDelegate.swift in Sources */,
 				844779F624E2A74D00EDF985 /* RestaurantViewModel.swift in Sources */,
@@ -295,6 +298,7 @@
 				8445007124E164CB0051D413 /* TableViewCell.swift in Sources */,
 				8446CDA124EBC0F10065B841 /* Favorite+CoreDataClass.swift in Sources */,
 				8446CDA324EBC0F10065B841 /* Review+CoreDataClass.swift in Sources */,
+				8446934F24EE9056006BBCBE /* FavoriteRestaurantsViewModel.swift in Sources */,
 				8446CDA424EBC0F10065B841 /* Review+CoreDataProperties.swift in Sources */,
 				844779EE24E2A0BF00EDF985 /* Networking.swift in Sources */,
 				8445002D24E1491E0051D413 /* SceneDelegate.swift in Sources */,

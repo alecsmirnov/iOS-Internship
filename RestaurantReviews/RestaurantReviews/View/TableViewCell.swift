@@ -12,6 +12,7 @@ class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
             if let mainImagePath = cellViewModel.mainImagePath {
+                mainImageView.stopLoading()
                 mainImageView.loadImage(url: mainImagePath)
             }
 

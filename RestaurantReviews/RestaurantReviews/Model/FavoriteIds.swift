@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FavoriteIds {
+struct FavoriteIds {
     var isEmpty: Bool {
         return favorites.isEmpty
     }

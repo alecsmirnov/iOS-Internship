@@ -8,6 +8,12 @@
 
 import UIKit
 
+private enum TabBarItems {
+    static let allRestaurants      = 0
+    static let map                 = 1
+    static let favoriteRestaurants = 2
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
@@ -27,26 +33,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         restaurantsModel.load()
         favoriteIds.load()
         
-        restaurantsModel.setUpdateTime(second: 5, minute: 0, hour: 0, day: 0)
+        restaurantsModel.setUpdateTime(second: 0, minute: 5, hour: 0, day: 0)
         
         let tabBarController = window.rootViewController as! UITabBarController
         let restaurantsNavigationController = tabBarController.viewControllers![0] as! UINavigationController
         let favoritesNavigationController = tabBarController.viewControllers![2] as! UINavigationController
         
-        tabBarController.tabBar.items![2].title = "Favorites"
-        tabBarController.tabBar.items![2].image = UIImage(systemName: "star")
-        tabBarController.tabBar.items![2].selectedImage = UIImage(systemName: "star.fill")
+        tabBarController.tabBar.items![TabBarItems.favoriteRestaurants].title = "Favorites"
+        tabBarController.tabBar.items![TabBarItems.favoriteRestaurants].image = UIImage(systemName: "star")
+        tabBarController.tabBar.items![TabBarItems.favoriteRestaurants].selectedImage = UIImage(systemName: "star.fill")
         
         let restaurantsViewController = restaurantsNavigationController.viewControllers[0] as! RestaurantsViewController
-        //let mapViewController = tabBarController.viewControllers![1] as! MapViewController
-        //let favoritesViewController = tabBarController.viewControllers![2] as! RestaurantsViewController
         let favoritesViewController = favoritesNavigationController.viewControllers[0] as! RestaurantsViewController
         
-        let restaurantsViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds, displayMode: .all)
-        let favoritesViewModel = RestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds, displayMode: .favorites)
+        let allRestaurantsViewModel = AllRestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds)
+        let favoriteRestaurantsViewModel = FavoriteRestaurantsViewModel(restaurantsModel: restaurantsModel, favoriteIds: favoriteIds)
         
-        restaurantsViewController.restaurantsViewModel = restaurantsViewModel
-        favoritesViewController.restaurantsViewModel = favoritesViewModel
+        restaurantsViewController.restaurantsViewModel = allRestaurantsViewModel
+        favoritesViewController.restaurantsViewModel = favoriteRestaurantsViewModel
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
