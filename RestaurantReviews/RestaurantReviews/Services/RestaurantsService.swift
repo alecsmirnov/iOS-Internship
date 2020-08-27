@@ -10,6 +10,13 @@ import UIKit
 import CoreData
 import CoreLocation
 
+struct ReviewData {
+    let restaurantId: Int
+    let author: String
+    let date: String
+    let reviewText: String
+}
+
 struct RestaurantData {
     let id: Int
     let name: String
@@ -18,6 +25,8 @@ struct RestaurantData {
     let location: CLLocationCoordinate2D
     let imagePaths: [String]
     let rating: Float
+    
+    var reviews: [ReviewData] = []
 }
 
 class RestaurantsService {
@@ -108,6 +117,37 @@ class RestaurantsService {
         }
     }
     
+    func append(_ reviewData: ReviewData) {
+        guard let firstIndex = restaurants.firstIndex(where: { (restaurant) -> Bool in
+            return restaurant.id == reviewData.restaurantId
+        }) else { return }
+        
+        DispatchQueue.main.async { [unowned self] in
+            if let managedContext = self.managedContext {
+                let restaurant = self.restaurants[firstIndex]
+                
+                guard let reviewEntity = NSEntityDescription.entity(forEntityName: Entities.review, in: managedContext) else {
+                    fatalError("Incorrect entity name: \(Entities.review)")
+                }
+                
+                let review = Review(entity: reviewEntity, insertInto: managedContext)
+                
+                review.restaurantId = Int32(reviewData.restaurantId)
+                review.author = reviewData.author
+                review.date = reviewData.date
+                review.reviewText = reviewData.reviewText
+                
+                do {
+                    restaurant.addToReviews(review)
+                    
+                    try managedContext.save()
+                } catch let error as NSError {
+                    fatalError("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+        }
+    }
+    
     func replace(_ restaurants: [RestaurantData]) {
         removeAll()
         
@@ -179,13 +219,29 @@ class RestaurantsService {
             return image.path
         }
         
-        let restaurantData = RestaurantData(id: Int(restaurant.id),
+        let reviewsData = restaurant.reviews.map { (review) -> ReviewData in
+            guard let review = review as? Review else {
+                fatalError("Review is empty")
+            }
+            
+            let reviewData = ReviewData(restaurantId: Int(review.restaurantId),
+                                        author: review.author,
+                                        date: review.date,
+                                        reviewText: review.reviewText)
+            
+            return reviewData
+        }
+        
+        var restaurantData = RestaurantData(id: Int(restaurant.id),
                                             name: restaurant.name,
                                             description: restaurant.descriptionText,
                                             address: restaurant.address,
                                             location: location,
                                             imagePaths: imagePaths,
                                             rating: restaurant.rating)
+        
+        restaurantData.reviews = reviewsData
+        
         return restaurantData
     }
     

@@ -8,11 +8,6 @@
 
 import Foundation
 
-struct ReviewData {
-    let restaurantId: Int
-    let author: String
-    let date: String
-    let reviewText: String
-}
+
 
 

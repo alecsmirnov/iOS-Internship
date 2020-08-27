@@ -77,27 +77,11 @@ class RestaurantsModel {
                     self.restaurants.replace(restaurants)
                     
                     completionHandler()
-                } catch {
-                    fatalError("JSON error: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-    
-    func getReviews(completionHandler: @escaping () -> ()) {
-        if Networking.isConnectedToNetwork() {
-            _ = Networking.getData(url: URLStrings.reviews) { [unowned self] (data) in
-                do {
-                    let reviewsRecordsData = try JSONDecoder().decode(Networking.ReviewRecords.self, from: data)
-                    var reviews: [ReviewData] = []
                     
-                    for elem in reviewsRecordsData {
-                        
-                    }
+                    self.getReviews()
                 } catch {
                     fatalError("JSON error: \(error.localizedDescription)")
                 }
-
             }
         }
     }
@@ -107,6 +91,56 @@ class RestaurantsModel {
             getRestaurants(completionHandler: completionHandler)
             
             timeCheck.reset()
+        }
+    }
+    
+    private func getReviews() {
+        if Networking.isConnectedToNetwork() {
+            _ = Networking.getData(url: URLStrings.reviews) { [unowned self] (data) in
+                do {
+                    let reviewsRecordsData = try JSONDecoder().decode(Networking.ReviewRecords.self, from: data)
+                    
+                    for (_, value) in reviewsRecordsData {
+                        switch value {
+                        case .review(let record):
+                            if let recordRestaurantId = record.restaurantId, let recordDate = record.date  {
+                                var restaurantId = 0
+                                
+                                switch recordRestaurantId {
+                                case .int(let id):
+                                    restaurantId = id
+                                    break
+                                case .string(let id):
+                                    guard let id = Int(id) else {
+                                        fatalError("String does not contain a number")
+                                    }
+                                    
+                                    restaurantId = id
+                                    break
+                                }
+                                
+                                var reviewDate = ""
+                                
+                                switch recordDate {
+                                case .string(let date):
+                                    reviewDate = date
+                                    break
+                                case .double(_):
+                                    break
+                                }
+                                
+                                let reviewData = ReviewData(restaurantId: restaurantId, author: record.author, date: reviewDate, reviewText: record.reviewText)
+                                self.restaurants.append(reviewData)
+                            }
+                            break
+                        case .test(_):
+                            break
+                        }
+                    }
+                } catch {
+                    fatalError("JSON error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }
