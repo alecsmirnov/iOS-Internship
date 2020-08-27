@@ -11,13 +11,13 @@ import CoreData
 import CoreLocation
 
 struct RestaurantData {
-    var id: Int
-    var name: String
-    var description: String
-    var address: String
-    var location: CLLocationCoordinate2D
-    var imagePaths: [String]
-    var rating: Float
+    let id: Int
+    let name: String
+    let description: String
+    let address: String
+    let location: CLLocationCoordinate2D
+    let imagePaths: [String]
+    let rating: Float
 }
 
 class RestaurantsService {

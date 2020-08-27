@@ -55,7 +55,7 @@ class RestaurantsModel {
         if Networking.isConnectedToNetwork() {
             _ = Networking.getData(url: URLStrings.restaurants) { [unowned self] (data) in
                 do {
-                    let restaurantsData = try JSONDecoder().decode([Networking.Restaurant].self, from: data)
+                    let restaurantsData = try JSONDecoder().decode(Networking.Restaurants.self, from: data)
                     var restaurants: [RestaurantData] = []
                     
                     for elem in restaurantsData {
@@ -80,6 +80,24 @@ class RestaurantsModel {
                 } catch {
                     fatalError("JSON error: \(error.localizedDescription)")
                 }
+            }
+        }
+    }
+    
+    func getReviews(completionHandler: @escaping () -> ()) {
+        if Networking.isConnectedToNetwork() {
+            _ = Networking.getData(url: URLStrings.reviews) { [unowned self] (data) in
+                do {
+                    let reviewsRecordsData = try JSONDecoder().decode(Networking.ReviewRecords.self, from: data)
+                    var reviews: [ReviewData] = []
+                    
+                    for elem in reviewsRecordsData {
+                        
+                    }
+                } catch {
+                    fatalError("JSON error: \(error.localizedDescription)")
+                }
+
             }
         }
     }

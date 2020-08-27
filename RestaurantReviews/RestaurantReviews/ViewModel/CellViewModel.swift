@@ -9,9 +9,9 @@
 import Foundation
 
 struct CellViewModel {
-    var mainImagePath: String?
-    var nameText: String
-    var descriptionText: String
+    let mainImagePath: String?
+    let nameText: String
+    let descriptionText: String
     
     init(restaurantData: RestaurantData) {       
         nameText = restaurantData.name
@@ -20,6 +20,9 @@ struct CellViewModel {
         let imagePaths = restaurantData.imagePaths
         if let firstImagePath = imagePaths.first {
             mainImagePath = firstImagePath
+        }
+        else {
+            mainImagePath = nil
         }
     }
 }

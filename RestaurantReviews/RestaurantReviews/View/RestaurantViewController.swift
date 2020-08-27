@@ -38,7 +38,6 @@ class RestaurantViewController: UIViewController {
         
         if let restaurantViewModel = restaurantViewModel {
             if let imagePath = restaurantViewModel.mainImagePath {
-                mainImageView.stopLoading()
                 mainImageView.loadImage(url: imagePath)
             }
             

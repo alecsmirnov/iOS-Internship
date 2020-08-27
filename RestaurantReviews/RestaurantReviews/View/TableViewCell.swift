@@ -12,7 +12,6 @@ class TableViewCell: UITableViewCell {
     var cellViewModel: CellViewModel! {
         didSet {
             if let mainImagePath = cellViewModel.mainImagePath {
-                mainImageView.stopLoading()
                 mainImageView.loadImage(url: mainImagePath)
             }
 
@@ -27,5 +26,11 @@ class TableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        mainImageView.stopLoading()
     }
 }

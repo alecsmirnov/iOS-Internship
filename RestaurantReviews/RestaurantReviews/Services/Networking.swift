@@ -51,26 +51,148 @@ enum Networking {
     }
 }
 
+// Restaurant Data presentation
 extension Networking {
-    struct Location: Decodable {
-        var lat: Float
-        var lon: Float
+    struct Location: Codable {
+        let lat: Float
+        let lon: Float
     }
 
-    struct Restaurant: Decodable {
-        var id: Int
-        var name: String
-        var description: String
-        var address: String
-        var location: Location
-        var imagePaths: [String]
-        var rating: Float
+    struct Restaurant: Codable {
+        let id: Int
+        let name: String
+        let description: String
+        let address: String
+        let location: Location
+        let imagePaths: [String]
+        let rating: Float
+    }
+}
+
+// Review Data presentation
+extension Networking {
+    enum ReviewRestaurantId: Codable {
+        case int(Int)
+        case string(String)
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            
+            if let id = try? container.decode(Int.self) {
+                self = .int(id)
+                return
+            }
+            
+            if let id = try? container.decode(String.self) {
+                self = .string(id)
+                return
+            }
+            
+            let context = DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type of RestaurantIdJSON")
+            throw DecodingError.typeMismatch(ReviewRestaurantId.self, context)
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            
+            switch self {
+            case .int(let id):
+                try container.encode(id)
+                break
+            case .string(let id):
+                try container.encode(id)
+                break
+            }
+        }
+    }
+    
+    enum ReviewDate: Codable {
+        case double(Double)
+        case string(String)
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            
+            if let date = try? container.decode(Double.self) {
+                self = .double(date)
+                return
+            }
+            
+            if let date = try? container.decode(String.self) {
+                self = .string(date)
+                return
+            }
+            
+            let context = DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type of DateJSON")
+            throw DecodingError.typeMismatch(ReviewDate.self, context)
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            
+            switch self {
+            case .double(let date):
+                try container.encode(date)
+                break
+            case .string(let date):
+                try container.encode(date)
+                break
+            }
+        }
     }
 
-    struct Review: Decodable {
-        var restaurantId: Int
-        var author: String
-        var reviewText: String
-        var date: String
+    struct Test: Codable {
+        let text: String
+        
+        enum CodingKeys: String, CodingKey {
+            case text = "test"
+        }
     }
+
+    struct Review: Codable {
+        let restaurantId: ReviewRestaurantId?
+        let author: String
+        let date: ReviewDate?
+        let reviewText: String
+    }
+
+    enum ReviewRecord: Codable {
+        case review(Review)
+        case test(Test)
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            
+            if let record = try? container.decode(Review.self) {
+                self = .review(record)
+                return
+            }
+            
+            if let record = try? container.decode(Test.self) {
+                self = .test(record)
+                return
+            }
+            
+            let context = DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for ReviewRecordJSON")
+            throw DecodingError.typeMismatch(ReviewRecord.self, context)
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            
+            switch self {
+            case .review(let record):
+                try container.encode(record)
+                break
+            case .test(let record):
+                try container.encode(record)
+                break
+            }
+        }
+    }
+}
+
+extension Networking {
+    typealias Restaurants   = [Restaurant]
+    typealias ReviewRecords = [String: ReviewRecord]
 }

@@ -13,4 +13,5 @@ enum Entities {
     static let location   = "Location"
     static let image      = "Image"
     static let favorite   = "Favorite"
+    static let review     = "Review"
 }
